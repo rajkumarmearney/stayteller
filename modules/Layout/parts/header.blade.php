@@ -39,18 +39,18 @@
 		        <!--Note: declare the Menu style in the data-menu-style="horizontal" (options: horizontal, vertical, accordion) -->
                 <ul id="respMenu" class="ace-responsive-menu text-right" data-menu-style="horizontal">
 					<?php generate_menu('primary') ?>
-					@include('Core::frontend.currency-switcher')
+					<!--  @include('Core::frontend.currency-switcher')-->
                     @include('Language::frontend.switcher')
 					@if(!Auth::id())
-						<li class="list-inline-item">
+						{{-- <li class="list-inline-item">
 							<a href="javascript:void(0)" class="btn flaticon-user"> <span class="dn-lg" data-toggle="modal" data-target="#login">{{ __('Login/') }}</span> <span data-toggle="modal" data-target="#register">{{ __('Register') }}</span> </a>
-						</li>
-						{{-- <li class="login-item">
+						</li> --}}
+					<li class="login-item">
 							<a href="#login" data-toggle="modal" data-target="#login" class="login">{{__('Login')}}</a>
 						</li>
 						<li class="signup-item">
 							<a href="#register" data-toggle="modal" data-target="#register" class="signup">{{__('Sign Up')}}</a>
-						</li> --}}
+						</li> 
 					@else
 						<li class="login-item dropdown">
 							<a href="#" data-toggle="dropdown" class="is_login @if(!($avatar_url = Auth::user()->getAvatarUrl())) no_avatar @endif">
@@ -83,10 +83,10 @@
 					@endif
 					@if(!Auth::check() or Auth::user()->hasPermissionTo('dashboard_agent_access'))
 						@if(Auth::id() and Auth::user()->hasPermissionTo('dashboard_access'))
-							<li class="list-inline-item add_listing"><a href="{{route("vendor.dashboard")}}"><span class="flaticon-plus"></span><span class="dn-lg"> {{ __('Create Listing') }}</span></a></li>
+							<li class="list-inline-item add_listing"><a href="{{route("vendor.dashboard")}}"><span class="flaticon-plus"></span><span class="dn-lg"> {{ __('Create Owner') }}</span></a></li>
 							
 						@else
-						<li class="list-inline-item add_listing"><a href="{{url('/user/property/create')}}"><span class="flaticon-plus"></span><span class="dn-lg"> {{ __('Create Listing') }}</span></a></li>
+						<li class="list-inline-item add_listing"><a href="{{url('/user/property/create')}}"><span class="flaticon-plus"></span><span class="dn-lg"> {{ __('Create Owner') }}</span></a></li>
 						@endif
 					@endif
                 </ul>

@@ -405,11 +405,14 @@ jQuery(function($) {
                 'first_name': form.find('input[name=first_name]').val(),
                 'last_name': form.find('input[name=last_name]').val(),
                 'phone': form.find('input[name=phone]').val(),
+                'type_role': form.find('input[name=type_role]').is(":checked") ? $("input:radio[name=type_role]:checked").val() : '' ,
                 'term': form.find('input[name=term]').is(":checked") ? 1 : '',
                 'g-recaptcha-response': form.find('[name=g-recaptcha-response]').val(),
             },
+           
             'type': 'POST',
             beforeSend: function() {
+                
                 form.find('.error').hide();
                 form.find('.icon-loading').css("display", 'inline-block');
             },

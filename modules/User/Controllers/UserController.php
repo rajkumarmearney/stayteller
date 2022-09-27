@@ -259,7 +259,8 @@ class UserController extends FrontendController
                 'required',
                 'string'
             ],
-            'term'       => ['required'],
+            'term'              => ['required'],
+            'type_role'         => ['required'],
         ];
         $messages = [
             'email.required'      => __('Email is required field'),
@@ -268,6 +269,7 @@ class UserController extends FrontendController
             'first_name.required' => __('The first name is required field'),
             'last_name.required'  => __('The last name is required field'),
             'term.required'       => __('The terms and conditions field is required'),
+            'type_role.required'   => __('The type  field is required'),
         ];
         if (ReCaptchaEngine::isEnable() and setting_item("user_enable_register_recaptcha")) {
             $codeCapcha = $request->input('g-recaptcha-response');
@@ -301,10 +303,11 @@ class UserController extends FrontendController
 
                 event(new SendMailUserRegistered($user));
             } catch (Exception $exception) {
+                dd($exception);
 
                 Log::warning("SendMailUserRegistered: " . $exception->getMessage());
             }
-            $user->assignRole('customer');
+            $user->assignRole($request->input('type_role'));
             $url =  $request->input('redirect') ? $request->input('redirect'): url('/');
 
             return response()->json([
