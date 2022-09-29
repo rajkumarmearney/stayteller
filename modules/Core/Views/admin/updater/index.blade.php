@@ -15,7 +15,7 @@
                     <div class="panel-body">
 
                             @if($updater_latest_version = setting_item('updater_latest_version') and version_compare(config('app.version'),$updater_latest_version,'='))
-                                <p class="alert-success alert"><strong>{{__("You are using newest version of Find house: :version",['version'=>$updater_latest_version])}}</strong></p>
+                                <p class="alert-success alert"><strong>{{__("You are using newest version of Hostel Booking: :version",['version'=>$updater_latest_version])}}</strong></p>
                             @endif
 
                             <p><strong>{{__("Your license key: :key",['key'=>setting_item('envato_license_key')])}}</strong></p>

@@ -143,6 +143,7 @@ class RolesAndPermissionsSeeder extends Seeder
         $customer = Role::findOrCreate('customer');
 
         $role = Role::findOrCreate('administrator');
+        
 
         $role->givePermissionTo(Permission::all());
     }

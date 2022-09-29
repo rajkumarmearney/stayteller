@@ -128,7 +128,7 @@
                             <div class="row mt10 d-none">
                                 <div class="col-lg-12">
                                     <div class="copyright-widget text-center">
-                                        <p>{{ __('© 2020 Find House. Made with love.') }}</p>
+                                        <p>{{ __('© 2020  Hostel Booking. Made with love.') }}</p>
                                     </div>
                                 </div>
                             </div>

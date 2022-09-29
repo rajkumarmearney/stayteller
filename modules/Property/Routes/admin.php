@@ -19,7 +19,7 @@ Route::group(['prefix'=>'attribute'],function (){
 
     Route::get('terms/{id}','AttributeController@terms')->name('property.admin.attribute.term.index');
     Route::get('term_edit/{id}','AttributeController@term_edit')->name('property.admin.attribute.term.edit');
-    Route::get('term_store','AttributeController@term_store')->name('property.admin.attribute.term.store');
+    Route::post('term_store','AttributeController@term_store')->name('property.admin.attribute.term.store');
 
     Route::get('getForSelect2','AttributeController@getForSelect2')->name('property.admin.attribute.term.getForSelect2');
     Route::post('/bulkEdit','AttributeController@editTermBulk')->name('property.admin.attribute.editTermBulk');

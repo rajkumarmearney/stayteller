@@ -42,15 +42,18 @@
 					<!--  @include('Core::frontend.currency-switcher')-->
                     @include('Language::frontend.switcher')
 					@if(!Auth::id())
-						{{-- <li class="list-inline-item">
+						 <li class="list-inline-item">
 							<a href="javascript:void(0)" class="btn flaticon-user"> <span class="dn-lg" data-toggle="modal" data-target="#login">{{ __('Login/') }}</span> <span data-toggle="modal" data-target="#register">{{ __('Register') }}</span> </a>
-						</li> --}}
-					<li class="login-item">
+						</li> 
+						<li class="list-inline-item">
+						<a href="javascript:void(0)" class="btn flaticon-user"> <span class="dn-lg" data-toggle="modal" data-target="#login">{{ __('Login/') }}</span> <span data-toggle="modal" data-target="#agentregister">{{ __('Register') }}</span> </a>
+						</li> 
+						{{--<li class="login-item">
 							<a href="#login" data-toggle="modal" data-target="#login" class="login">{{__('Login')}}</a>
 						</li>
 						<li class="signup-item">
 							<a href="#register" data-toggle="modal" data-target="#register" class="signup">{{__('Sign Up')}}</a>
-						</li> 
+						</li> --}}
 					@else
 						<li class="login-item dropdown">
 							<a href="#" data-toggle="dropdown" class="is_login @if(!($avatar_url = Auth::user()->getAvatarUrl())) no_avatar @endif">

@@ -23,4 +23,6 @@ class AvailabilityController extends \Modules\Property\Controllers\AvailabilityC
         $this->middleware('dashboard');
     }
 
+    
+
 }
