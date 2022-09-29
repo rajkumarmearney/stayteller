@@ -154,7 +154,7 @@
             <div class="input-group-text"><i class="flaticon-password"></i></div>
         </div>
         <span class="invalid-feedback error error-password"></span>
-    </div>
+    </div> 
     <div class="form-group custom-control custom-checkbox">
         <input type="radio" id="role" name="type_role" value="Admin">
         <label for="role">Customer</label>
