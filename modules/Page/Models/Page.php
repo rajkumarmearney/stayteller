@@ -7,6 +7,7 @@ use Astrotomic\Translatable\Translatable;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Core\Models\SEO;
+use Modules\Template\Models\Template;
 
 class Page extends BaseModel
 {
@@ -77,9 +78,13 @@ class Page extends BaseModel
 
     public function getProcessedContent()
     {
+        
         $template = $this->template;
+       // $template = Template :: find('3');
+       // dd($template);
         if(!empty($template)){
             $translation = $template->translateOrOrigin(app()->getLocale());
+
             return $translation->getProcessedContent();
         }
     }

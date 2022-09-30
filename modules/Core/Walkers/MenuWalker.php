@@ -23,10 +23,12 @@
 		{
 
 			foreach ($items as $k=>$item) {
+			
 
                 $class = e($item['class'] ?? '');
 //                $class = $item['class'] ?? '';
 				$url = $item['url'] ?? '';
+				
 				$item['target'] = $item['target'] ?? '';
 				if (!isset($item['item_model']))
 					continue;
@@ -37,14 +39,19 @@
 						continue;
 					}
 					$url = $itemObj->getDetailUrl();
+					
 				}
 				if ($this->checkCurrentMenu($item, $url))
 				{
 					$class .= ' active';
+					
+					
+					//dd($url);
 					$this->activeItems[] = $parentKey;
 				}
 
 				if (!empty($item['children'])) {
+					
 					ob_start();
 					$this->generateTree($item['children'],$depth + 1,$parentKey.'_'.$k);
 					$html = ob_get_clean();
@@ -57,8 +64,18 @@
 				if (!empty($item['children'])) {
 					$item['name'] .= '';
 				}
+				$urlarr = (explode('/',$url));
+					if($item['name'] == 'Home'){
+						
+						array_splice($urlarr, 5, 6);
+						$url = (implode('/',$urlarr));
+						//dd($url);
+					}else{
+						//dd($item['name']);
+					}
 //				printf('<a  target="%s" href="%s" >%s</a>', $item['target'], $url, $item['name']);
                 printf('<a  target="%s" href="%s" >%s</a>', e($item['target']), e($url), clean($item['name']));
+				
 
                 if (!empty($item['children'])) {
 					echo '<ul class="children-menu menu-dropdown">';

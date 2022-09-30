@@ -43,11 +43,9 @@
                     @include('Language::frontend.switcher')
 					@if(!Auth::id())
 						 <li class="list-inline-item">
-							<a href="javascript:void(0)" class="btn flaticon-user"> <span class="dn-lg" data-toggle="modal" data-target="#login">{{ __('Login/') }}</span> <span data-toggle="modal" data-target="#register">{{ __('Register') }}</span> </a>
+							<a href="javascript:void(0)" class="btn flaticon-user"> <span class="dn-lg" data-toggle="modal" data-target="#login">{{ __('Login') }}</span></a>
 						</li> 
-						<li class="list-inline-item">
-						<a href="javascript:void(0)" class="btn flaticon-user"> <span class="dn-lg" data-toggle="modal" data-target="#login">{{ __('Login/') }}</span> <span data-toggle="modal" data-target="#agentregister">{{ __('Register') }}</span> </a>
-						</li> 
+						
 						{{--<li class="login-item">
 							<a href="#login" data-toggle="modal" data-target="#login" class="login">{{__('Login')}}</a>
 						</li>
@@ -89,7 +87,7 @@
 							<li class="list-inline-item add_listing"><a href="{{route("vendor.dashboard")}}"><span class="flaticon-plus"></span><span class="dn-lg"> {{ __('Create Owner') }}</span></a></li>
 							
 						@else
-						<li class="list-inline-item add_listing"><a href="{{url('/user/property/create')}}"><span class="flaticon-plus"></span><span class="dn-lg"> {{ __('Create Owner') }}</span></a></li>
+						<li class="list-inline-item add_listing"><a href="javascript:void(0)" class="btn flaticon-user"> <span class="dn-lg" data-toggle="modal" data-target="#login"><span class="flaticon-plus"></span><span class="dn-lg"> {{ __('Create Owner') }}</span></a></li>
 						@endif
 					@endif
                 </ul>

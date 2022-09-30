@@ -1,12 +1,12 @@
 @if(empty($hide_form_search))
     <div class="home_adv_srch_opt {{ $class_form ?? "" }}">
         <ul class="nav nav-pills" id="pills-tab" role="tablist">
-            <li class="nav-item">
+           {{-- <li class="nav-item">
                 <a class="nav-link active" id="pills-buy-tab" data-toggle="pill" href="#pills-buy" role="tab" aria-controls="pills-buy" aria-selected="true">{{__('Buy')}}</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" id="pills-rent-tab" data-toggle="pill" href="#pills-rent" role="tab" aria-controls="pills-rent" aria-selected="true">{{__('Rent')}}</a>
-            </li>
+            </li> --}}
         </ul>
         <div class="tab-content home1_adsrchfrm" id="pills-tabContent">
             <div class="tab-pane fade show active" id="pills-buy" role="tabpanel" aria-labelledby="pills-home-tab">

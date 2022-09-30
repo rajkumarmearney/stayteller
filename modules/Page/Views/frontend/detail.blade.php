@@ -1,5 +1,9 @@
 @extends ('layouts.app')
 @section ('content')
+@php 
+//dd($row);
+//$row->template_id = 6;
+@endphp
     @if($row->template_id)
         <div class="page-template-content @if(!empty($row->body_width)and $row->body_width == 'max1600') maxw1600 m0a @endif">
             {!! $row->getProcessedContent() !!}

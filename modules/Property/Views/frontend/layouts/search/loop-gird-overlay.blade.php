@@ -1,12 +1,15 @@
 @php
     $translation = $row->translateOrOrigin(app()->getLocale());
+    //dd($translation);
 @endphp
 <div class="item">
     <div class="properti_city home6">
         <div class="thumb">
             @if($row->image_url)
+         
                 @if(setting_item('property_thumb_open_gallery') and request()->routeIs('property.search'))
-                @php $modalId = 'modal_gallery_'.$row->id @endphp
+                @php 
+                $modalId = 'modal_gallery_'.$row->id @endphp
                 <a class="thumb-image" data-toggle="modal" data-target="#{{$modalId}}">
                     <img class="img-whp" src="{{$row->image_url}}" alt="property image">
                 </a>
@@ -47,11 +50,12 @@
             @else
                 <span class="avatar-text-large">{{$row->vendor->getDisplayNameAttribute()[0]}}</span>
             @endif
+           
                 <div class="thmb_cntnt">
                     <ul class="tag mb0">
-                        <li class="list-inline-item"><a href="#">{{$row->property_type == 1 ? __('For Buy') : __('For Rent')}}</a></li>
+                        <!-- <li class="list-inline-item"><a href="#">{{$row->property_type == 1 ? __('For Buy') : __('For Rent')}}</a></li>-->
                         @if($row->is_featured)
-                        <li class="list-inline-item"><a href="#">{{__('Featured')}}</a></li>
+                        <li class="list-inline-item"><a href="#">{{$row->Category->name}}</a></li>
                         @endif
                         @if($row->is_sold)
                             <li class="list-inline-item"><a class="sold_out">{{__("Sold Out")}}</a></li>
