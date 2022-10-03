@@ -1002,7 +1002,7 @@ header.header-nav.menu_style_home_one ul.ace-responsive-menu li.add_listing{
   position: relative;
   text-align: center;
   vertical-align: middle;
-  width: 180px;
+  width: 110px;
 }
 header.header-nav.menu_style_home_one ul.ace-responsive-menu li.add_listing.home5,
 header.header-nav.menu_style_home_one ul.ace-responsive-menu li.add_listing.home2.style2,
@@ -17455,4 +17455,11 @@ dd {
 }
 dd p{
   font-weight: bold;
+}
+
+.home_adv_srch_opt.mt20.mb20 {
+  padding: 10px;
+  border-top: 0 solid #e2e2e2;
+  background: #f5f5f5;
+  border-radius: 23px;
 }
