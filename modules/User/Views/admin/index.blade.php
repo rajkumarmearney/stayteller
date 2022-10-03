@@ -29,7 +29,9 @@
                     <select class="form-control" name="role">
                         <option value="">{{ __('-- Select --')}}</option>
                         @foreach($roles as $role)
+                        @if($role->name != 'administrator')
                             <option value="{{$role->name}}" @if(Request()->role == $role->name) selected @endif >{{ucfirst($role->name)}}</option>
+                            @endif
                         @endforeach
                     </select>
                     <input type="text" name="s" value="{{ Request()->s }}" placeholder="{{__('Search by name')}}" class="form-control">
@@ -59,6 +61,11 @@
                         </thead>
                         <tbody>
                         @foreach($rows as $row)
+                                    @php
+                                    $roles = $row->getRoleNames();
+                                  
+                                    @endphp
+                                    @if($roles[0] != 'administrator')
                             <tr>
                                 <td><input type="checkbox" name="ids[]" value="{{$row->id}}" class="check-item"></td>
                                 <td class="title">
@@ -67,7 +74,7 @@
                                 <td>{{$row->email}}</td>
                                 <td>{{$row->phone}}</td>
                                 <td>
-                                    @php $roles = $row->getRoleNames();
+                                    @php 
                                     if(!empty($roles[0])){
                                         echo e(ucfirst($roles[0]));
                                     }
@@ -80,6 +87,7 @@
                                     <a class="btn btn-sm btn-info" href="{{url('admin/module/user/password/'.$row->id)}}">{{__('Change Password')}}</a>
                                 </td>
                             </tr>
+                            @endif
                         @endforeach
                         </tbody>
                     </table>

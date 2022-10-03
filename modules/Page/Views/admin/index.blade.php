@@ -47,6 +47,7 @@
                         </thead>
                         <tbody>
                             @if($rows->total() > 0)
+                           
                                 @foreach($rows as $row)
                                     <tr>
                                         <td><input type="checkbox" name="ids[]" class="check-item" value="{{$row->id}}"></td>
