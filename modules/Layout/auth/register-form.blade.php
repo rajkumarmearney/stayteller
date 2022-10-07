@@ -156,7 +156,7 @@
         <span class="invalid-feedback error error-password"></span>
     </div> 
     <div class="form-group custom-control custom-checkbox">
-        <input type="radio" id="role" name="type_role" value="Admin">
+        <input type="radio" id="role" name="type_role" value="customer">
         <label for="role">Customer</label>
         <input type="radio" id="ower" name="type_role" value="agent">
         <label for="owner">Owner</label>

@@ -17462,4 +17462,7 @@ dd p{
   border-top: 0 solid #e2e2e2;
   background: #f5f5f5;
   border-radius: 23px;
+  text-align: center;
+  margin-left: 150px;
+  margin-right: 150px;
 }
