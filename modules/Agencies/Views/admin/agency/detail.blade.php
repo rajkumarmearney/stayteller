@@ -5,11 +5,11 @@
         <div class="container-fluid">
             <div class="d-flex justify-content-between mb20">
                 <div class="">
-                    <h1 class="title-bar">{{$row->id ? __('Edit: ').$row->name : __('Add new agency')}}</h1>
+                    <h1 class="title-bar">{{$row->id ? __('Edit: ').$row->name : __('Add new Owner')}}</h1>
                 </div>
                 <div class="">
                     @if($row->slug)
-                        <a class="btn btn-primary btn-sm" href="{{$row->getDetailUrl(request()->query('lang'))}}" target="_blank">{{__("View agency")}}</a>
+                        <a class="btn btn-primary btn-sm" href="{{$row->getDetailUrl(request()->query('lang'))}}" target="_blank">{{__("View Owner")}}</a>
                     @endif
                 </div>
             </div>

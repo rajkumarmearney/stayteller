@@ -1,9 +1,9 @@
 <div class="panel">
-    <div class="panel-title"><strong>{{__("Agency Content")}}</strong></div>
+    <div class="panel-title"><strong>{{__("Oner Content")}}</strong></div>
     <div class="panel-body">
         <div class="form-group">
             <label>{{__("Name")}}</label>
-            <input type="text" value="{{ old('name',$translation->name) }}" placeholder="{{__("Agency name")}}" name="name" class="form-control">
+            <input type="text" value="{{ old('name',$translation->name) }}" placeholder="{{__("Owner name")}}" name="name" class="form-control">
         </div>
         <div class="form-group">
             <label class="control-label">{{__("Content")}}</label>

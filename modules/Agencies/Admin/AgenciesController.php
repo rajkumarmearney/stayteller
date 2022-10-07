@@ -34,7 +34,7 @@ class AgenciesController extends AdminController
             'rows'        => $agencies,
             'breadcrumbs' => [
                 [
-                    'name' => __('Manage Agencies'),
+                    'name' => __('Manage Oners'),
                     'url'  => route('agencies.admin.index'),
                 ],
                 [
@@ -43,7 +43,7 @@ class AgenciesController extends AdminController
                 ],
             ],
             'listStatus' => $listStatus,
-            'page_title'  => __("Manage Agencies"),
+            'page_title'  => __("Manage Owners"),
         ];
         return view('Agencies::admin.agency.index', $data);
     }
@@ -63,15 +63,15 @@ class AgenciesController extends AdminController
             'row'           => $row,
             'breadcrumbs'   => [
                 [
-                    'name' => __('Manage Agencies'),
+                    'name' => __('Manage Owners'),
                     'url'  => route('agencies.admin.index'),
                 ],
                 [
-                    'name'  => $id ? $row->name : __('Create Agency'),
+                    'name'  => $id ? $row->name : __('Create Owner'),
                     'class' => 'active'
                 ],
             ],
-            'page_title'    =>  $id ? $row->name : __("Create a Agency"),
+            'page_title'    =>  $id ? $row->name : __("Create a Owner"),
             'enable_multi_lang'=>$id ? true : false,
             'translation'=>$row->translateOrOrigin(\request('lang'))
         ];
@@ -125,7 +125,7 @@ class AgenciesController extends AdminController
         }
         if ($res) {
             if ($id > 0) {
-                return redirect()->back()->with('success', __('Agency updated'));
+                return redirect()->back()->with('success', __('Owner updated'));
             } else {
                 return redirect()->route('agencies.admin.create',['id'=>$row->id])->with('success', __('Agency created'));
             }

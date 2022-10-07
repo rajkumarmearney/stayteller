@@ -1,5 +1,5 @@
 <div class="panel">
-	<div class="panel-title"><strong>{{__('List Agent')}}</strong></div>
+	<div class="panel-title"><strong>{{__('List Owner')}}</strong></div>
 	<div class="panel-body">
 		<div class="form-group-item">
 			<div class="g-items-header">
