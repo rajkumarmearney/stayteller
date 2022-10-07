@@ -135,6 +135,7 @@ if(!empty($custom_modules)){
 }
 // Plugins Menu
 $plugins_modules = \Plugins\ServiceProvider::getModules();
+
 if(!empty($plugins_modules)){
     foreach($plugins_modules as $module){
         $moduleClass = "\\Plugins\\".ucfirst($module)."\\ModuleProvider";
@@ -181,12 +182,13 @@ if (!empty($menus)){
             }
         }
     }
-
+   
     //@todo Sort Menu by Position
     $menus = array_values(\Illuminate\Support\Arr::sort($menus, function ($value) {
         return $value['position'] ?? 100;
     }));
 }
+
 
 ?>
 <ul class="main-menu">

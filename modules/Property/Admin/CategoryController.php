@@ -18,6 +18,7 @@ class CategoryController extends AdminController
 
     public function index(Request $request)
     {
+       
         $this->checkPermission('property_manage_others');
         $listCategory = $this->propertyCategoryClass::query();
         if (!empty($search = $request->query('s'))) {
@@ -34,7 +35,7 @@ class CategoryController extends AdminController
                     'url'  => 'admin/module/property'
                 ],
                 [
-                    'name'  => __('Category'),
+                    'name'  => __('Property'),
                     'class' => 'active'
                 ],
             ]

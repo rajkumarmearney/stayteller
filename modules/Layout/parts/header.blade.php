@@ -42,8 +42,8 @@
 					<!--  @include('Core::frontend.currency-switcher')-->
                     @include('Language::frontend.switcher')
 					@if(!Auth::id())
-						 <li class="list-inline-item">
-							<a href="javascript:void(0)" class="btn flaticon-user"> <span class="dn-lg" data-toggle="modal" data-target="#login">{{ __('Login') }}</span></a>
+						 <li class="list-inline-item list-inline-item add_listing">
+							<a href="javascript:void(0)" class="btn "> <span class="dn-lg" data-toggle="modal" data-target="#login">{{ __('Login') }}</span></a>
 						</li> 
 						
 						{{--<li class="login-item">
@@ -84,10 +84,10 @@
 					@endif
 					@if(!Auth::check() or Auth::user()->hasPermissionTo('dashboard_agent_access'))
 						@if(Auth::id() and Auth::user()->hasPermissionTo('dashboard_access'))
-							<li class="list-inline-item add_listing"><a href="{{route("vendor.dashboard")}}"><span class="flaticon-plus"></span><span class="dn-lg"> {{ __('Owners') }}</span></a></li>
+							<li class="list-inline-item add_listing"><a href="{{route("vendor.dashboard")}}"><span class=""></span><span class="dn-lg"> {{ __('For Owners') }}</span></a></li>
 							
 						@else
-						<li class="list-inline-item add_listing"><a href="javascript:void(0)" class="btn flaticon-user"> <span class="dn-lg" data-toggle="modal" data-target="#login"><span class="flaticon-plus"></span><span class="dn-lg"> {{ __('Owners') }}</span></a></li>
+						<li class="list-inline-item add_listing"><a href="javascript:void(0)" class="btn f"> <span class="dn-lg" data-toggle="modal" data-target="#login"><span class=""></span><span class="dn-lg"> {{ __('For Owners') }}</span></a></li>
 						@endif
 					@endif
                 </ul>
