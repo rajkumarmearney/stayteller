@@ -51,7 +51,7 @@ class UserController extends FrontendController
         $countReview   = Review::join("bravo_properties","bravo_properties.id","bravo_review.object_id")->where("bravo_properties.create_user", $user_id)->where("bravo_review.object_model","'property'")->count();
         $data = [
             'count_property' => $countProperty,
-            'page_title'         => __("Agent Dashboard"),
+            'page_title'         => __("Owner Dashboard"),
             'count_view'         => $countView,
             'count_review'       => $countReview,
             'count_wish'         => $countWish,

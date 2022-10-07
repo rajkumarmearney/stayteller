@@ -64,7 +64,7 @@
 							</a>
 							<ul class="dropdown-menu dropdown-menu-right text-left">
 								@if(Auth::user()->hasPermissionTo('dashboard_agent_access'))
-									<li class=" menu-hr"><a href="{{route('vendor.dashboard')}}"><i class="fa fa-line-chart"></i> {{__("Agent Dashboard")}}</a></li>
+									<li class=" menu-hr"><a href="{{route('vendor.dashboard')}}"><i class="fa fa-line-chart"></i> {{__("Owner Dashboard")}}</a></li>
 								@endif
 								<li class="@if(Auth::user()->hasPermissionTo('dashboard_agent_access')) menu-hr @endif">
 									<a href="{{route('user.profile.index')}}"><i class="fa fa-user"></i> {{__("My profile")}}</a>

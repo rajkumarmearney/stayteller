@@ -33,13 +33,13 @@ class ModuleProvider extends ModuleServiceProvider
     {
         return [
 
-            'contact'           => [
+            /*'contact'           => [
                 'url'        => route('user.showContact'),
                 'title'      => __("Manage Contacts"),
                 'icon'       => 'fa fa-envelope-open-o',
                 'permission' => 'dashboard_agent_access',
                 'position'   => 70
-            ],
+            ],*/
         ];
     }
 

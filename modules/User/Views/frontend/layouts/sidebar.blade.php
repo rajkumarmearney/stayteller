@@ -8,12 +8,12 @@ $menus = [
         'permission' => 'dashboard_agent_access',
         'position'   => 10
 ],
-    "wishlist"=>[
+    /*"wishlist"=>[
         'url'   => route("user.wishList.index"),
         'title' => __("Wishlist"),
         'icon'  => 'fa fa-heart-o',
         'position' => 21
-    ],
+    ],*/
     'profile'         => [
         'url'      => route("user.profile.index"),
         'title'    => __("My Profile"),
@@ -163,7 +163,7 @@ if (!empty($menus))
     </div> --}}
     {{-- <div class="sidebar-menu"> --}}
         <ul class="sidebar-menu">
-            <li class="header"><img src="{{asset('findhouse')}}/images/header-logo2.png" alt="header-logo2.png"> FindHouse</li>
+            <li class="header"><img src="{{asset('findhouse')}}/images/header-logo2.png" alt="header-logo2.png">Stayteller</li>
             @foreach($menus as $menuItem)
                 <li class="{{$menuItem['class']}}">
                     <a href="{{ url($menuItem['url']) }}">
