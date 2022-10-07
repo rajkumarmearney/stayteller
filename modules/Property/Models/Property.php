@@ -852,9 +852,9 @@ class Property extends Bookable
             $sql_where_review_score = " ( " . implode("OR", $where_review_score) . " )  ";
             $model_property->WhereRaw($sql_where_review_score);
         }
-        if(!empty($property_type = $request->query("property_type"))) {
+        /*if(!empty($property_type = $request->query("property_type"))) {
             $model_property->where("bravo_properties.property_type",$property_type);
-        }
+        }*/
         if(!empty($garage = $request->query("garage"))) {
             $model_property->where("bravo_properties.garages",$garage);
         }
