@@ -50,10 +50,16 @@
                         <i class="fa fa-birthday-cake input-icon"></i>
                     </div>
                     <div class="form-group">
+                        <label>{{__("Zip Code")}}</label>
+                        <input type="text" value="{{old('zip_code',$dataUser->zip_code)}}" name="zip_code" placeholder="{{__("Zip Code")}}" class="form-control">
+                        <i class="fa fa-map-pin input-icon"></i>
+                    </div>
+                    {{--<div class="form-group">
                         <label>{{__("About Yourself")}}</label>
                         <textarea name="bio" rows="5" class="form-control">{{old('bio',$dataUser->bio)}}</textarea>
-                    </div>
-                    <div class="form-group">
+                    </div>--}}
+                    <input type="hidden" class="form-control" name="avatar_id" value="{{ $dataUser->avatar_id?? ""}}">
+                   {{-- <div class="form-group">
                         <label>{{__("Avatar")}}</label>
                         <div class="upload-btn-wrapper">
                             <div class="input-group">
@@ -67,7 +73,7 @@
                             <input type="hidden" class="form-control" name="avatar_id" value="{{ $dataUser->avatar_id?? ""}}">
                             <img class="image-demo" src="{{ $dataUser->getAvatarUrl()?? ""}}"/>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
                 <div class="col-md-6">
                     <div class="form-title">
@@ -102,11 +108,7 @@
                             @endforeach
                         </select>
                     </div>
-                    <div class="form-group">
-                        <label>{{__("Zip Code")}}</label>
-                        <input type="text" value="{{old('zip_code',$dataUser->zip_code)}}" name="zip_code" placeholder="{{__("Zip Code")}}" class="form-control">
-                        <i class="fa fa-map-pin input-icon"></i>
-                    </div>
+                    
 
                     
                     
