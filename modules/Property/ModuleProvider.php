@@ -49,7 +49,7 @@ class ModuleProvider extends ModuleServiceProvider
                     ],
                     'property_category'=>[
                         'url'        => 'admin/module/property/category',
-                        'title'      => __('Categories'),
+                        'title'      => __('Property Type'),
                         'permission' => 'property_manage_others',
                     ],
 

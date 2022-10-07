@@ -38,18 +38,18 @@ class ModuleProvider extends ModuleServiceProvider
             $res['agencies'] = [
                 "position"   => 45,
                 'url'        => 'admin/module/agencies',
-                'title'      => __("Agencies"),
+                'title'      => __("Owners"),
                 'icon'       => 'icon ion-md-umbrella',
                 'permission' => 'agencies_view',
                 'children'   => [
                     'agency_view'=>[
                         'url'        => 'admin/module/agencies',
-                        'title'      => __('All Agency'),
+                        'title'      => __('All Owner'),
                         'permission' => 'agencies_view',
                     ],
                     'agency_create'=>[
                         'url'        => 'admin/module/agencies/form',
-                        'title'      => __("Add Agency"),
+                        'title'      => __("Add Owner"),
                         'permission' => 'agencies_create',
                     ],
                     // 'agency_contact'=>[
@@ -70,7 +70,7 @@ class ModuleProvider extends ModuleServiceProvider
         if(is_agency_owner()){
             if(Agencies::isEnable()){
                 $res['agencies'] = [
-                    'title'      => __("Manage Agency"),
+                    'title'      => __("Manage Owner"),
                     'icon'       => 'icon ion-md-umbrella',
                     'permission' => 'agencies_view',
                     'position'   => 31,
@@ -89,7 +89,7 @@ class ModuleProvider extends ModuleServiceProvider
         return [
             [
                 'class' => Agencies::class,
-                'name'  => __("Agencies"),
+                'name'  => __("Owners"),
                 'items' => Agencies::searchForMenu(),
                 'position'=> 20
             ],

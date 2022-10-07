@@ -1,6 +1,6 @@
 <div class="form-group">
     <label>{{__("Name")}}</label>
-    <input type="text" value="{{$translation->name}}" placeholder="{{__("Category name")}}" name="name" class="form-control">
+    <input type="text" value="{{$translation->name}}" placeholder="{{__("Property Type")}}" name="name" class="form-control">
 </div>
 <div class="form-group">
     <label>{{__('Class Icon')}} - {!!  __("get icon in <a href=':link_1' target='_blank'>fontawesome.com</a> or <a href=':link_2' target='_blank'>icofont.com</a>",['link_1'=>'https://fontawesome.com/v4.7.0/icons/','link_2'=>'https://icofont.com/icons'])  !!}</label>

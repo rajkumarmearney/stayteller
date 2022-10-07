@@ -2,13 +2,13 @@
 @section('content')
     <div class="container-fluid">
         <div class="d-flex justify-content-between mb20">
-            <h1 class="title-bar">{{__("Property Categories")}}</h1>
+            <h1 class="title-bar">{{__("Property Types")}}</h1>
         </div>
         @include('admin.message')
         <div class="row">
             <div class="col-md-4 mb40">
                 <div class="panel">
-                    <div class="panel-title">{{__("Add Category")}}</div>
+                    <div class="panel-title">{{__("Add Property Type")}}</div>
                     <div class="panel-body">
                         <form action="{{route('property.admin.category.store',['id'=>($row->id) ? $row->id : '-1','lang'=>request()->query('lang')])}}" method="post">
                             @csrf
