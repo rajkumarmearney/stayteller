@@ -50,9 +50,9 @@
         <div class="tc_content">
             <div class="dtls_headr">
                 <ul class="tag">
-                    <li class="list-inline-item"><a>{{$row->property_type == 1 ? __('For Buy') : __('For Rent')}}</a></li>
+                   {{-- <li class="list-inline-item"><a>{{$row->property_type == 1 ? __('For Buy') : __('For Rent')}}</a></li>--}}
                     @if($row->is_featured)
-                    <li class="list-inline-item"><a>{{__('Featured')}}</a></li>
+                    {{-- <li class="list-inline-item"><a>{{__('Featured')}}</a></li> --}}
                     @endif
                     @if($row->is_sold)
                     <li class="list-inline-item"><a class="sold_out">{{__("Sold Out")}}</a></li>

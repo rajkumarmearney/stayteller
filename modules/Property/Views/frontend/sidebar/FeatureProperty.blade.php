@@ -12,9 +12,9 @@
                         <img class="img-whp" src="{{$item->image_url}}" alt="{{$item->title}}">
                         <div class="thmb_cntnt">
                             <ul class="tag mb0">
-                                <li class="list-inline-item"><a>{{$item->property_type == 1 ? __('For Buy') : __('For Rent')}}</a></li>
+                                <!-- <li class="list-inline-item"><a>{{$item->property_type == 1 ? __('For Buy') : __('For Rent')}}</a></li>-->
                                 @if($item->is_featured == 1)
-                                <li class="list-inline-item"><a>{{__('Featured')}}</a></li>
+                                 <!-- <li class="list-inline-item"><a>{{__('Featured')}}</a></li>-->
                                 @else
                                 <li></li>
                                 @endif

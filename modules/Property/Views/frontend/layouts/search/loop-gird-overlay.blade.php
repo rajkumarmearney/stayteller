@@ -54,7 +54,9 @@
                 <div class="thmb_cntnt">
                     <ul class="tag mb0">
                         <!-- <li class="list-inline-item"><a href="#">{{$row->property_type == 1 ? __('For Buy') : __('For Rent')}}</a></li>-->
-                       
+                        @if($row->is_featured)
+                        <li class="list-inline-item"><a href="#">{{$row->Category->name}}</a></li>
+                        @endif
                         @if($row->is_sold)
                             <li class="list-inline-item"><a class="sold_out">{{__("Sold Out")}}</a></li>
                         @endif
@@ -71,16 +73,16 @@
         <div class="overlay">
             <div class="details">
 
-                <a class="fp_price" href="{{$row->getDetailUrl()}}">{{$row->prefix_price}} {{ $row->display_price }}</a>
+                <a class="fp_price" href="#">{{$row->prefix_price}} {{ $row->display_price }}</a>
                 @if(!empty($row->location->name))
                     @php $location =  $row->location->translateOrOrigin(app()->getLocale()) @endphp
                 @endif
-                <li class="list-inline-item"> <a href="{{$row->getDetailUrl()}}"> {{$row->title ?? ''}}-{{$location->name ?? ''}}</a></li>
+                <h4>{{$location->name ?? ''}}</h4>
                 <ul class="prop_details mb0">
                     
-                    <li class="list-inline-item"><a href="{{$row->getDetailUrl()}}">{{__('Beds:')}} {{$row->bed}}</a></li>
-                    <li class="list-inline-item"><a href="{{$row->getDetailUrl()}}">{{__('Baths:')}} {{$row->bathroom}}</a></li>
-                    <li class="list-inline-item"><a href="{{$row->getDetailUrl()}}">{{__('Sq:')}} {!! size_unit_format($row->square) !!}</a></li>
+                    <li class="list-inline-item"><a href="#">{{__('Beds:')}} {{$row->bed}}</a></li>
+                    <li class="list-inline-item"><a href="#">{{__('Baths:')}} {{$row->bathroom}}</a></li>
+                    <li class="list-inline-item"><a href="#">{{__('Sq:')}} {!! size_unit_format($row->square) !!}</a></li>
                 </ul>
             </div>
         </div>

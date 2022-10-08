@@ -42,10 +42,10 @@
                 <span class="avatar-text-large">{{$row->vendor->getDisplayNameAttribute()[0]}}</span>
             @endif
             <div class="property-tag">
-                <a>{{$row->property_type == 1 ? __('For Buy') : __('For Rent')}}</a>
+               {{-- <a>{{$row->property_type == 1 ? __('For Buy') : __('For Rent')}}</a> --}}
 
                 @if($row->is_featured)
-                    <a>{{__('Featured')}}</a>
+                {{-- <a>{{__('Featured')}}</a> --}}
                 @endif
             </div>
             @if($row->is_sold)
