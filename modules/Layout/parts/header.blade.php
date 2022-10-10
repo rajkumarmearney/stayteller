@@ -51,7 +51,7 @@
 						</li>
 						<li class="signup-item">
 							<a href="#register" data-toggle="modal" data-target="#register" class="signup">{{__('Sign Up')}}</a>
-						</li> --}}
+						</li>--}}
 					@else
 						<li class="login-item dropdown">
 							<a href="#" data-toggle="dropdown" class="is_login @if(!($avatar_url = Auth::user()->getAvatarUrl())) no_avatar @endif">
@@ -87,7 +87,7 @@
 							<li class="list-inline-item add_listing"><a href="{{route("vendor.dashboard")}}"><span class=""></span><span class="dn-lg"> {{ __('For Owners') }}</span></a></li>
 							
 						@else
-						<li class="list-inline-item add_listing"><a href="javascript:void(0)" class="btn f"> <span class="dn-lg" data-toggle="modal" data-target="#login"><span class=""></span><span class="dn-lg"> {{ __('For Owners') }}</span></a></li>
+						<li class="list-inline-item add_listing"><a href="javascript:void(0)" class="btn f"> <span class="dn-lg" data-toggle="modal" data-target="#owner-login"><span class=""></span><span class="dn-lg"> {{ __('For Owners') }}</span></a></li>
 						@endif
 					@endif
                 </ul>

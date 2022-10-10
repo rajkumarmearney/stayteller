@@ -156,17 +156,17 @@
         <span class="invalid-feedback error error-password"></span>
     </div> 
     <div class="form-group custom-control custom-checkbox" style = "display:none">
-        <input type="radio" id="role" name="type_role" value="customer" checked>
+        <input type="radio" id="role" name="type_role" value="customer">
         <label for="role">Customer</label>
-        <input type="radio" id="ower" name="type_role" value="agent">
+        <input type="radio" id="ower" name="type_role" value="owner" checked>
         <label for="owner">Owner</label>
         <span class="invalid-feedback error error-type_role"></span>
         
     </div>
 
     <div class="form-group custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" name="term" id="exampleCheck2">
-        <label class="custom-control-label" for="exampleCheck2">{{ __('I have read and accept the Terms and Privacy Policy?') }}</label>
+        <input type="checkbox" class="custom-control-input" name="term" id="exampleCheck12">
+        <label class="custom-control-label" for="exampleCheck12">{{ __('I have read and accept the Terms and Privacy Policy?') }}</label>
     </div>
 
     @if(setting_item("user_enable_register_recaptcha"))

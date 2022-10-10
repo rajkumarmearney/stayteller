@@ -59,6 +59,36 @@
     </div>
 </div>
 
+
+<div class="sign_up_modal modal fade bd-example-modal-lg" id="owner-login" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              </div>
+              <div class="modal-body container pb20">
+                <div class="tab-content container" id="myTabContent">
+                      <div class="row mt25 tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                          <div class="col-lg-6 col-xl-6">
+                              <div class="login_thumb">
+                                  <img class="img-fluid w100" src="{{ asset('/images/resource/login.jpg') }}" alt="login.jpg">
+                              </div>
+                          </div>
+                          <div class="col-lg-6 col-xl-6">
+                            <div class="login_form">
+                                @include('Layout::auth/owner-login')
+                            </div>
+                          </div>
+                      </div>
+                </div>
+              </div>
+        </div>
+    </div>
+</div>
+
+
+
+
 <div class="sign_up_modal modal fade bd-example-modal-lg" id="register" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -106,9 +136,9 @@
                           <div class="col-lg-6 col-xl-6">
                             <div class="sign_up_form">
                                 <div class="heading">
-                                    <h4>Agent Register</h4>
+                                    <h4>Owner Register</h4>
                                 </div>
-                                @include('Layout::auth/register-form')
+                                @include('Layout::auth/owner-register')
                             </div>
                           </div>
                       </div>
