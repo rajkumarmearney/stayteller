@@ -72,11 +72,12 @@
         </div>
         <div class="overlay">
             <div class="details">
-
+            <a class="fp_price" href="{{$row->getDetailUrl()}}"> <h4 >{{$row->title ?? ''}}</h4></a>
                 <a class="fp_price" href="#">{{$row->prefix_price}} {{ $row->display_price }}</a>
                 @if(!empty($row->location->name))
                     @php $location =  $row->location->translateOrOrigin(app()->getLocale()) @endphp
                 @endif
+               
                 <h4>{{$location->name ?? ''}}</h4>
                 <ul class="prop_details mb0">
                     
