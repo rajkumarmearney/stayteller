@@ -8,7 +8,7 @@ class Attributes extends BaseModel
 {
     use SoftDeletes;
     protected $table = 'bravo_attrs';
-    protected $fillable = ['name','display_type','hide_in_single'];
+    protected $fillable = ['name','display_type','hide_in_single','room_Property','features_enable','features_choice'];
     protected $slugField = 'slug';
     protected $slugFromField = 'name';
 

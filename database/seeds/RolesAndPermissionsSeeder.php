@@ -115,6 +115,9 @@ class RolesAndPermissionsSeeder extends Seeder
         //Review
         Permission::findOrCreate('review_manage_others');
 
+         //Room
+         Permission::findOrCreate('rooms_create');
+
         // Other System Permissions
 
         Permission::findOrCreate('system_log_view');

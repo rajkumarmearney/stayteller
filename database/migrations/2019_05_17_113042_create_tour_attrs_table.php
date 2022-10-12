@@ -15,10 +15,12 @@ class CreateTourAttrsTable extends Migration
     {
         Schema::create('bravo_attrs', function (Blueprint $table) {
             $table->bigIncrements('id');
-
             $table->string('name',255)->nullable();
             $table->string('slug',255)->nullable();
             $table->string('service',50)->nullable();
+            $table->tinyInteger('room_Property')->nullable();
+            $table->tinyInteger('features_enable')->nullable();
+            $table->tinyInteger('features_choice')->nullable();
 
             $table->bigInteger('create_user')->nullable();
             $table->bigInteger('update_user')->nullable();

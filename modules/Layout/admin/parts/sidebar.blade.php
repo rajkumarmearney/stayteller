@@ -13,6 +13,13 @@ $menus = [
         'icon'  => 'icon ion-ios-text',
         'permission' => 'review_manage_others',
     ],
+    'Rooms'=>[
+        "position"=>45,
+        'url'   => 'admin/module/rooms',
+        'title' => __("Rooms"),
+        'icon'  => 'icon ion-ios-home',
+        'permission' => 'rooms_create',
+    ],
     'menu'=>[
         "position"=>60,
         'url'        => 'admin/module/core/menu',
