@@ -218,7 +218,19 @@ class UserController extends FrontendController
                         'redirect' => false
                     ], 200);
                 }
-                $url =  $request->input('redirect') ? $request->input('redirect'): url('/');
+
+                $user = Auth()->user();
+					$roles = isset($user) ? $user->getRoleNames() : '' ;
+                    
+					if( $roles['0'] == 'Owner'){
+                        $url = url('user/dashboard');
+                       
+					}else{
+                        $url =  $request->input('redirect') ? $request->input('redirect'): url('/');
+                    }
+
+               
+             
                 return response()->json([
                     'error'    => false,
                     'messages' => false,

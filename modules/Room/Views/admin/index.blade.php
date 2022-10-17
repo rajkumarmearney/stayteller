@@ -52,8 +52,8 @@
             </div>
         </div>
         <div class="text-right">
-            <div class="header-status-control">
-                <a href="{{ url("/admin/module/review") }}">{{__("All Reviews")}}
+          {{--  <div class="header-status-control">
+                <a href="{{ url("/admin/module/review") }}">{{__("All Room")}}
                     <span>({{ \Modules\Review\Models\Review::countReviewByStatus() }})</span> </a> -
                 <a href="{{ url("/admin/module/review?status=approved") }}">{{__("Approved")}}
                     <span>({{ \Modules\Review\Models\Review::countReviewByStatus("approved") }})</span></a> -
@@ -63,7 +63,7 @@
                     <span>({{ \Modules\Review\Models\Review::countReviewByStatus("spam") }})</span></a> -
                 <a href="{{ url("/admin/module/review?status=trash") }}">{{__("Trash")}}
                     <span>({{ \Modules\Review\Models\Review::countReviewByStatus("trash") }})</span></a>
-            </div>
+            </div>--}}
             <p><i>{{__('Found :total items',['total'=>$rows->total()])}}</i></p>
         </div>
         <div class="panel">
@@ -74,10 +74,10 @@
                         <thead>
                         <tr>
                             <th width="60px"><input type="checkbox" class="check-all"></th>
-                            <th width="150px"> {{ __('Author')}}</th>
-                            <th> {{ __('Review Content')}}</th>
-                            <th width="250px"> {{ __('In Response To')}}</th>
-                            <th width="80px"> {{ __('Service')}}</th>
+                            <th width="150px"> {{ __('Property Name')}}</th>
+                            <th> {{ __('Room Name')}}</th>
+                            <th width="250px"> {{ __('No of Rooms')}}</th>
+                            <th width="80px"> {{ __('Action')}}</th>
                             <th width="100px"> {{ __('Status')}}</th>
                             <th width="140px"> {{ __('Submitted On')}}</th>
                         </tr>
@@ -85,58 +85,23 @@
                         <tbody>
                         @if($rows->total() > 0)
                             @foreach($rows as $row)
-                                @php $service = $row->getService @endphp
+                              
                                 <tr class="{{$row->status}}">
                                     <td><input type="checkbox" name="ids[]" class="check-item" value="{{$row->id}}">
                                     </td>
                                     <td>
-                                        @if(!empty( $metaUser =  $row->getUserInfo))
-                                            <a href="{{ url("/admin/module/review?customer_id=".$metaUser->id) }}">{{ $metaUser->email ?? 'Email' }}</a>
-                                            <p>
-                                                <a href="{{ url("/admin/module/review?s=".$row->author_ip) }}">{{$row->author_ip}}</a>
-                                            </p>
-                                        @else
-                                            {{__("[Author Deleted]")}}
-                                        @endif
+                                    {{$row->title}}
+                                    </td>
+                                    <td>{{$row->name}}</td>
+                                    <td>
+                                    <p>{{$row->no_of_room}}</p>
                                     </td>
                                     <td>
-                                        <strong>{{$row->title}}</strong>
-                                        <p>{{$row->content}}</p>
-                                        @if($row->rate_number)
-                                            <ul class="review-star left">
-                                                @for( $i = 0 ; $i < 5 ; $i++ )
-                                                    @if($i < $row->rate_number)
-                                                        <li><i class="fa fa-star"></i></li>
-                                                    @else
-                                                        <li><i class="fa fa-star-o"></i></li>
-                                                    @endif
-                                                @endfor
-                                            </ul>
-                                        @endif
+                                    <a href="{{route('room.admin.edit',['id'=>$row->id])}}" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i> {{__('Edit')}}</a>
+                                                
                                     </td>
                                     <td>
-                                        @if(!empty($service))
-                                            <a href="{{ url("/admin/module/review?service_id=".$service->id)."&object_model=".$service->type }}">
-                                                {{ $service->title }}
-                                            </a>
-                                            <p>
-                                                <a target="_blank" href="{{$service->getDetailUrl()}}">
-                                                    <i class="fa fa-long-arrow-right" aria-hidden="true"></i> {{ __("View :name",["name"=>$service->getModelName() ])}}
-                                                </a>
-                                            </p>
-                                        @else
-                                            {{__("[Deleted]")}}
-                                        @endif
-                                    </td>
-                                    <td>
-                                        @if(!empty($service))
-                                            <a href="{{ url("/admin/module/review?service=".$service->getModelName()) }}" class="badge badge-dark">{{  $service->getModelName() }}</a>
-                                        @else
-                                            {{__("[Deleted]")}}
-                                        @endif
-                                    </td>
-                                    <td>
-                                        <a href="{{ url("/admin/module/review?status=".$row->status) }}" class="badge badge-{{ $row->status }}">{{ $row->status }}</a>
+                                        
                                     </td>
                                     <td>{{ display_datetime($row->updated_at)}}</td>
                                 </tr>

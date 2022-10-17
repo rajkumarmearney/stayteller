@@ -2,6 +2,7 @@
 namespace Modules\Room\Admin;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Modules\AdminController;
 use Modules\Room\Models\Room;
 use Modules\Review\Models\Review;
@@ -11,6 +12,7 @@ use Modules\Location\Models\Location;
 use Modules\Core\Models\Attributes;
 use Modules\Property\Models\Property;
 
+
 class RoomController extends AdminController
 {
     protected $propertyTranslationClass;
@@ -18,6 +20,7 @@ class RoomController extends AdminController
     protected $locationClass;
     protected $attributesClass;
     protected $propertyClass;
+    protected $roomClass;
     
     public function __construct()
     {
@@ -28,17 +31,51 @@ class RoomController extends AdminController
         $this->locationClass = Location::class;
         $this->attributesClass = Attributes::class;
         $this->propertyClass = Property::class;
+        $this->roomClass      = Room :: class;
     }
 
     public function index(Request $request)
     {
       
-        $this->checkPermission("review_manage_others");
-        $model = Review::query();
+        $this->checkPermission("rooms_manage_others");
+        $this->checkPermission('property_view');
+        $user_id = Auth::id();
+        $rows = $this->roomClass::query()->select("*")
+                                                        ->leftJoin('bravo_properties', function ($join)  {
+                                                      $join->on('bravo_properties.id', '=', 'bravo_rooms.property_id');
+                                                     });
+
+      
+
+            $rows->orderBy('bravo_properties.id','desc');
+      
+       
+
+        $data = [
+            'rows' => $rows->paginate(5),
+            'breadcrumbs'        => [
+                [
+                    'name' => __('Manage Properties'),
+                    'url'  => route('property.vendor.index')
+                ],
+                [
+                    'name'  => __('All'),
+                    'class' => 'active'
+                ],
+            ],
+            'page_title'         => __("Manage Properties"),
+        ];
+
+      
+       
+        return view('Room::admin.index', $data);
+    
+        /*$model = Room::query();
         $model->orderBy('id', 'desc');
         if (!empty($author = $request->input('customer_id'))) {
             $model->where('create_user', $author);
         }
+       
         $allServices = get_reviewable_services();
         $allServicesKeys = array_keys($allServices);
 
@@ -68,7 +105,7 @@ class RoomController extends AdminController
                 ],
             ]
         ];
-        return view('Room::admin.index', $data);
+        return view('Room::admin.index', $data);*/
     }
 
     public function bulkEdit(Request $request)
@@ -145,24 +182,88 @@ class RoomController extends AdminController
         return view('Room::admin.create', $data);
     }
     public function store(Request $request , $id){
-
+       
         $attributecollection  = $this->attributesClass::where('service', 'property')->get();
         $attributedata = array();
+       // dd($request->input());
         foreach($attributecollection as $attribute){
             $strdatareplace = str_replace("-", "_", $attribute->slug);
-          
+           
             if($attribute->room_Property == 1){
-                $attributedata[] =array($attribute->name => $request->$strdatareplace,
+                $attributedata[] =array($strdatareplace => $request->$strdatareplace,
             );
            
             }
             if($attribute->features_enable == 1){
-                $feature[] = array($attribute->name => $request->$strdatareplace,);
+                 $choice = $attribute->slug.'_choice';
+                $feature[] = array($strdatareplace => implode(',',$request->$choice));
             }
-          
-
         }
-        dd($attributedata);
-        dd($request->input());
+        $id = $request->input('id');
+       
+        if ($id) {
+            $room = Room::find($id);
+            if (empty($room)) {
+                return redirect()->back()->with('error', __('Room not found!'));
+            }
+        }else{
+            $room                       = new Room();
+        }
+       
+       
+        $room->property_id          = $request->property_id;
+        $room->name                 = $request->name;
+        $room->room_info            = json_encode($attributedata);
+        $room->amenities_details    = json_encode($feature);
+        $room->no_of_room           = $request->no_of_room;
+        $room->price_per_month      = $request->price_per_month;
+        $room->deposite             = $request->deposite;
+        $room->create_user          = Auth::id();
+        $room->update_user          =  Auth::id();
+        $room->save();
+
+        return back()->with('success', ($id and $id>0) ? __('Room updated'):__("Room created"));
+
+
+    }
+    public function edit(Request $request, $id){
+      
+        $findrow = $this->roomClass::find($id);
+        if (empty($findrow)) {
+            return redirect()->back()->with('error', __('Room not found!'));
+        }
+        //$translation = $findrow->translateOrOrigin($request->query('lang'));
+       // $this->checkPermission('property_manage_attributes');
+
+       $row =new $this->propertyClass();
+      
+       $data = [
+           'row'           =>$row,
+           'translation' => new $this->propertyTranslationClass(),
+           'property_category'    => $this->propertyCategoryClass::where('status', 'publish')->get()->toTree(),
+           'property_location' => $this->locationClass::where("status","publish")->get()->toTree(),
+           'attributes'    => $this->attributesClass::where('service', 'property')->get(),
+           'roomtype'      => $this->attributesClass::where('service', 'property')->where('name' ,'=','Room Type')->get(),
+           'editrow'       => $findrow,
+           
+           'breadcrumbs'        => [
+               [
+                   'name' => __('Manage Room'),
+                   'url'  => route('room.admin.index')
+               ],
+               [
+                   'name'  => __('Create'),
+                   'url'  => 'admin/module/room/create'
+               ],
+               [
+                'name'  => __('Room: :name', ['name' => $findrow->name]),
+                'class' => 'active'
+            ]
+           ],
+           'page_title'         => __("Edit Room"),
+       ];
+
+       return view('Room::admin.create', $data);
+       
     }
 }

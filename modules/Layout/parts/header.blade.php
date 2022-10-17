@@ -38,7 +38,18 @@
 		        <!-- Responsive Menu Structure-->
 		        <!--Note: declare the Menu style in the data-menu-style="horizontal" (options: horizontal, vertical, accordion) -->
                 <ul id="respMenu" class="ace-responsive-menu text-right" data-menu-style="horizontal">
-					<?php generate_menu('primary') ?>
+					
+					<?php 
+					$user = auth()->user();
+					$roles = isset($user) ? $user->getRoleNames() : '' ;
+					if($roles == '' ||  $roles == 'Owner'){
+						generate_menu('primary');
+					}else{
+						generate_menu('primary');
+					}
+
+
+					 ?>
 					<!--  @include('Core::frontend.currency-switcher')-->
                     @include('Language::frontend.switcher')
 					@if(!Auth::id())
