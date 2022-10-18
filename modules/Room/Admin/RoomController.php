@@ -40,7 +40,7 @@ class RoomController extends AdminController
         $this->checkPermission("rooms_manage_others");
         $this->checkPermission('property_view');
         $user_id = Auth::id();
-        $rows = $this->roomClass::query()->select("*")
+        $rows = $this->roomClass::query()->select("bravo_rooms.*","bravo_properties.*","bravo_rooms.id as roomid")
                                                         ->leftJoin('bravo_properties', function ($join)  {
                                                       $join->on('bravo_properties.id', '=', 'bravo_rooms.property_id');
                                                      });

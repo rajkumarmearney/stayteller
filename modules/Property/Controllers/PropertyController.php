@@ -6,6 +6,7 @@ use Modules\Property\Models\Property;
 use Illuminate\Http\Request;
 use Modules\Location\Models\Location;
 use Modules\Review\Models\Review;
+use Modules\Room\Models\Room;
 use Modules\Core\Models\Attributes;
 use DB;
 use Modules\Property\Models\PropertyCategory;
@@ -17,6 +18,7 @@ class PropertyController extends Controller
     protected $propertyCategoryClass;
     protected $attributeClass;
     protected $reviewClass;
+    
     public function __construct()
     {
         $this->propertyClass         = Property::class;
@@ -24,6 +26,7 @@ class PropertyController extends Controller
         $this->propertyCategoryClass = PropertyCategory::class;
         $this->attributeClass        = Attributes::class;
         $this->reviewClass           = Review::class;
+        
     }
 
     public function callAction($method, $parameters)
@@ -115,6 +118,7 @@ class PropertyController extends Controller
         $review_list = Review::where('object_id', $row->id)->where('object_model', 'property')->where("status", "approved")->orderBy("id", "desc")->with('author')->paginate(setting_item('property_review_number_per_page', 5));
         $row->view = $row->view + 1;
         $row->save();
+       
 
         $data = [
             'row'               => $row,
@@ -126,8 +130,11 @@ class PropertyController extends Controller
             'property_min_max_price' => $this->propertyClass::getMinMaxPrice(),
             'review_list'       => $review_list,
             'seo_meta'          => $row->getSeoMetaWithTranslation(app()->getLocale(),$translation),
-            'body_class'        =>'is_single'
+            'body_class'        =>'is_single',
+            'rooms'             => Room :: where('property_id',$row->id)->get(),
+            'attributes'    => $this->attributeClass::where('service', 'property')->get(),
         ];
+        
         $this->setActiveMenu($row);
         $blade = 'Property::frontend.detail';
         if($layout_id == 1) {

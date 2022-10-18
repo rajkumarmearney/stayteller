@@ -84,10 +84,11 @@
                         </thead>
                         <tbody>
                         @if($rows->total() > 0)
+                       
                             @foreach($rows as $row)
                               
                                 <tr class="{{$row->status}}">
-                                    <td><input type="checkbox" name="ids[]" class="check-item" value="{{$row->id}}">
+                                    <td><input type="checkbox" name="ids[]" class="check-item" value="{{$row->roomid}}">
                                     </td>
                                     <td>
                                     {{$row->title}}
@@ -97,7 +98,7 @@
                                     <p>{{$row->no_of_room}}</p>
                                     </td>
                                     <td>
-                                    <a href="{{route('room.admin.edit',['id'=>$row->id])}}" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i> {{__('Edit')}}</a>
+                                    <a href="{{route('room.admin.edit',['id'=>$row->roomid])}}" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i> {{__('Edit')}}</a>
                                                 
                                     </td>
                                     <td>

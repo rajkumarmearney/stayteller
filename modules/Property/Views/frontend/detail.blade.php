@@ -9,6 +9,7 @@
     <!-- Agent Single Grid View -->
     <section class="our-agent-single bgc-f7 pb30-991">
         <div class="container">
+       
             @include('Agencies::frontend.detail.search_mobile')
             <div class="row">
                 <div class="col-md-12 col-lg-8 mt50">
@@ -24,7 +25,7 @@
                                 </div>
                                 <div class="single_property_social_share style2">
                                     <div class="price">
-                                        <h2>{{ $row['display_price'] ? $row['display_price'] : '' }}</h2>
+                                        <h2>{{ $row['display_price'] ? $row['display_price'] : '' }}/{{__("Month")}}</h2>
                                         @if($row->is_sold)
                                             <div><span class="badge badge-danger is_sold_out">{{__("Sold Out")}}</span></div>
                                         @endif
@@ -33,6 +34,7 @@
                                 </div>
                             </div>
                         </div>
+                        
                         <div class="col-lg-12">
                             <div class="listing_single_description style2">
                                 <div class="lsd_list">
@@ -44,12 +46,7 @@
                                         @if(!empty($row['bed']))
                                             <li class="list-inline-item"><a href="#">{{ __("Beds") }}: {{ !empty($row['bed']) ? $row['bed'] : ''}}</a></li>
                                         @endif
-                                        @if(!empty($row['bathroom']))
-                                            <li class="list-inline-item"><a href="#">{{ __("Baths") }}: {{ !empty($row['bathroom']) ? $row['bathroom'] : '' }}</a></li>
-                                        @endif
-                                        @if(!empty($row['square']))
-                                            <li class="list-inline-item"><a href="#">{{ __("Sq Ft") }}: {{ !empty($row['square']) ? $row['square'] : ''}}</a></li>
-                                        @endif
+                                      
                                     </ul>
                                 </div>
     
@@ -70,42 +67,41 @@
                                 @endif
                             </div>
                         </div>
-                        <div class="col-lg-12">
+                            <nav>
+                                <button><a href="#room_action" class="scrollTo active">Room Option</a></button>
+                                <button><a href="#location" class="scrollTo">Location</a></button>
+                                <button><a href="#review" class="scrollTo">Review</a></button>
+                            </nav>
+                        <div class="col-lg-12" id= "room_action">
                             <div class="additional_details">
                                 <div class="row">
                                     <div class="col-lg-12">
                                         <h4 class="mb15">{{ __("Property Details") }}</h4>
                                     </div>
-                                    <div class="col-md-6 col-lg-6 col-xl-4">
-                                        <dl class="inline">
-                                            <dt><p>{{ __("Property ID") }} :</p></dt>
-                                            <dd><p>{{ $row->id ? $row->id : 0 }}</p></dd>
-                                            <dt><p>{{ __("Price") }} :</p></dt>
-                                            <dd><p>{{ $row->display_price ? $row->display_price : 0 }}</p></dd>
-                                            <dt><p>{{ __("Property Size") }} :</p></dt>
-                                            <dd><p>{!! !empty($row['square']) ? size_unit_format($row['square']) : 0 !!}</p></dd>
-                                            <dt><p>{{ __("Year Built") }} :</p></dt>
-                                            <dd><p>{{ $row->year_built ? $row->year_built : __('None') }}</p></dd>
-                                        </dl>
-                                    </div>
-                                    <div class="col-md-6 col-lg-6 col-xl-4">
+                                    <div class="col-md-6 col-lg-6 ">
+                                        <ul class="list-inline-item">
+                                            <li><p>{{ __('Property Type') }} :</p></li>
+                                            <li><p>{{ __('Features') }} :</p></li>
+                                           
+                                            
+                                        </ul>
 
-                                        <dl class="inline">
-                                            <dt><p>{{ __("Bedrooms") }} :</p></dt>
-                                            <dd><p>{{ $row->bed ? $row->bed : 0 }}</p></dd>
-                                            <dt><p>{{ __("Bathrooms") }} :</p></dt>
-                                            <dd><p>{{ $row->bathroom ? $row->bathroom : 0 }}</p></dd>
-                                            <dt><p>{{ __("Garage") }} :</p></dt>
-                                            <dd><p>{{ $row->garages ? $row->garages : 0 }}</p></dd>
-                                        </dl>
+                                        <ul class="list-inline-item">
+                                            <li><p><span>{{ $row->category ? $row->category->name : '' }}</span></p></li>
+                                            <li><p><span>{{ $row->pool_size ? size_unit_format($row->pool_size) : 0 }}</span></p></li>
+                                          
+                                        </ul>
                                     </div>
-                                    <div class="col-md-6 col-lg-6 col-xl-4">
-                                        <dl class="inline">
-                                            <dt><p>{{ __("Property Type") }} :</p></dt>
-                                            <dd><p>{{ $row->category ? $row->category->name : '' }}</p></dd>
-                                            <dt><p>{{ __("Property Status") }} :</p></dt>
-                                            <dd><p><span>{{$row->property_type == 1 ? __('For Buy') : __('For Rent')}}</span></p></dd>
-                                        </dl>
+
+                                    <div class="col-md-6 col-lg-6">
+                                        <ul class="list-inline-item">
+                                            <li><p>{{ __('Near By Facilities ') }} :</p></li>
+                                            
+                                        </ul>
+                                        <ul class="list-inline-item">
+                                            <li><p><span>{{ $row->remodal_year ? $row->remodal_year : __('None') }}</span></p></li>
+                                            
+                                        </ul>
                                     </div>
                                 </div>
                             </div>
@@ -114,32 +110,122 @@
                             <div class="additional_details">
                                 <div class="row">
                                     <div class="col-lg-12">
-                                        <h4 class="mb15">{{__('Additional details')}}</h4>
+                                        <h2 class="mb15">{{__('Pricing details')}}</h2>
                                     </div>
-                                    <div class="col-md-6 col-lg-6">
-                                        <ul class="list-inline-item">
-                                            <li><p>{{ __('Deposit') }} :</p></li>
-                                            <li><p>{{ __('Pool Size') }} :</p></li>
-                                            <li><p>{{ __('Additional Rooms') }} :</p></li>
-                                        </ul>
-                                        <ul class="list-inline-item">
-                                            <li><p><span>{{ $row->deposit ? $row->deposit : 0 }}%</span></p></li>
-                                            <li><p><span>{{ $row->pool_size ? size_unit_format($row->pool_size) : 0 }}</span></p></li>
-                                            <li><p><span>{{ $row->additional_zoom ? $row->additional_zoom : 0 }}</span></p></li>
-                                        </ul>
+                                    @php
+                                    
+                                  
+                                   
+                                    @endphp
+                                   
+                                  
+
+                                  
+                                    <?php 
+                                    
+                                    foreach($rooms as $roomdatainfo){
+                                        $i =0;
+                                        $j=0;
+                                        $show=array();
+                                        $selected=array();
+                                       
+                                        ?>
+                                        <p>{{$roomdatainfo->name}}</p>
+                                          @foreach ($attributes as $attribute)
+                                          @if($attribute->room_Property ==1)
+                                          @foreach($attribute->terms as $term)
+                                          <?php
+                                                $roominfoarr = json_decode($roomdatainfo->room_info);
+                                              
+                                                    foreach($roominfoarr as $roomdata =>$val){
+                                                        $strdatareplace = str_replace("-", "_", $attribute->slug);
+                                                        if(isset($roominfoarr[$i]->$strdatareplace) && ($roominfoarr[$i]->$strdatareplace == $term->id )){
+                                                            $selected[] =$attribute->name.'-'.$term->name ;
+                                                        }
+                                                    }
+                                                
+                                                ?>
+                                                @endforeach
+                                          @php
+                                            $i++;
+                                            @endphp
+                                          @endif
+
+                                          @if($attribute->features_enable == 1)
+                                         
+                                          @foreach($attribute->terms as $term)
+                                          <?php
+                                       $roominfoarr = json_decode($roomdatainfo->amenities_details);
+                                              foreach($roominfoarr as $roomdata =>$val){
+                                                    $strdatareplace = str_replace("-", "_", $attribute->slug);
+                                                   
+                                                    if(isset($roominfoarr[$j]->$strdatareplace) && ($roominfoarr[$j]->$strdatareplace != '' )){
+                                                        $checked = 'checked';
+                                                        $show[] =$attribute->name.'-'.$roominfoarr[$j]->$strdatareplace;
+                                                        $style = 'display: block;';
+                                                    
+                                                    }else{
+                                                       
+                                                        $show[] =$attribute->name.'-'.$j;
+                                                    }
+                                                
+                                                }
+                                            
+                                            ?>
+
+
+
+
+                                        @endforeach
+                                        @php
+                                            $j++;
+                                            @endphp
+
+                                          @endif
+
+                                          @endforeach
+
+                                          <?php
+                                   $facilities = array_unique($show);
+                                   $roomoption = array_unique($selected);
+                                   ?>
+                                   <div class="container">
+                                        <div class="row">
+                                            <div class="col-sm">
+                                                @foreach($roomoption as $roomdata)
+                                                <p>{{$roomdata}}</p>
+                                                @endforeach
+                                            </div>
+                                            <div class="col-sm">
+                                                @foreach($facilities as $fact)
+                                                <p>{{$fact}}</p>
+                                                @endforeach
+                                            </div>
+                                            <div class="col-sm">
+                                                <ul class="list-inline-item">
+                                                    <li><p>{{ __('Rent') }} :</p></li>
+                                                    <li><p>{{ __('Deposit') }} :</p></li>
+                                                </ul>
+                                                <ul class="list-inline-item">
+                                                    <li><p><span>{{ $roomdatainfo->price_per_month ? $roomdatainfo->price_per_month : __('None') }}</span></p></li>
+                                                    <li><p><span>{{ $roomdatainfo->deposite ? $roomdatainfo->deposite : 0 }}</span></p></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="float-right">
+            @if($roomdatainfo->no_of_room != 0)
+                <a class="btn btn-primary bravo-button-book-mobile">{{__("Book Now")}}</a>
+            @else
+                <a class="btn btn-block btn-thm" data-toggle="modal" data-target="#enquiry_form_modal">{{__("Sold Out")}}</a>
+            @endif
+        </div>
                                     </div>
-                                    <div class="col-md-6 col-lg-6">
-                                        <ul class="list-inline-item">
-                                            <li><p>{{ __('Last remodel year') }} :</p></li>
-                                            <li><p>{{ __('Amenities') }} :</p></li>
-                                            <li><p>{{ __('Equipment') }} :</p></li>
-                                        </ul>
-                                        <ul class="list-inline-item">
-                                            <li><p><span>{{ $row->remodal_year ? $row->remodal_year : __('None') }}</span></p></li>
-                                            <li><p><span>{{ $row->amenities ? $row->amenities : 0 }}</span></p></li>
-                                            <li><p><span>{{ $row->equipment ? $row->equipment : 0 }}</span></p></li>
-                                        </ul>
-                                    </div>
+                                    
+                                   <?php } ?>
+                                    
+                                    
+                                  
+                                  
                                 </div>
                             </div>
                         </div>
@@ -147,7 +233,7 @@
                         @if(!empty($row->location->name))
                             @php $location =  $row->location->translateOrOrigin(app()->getLocale()) @endphp
                         @endif
-                        <div class="col-lg-12">
+                        <div class="col-lg-12" id = "location">
                             <div class="application_statics mt30">
                                 <h4 class="mb30">{{ __("Location") }} <small class="application_statics_location float-right">{{ !empty($location->name) ? $location->name : '' }}</small></h4>
                                 <div class="property_video p0">
@@ -161,71 +247,14 @@
                             </div>
                         </div>
                         @include('Property::frontend.layouts.details.property_video')
-                        <div class="col-lg-12">
+                        <div class="col-lg-12" id = "review">
                             @include('Agencies::frontend.detail.review', ['review_service_id' => $row['id'], 'review_service_type' => 'property'])
                         </div>
                         @include('Property::frontend.layouts.details.property-related')
                     </div>
                 </div>
                 <div class="col-lg-4 col-xl-4 mt50">
-                    <div class="sidebar_listing_list">
-                        <div class="sidebar_advanced_search_widget">
-                            <div class="sl_creator">
-                                <h4 class="mb25">{{ __("Listed By") }}</h4>
-                                <div class="media">
-                                    <a href="{{route('agent.detail',['id'=>$row->user->id])}}" class="c-inherit">
-                                    @if($avatar_url = $row->user->getAvatarUrl())
-                                        <img class="mr-3" src="{{$avatar_url}}" alt="{{$row->user->getDisplayName()}}">
-                                    @else
-                                        <span class="mr-3">{{ucfirst($row->user->getDisplayName()[0])}}</span>
-                                    @endif
-                                    </a>
-                                    <div class="media-body">
-                                        <h5 class="mt-0 mb0"><a href="{{route('agent.detail',['id'=>$row->user->id])}}" class="c-inherit">{{ $row->user->getDisplayName() }}</a></h5>
-                                        <p class="mb0">{{ !empty($row->user->phone) ? $row->user->phone : '' }}</p>
-                                        <p class="mb0">{{ !empty($row->user->email) ? $row->user->email : '' }}</p>
-                                        <a class="text-thm" href="{{route('agent.detail',['id'=>$row->user->id])}}">{{ __("View My Listing") }}</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <form action="{{ route('agent.contact') }}" method="POST" class="agent_contact_form">
-                                @csrf
-                                <ul class="sasw_list mb0">
-                                    <li class="search_area">
-                                        <div class="form-group">
-                                            <input type="text" class="form-control"  placeholder="{{ __('Your Name') }}" name="name">
-                                        </div>
-                                    </li>
-                                    <li class="search_area">
-                                        <div class="form-group">
-                                            <input type="number" class="form-control"  placeholder="{{ __('Phone') }}" name="phone">
-                                        </div>
-                                    </li>
-                                    <li class="search_area">
-                                        <div class="form-group">
-                                            <input type="email" class="form-control" id="email" placeholder="{{ __('Email') }}" name="email">
-                                        </div>
-                                    </li>
-                                    <li class="search_area">
-                                        <div class="form-group">
-                                            <textarea id="form_message" name="message" class="form-control required" rows="5" placeholder="{{ __('Your Message') }}"></textarea>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <input type="hidden" name="vendor_id" value="{{ $row->user->id }}">
-                                        <input type="hidden" name="object_id" value="{{ $row->id }}">
-                                        <input type="hidden" name="object_model" value="property">
-                                    </li>
-                                    <li>
-                                        <div class="search_option_button">
-                                            <button type="submit" class="btn btn-block btn-thm">{{ __('Contact') }}</button>
-                                        </div>
-                                    </li>
-                                </ul>
-                                <div class="form-mess"></div>
-                            </form>
-                        </div>
-                    </div>
+                    
                     @include('Property::frontend.layouts.search.form-search')
                     @include('Property::frontend.sidebar.FeatureProperty')
                     @include('Property::frontend.sidebar.categoryProperty')
@@ -273,5 +302,11 @@
                 }
             });
         })
+        $('.scrollTo').click(function(){
+    $('html, body').animate({
+        scrollTop: $( $(this).attr('href') ).offset().top
+    }, 500);
+    return false;
+});
     </script>
 @endsection
