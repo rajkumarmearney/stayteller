@@ -42,9 +42,12 @@
 					<?php 
 					$user = auth()->user();
 					$roles = isset($user) ? $user->getRoleNames() : '' ;
-					if($roles == '' ||  $roles == 'Owner'){
-						generate_menu('primary');
+					
+					
+					if(isset($roles[0]) &&  $roles[0] === 'Owner'){
+						//generate_menu('primary');
 					}else{
+						
 						generate_menu('primary');
 					}
 

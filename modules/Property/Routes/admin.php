@@ -1,6 +1,6 @@
 <?php
 
-use \Illuminate\Support\Facades\Route;
+use \Illuminate\Support\Facades\Route; 
 
 
 Route::get('/','PropertyController@index')->name('property.admin.index');
@@ -23,6 +23,7 @@ Route::group(['prefix'=>'attribute'],function (){
 
     Route::get('getForSelect2','AttributeController@getForSelect2')->name('property.admin.attribute.term.getForSelect2');
     Route::post('/bulkEdit','AttributeController@editTermBulk')->name('property.admin.attribute.editTermBulk');
+    Route::post('/editAttrBulk','AttributeController@editAttrBulk')->name('property.admin.attribute.editAttrBulk');
 
 });
 
