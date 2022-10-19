@@ -2,32 +2,42 @@
 @section('head')
 @endsection
 @section('content')
+    <style type="text/css">
+        .cursor-pointer {
+            cursor: pointer;
+        }
+
+        .bg-info.bg-lighten {
+            background-color: #e5f4f7 !important;
+        }
+    </style>
+
     <section class="listing-title-area p-0">
         @include('Property::frontend.layouts.details.gallery_property')
     </section>
 
     <!-- Agent Single Grid View -->
-    <section class="our-agent-single bgc-f7 pb30-991">
+    <section class="our-agent-single bgc-f7 pb30-991 bg-white">
         <div class="container">
        
             @include('Agencies::frontend.detail.search_mobile')
             <div class="row">
                 <div class="col-sm-8">
-                    <div class="listing_single_description style2">
+                    <div class="d-flex flex-column">
                         @if(!empty($row['content']))
-                                <div class="text-danger mb30 room_header">  {{ $translation->title ?? '' }}  
-                                    <span class= "room_price">{{ $row['display_price'] ? $row['display_price'] : '' }}/{{__("Month")}}</span>
+                                <div class="text-danger mb30 room_header mb-1">
+                                    <div class="float-left">{{ $translation->title ?? '' }}</div>
+                                    <div class="float-right">
+                                        <span class= "room_price">{{ $row['display_price'] ? $row['display_price'] : '' }}/{{__("Month")}}</span>
                                         @if($row->is_sold)
-                                            <div><span class="badge badge-danger is_sold_out">{{__("Sold Out")}}</span></div>
+                                            <span class="badge badge-danger is_sold_out">{{__("Sold Out")}}</span>
                                         @endif
-
-                               
-                                   
+                                    </div>
                                 </div>
                                 <div class="gpara second_para white_goverlay mt10 mb10">{!! clean(Str::words($translation->content,50)) !!}</div>
                                 <div class="collapse" id="collapseExample">
-                                    <div class="card card-body">
-                                        <div class="mt10 mb10">{!! clean($translation->content) !!}</div>
+                                    <div class="card card-body border-0 p-0">
+                                        <div class="mb10">{!! clean($translation->content) !!}</div>
                                     </div>
                                 </div>
                                 <p class="overlay_close">
@@ -49,126 +59,130 @@
                         </div>
                 </div>
             </div>
-            <div class=" mt30">
+
+        </div>
+    </section>
+
+    <section class="our-agent-single bgc-f7 pb30-991 bg-info bg-lighten">
+        <div class="container">
+            <div class="">
             <div class= "room_header">Book your stay</div>
                                 <span class="">Select from a range of beautiful rooms</span>
             </div>
 
             <div class="row">
                 <div class="col-sm-8 mt50">
-                    <div class="listing_single_description style2">
+                    <div class="listing_single_description style2 bg-transparent p-0 border-0">
                         @if(!empty($row['content']))
-                        <div class="row">
-                            
+                            <?php
+                            $roomsCount = 0;
 
-                            <?php 
-                                    
-                                    foreach($rooms as $roomdatainfo){
-                                        $i =0;
-                                        $j=0;
-                                        $show=array();
-                                        $selected=array();
-                                       
-                                        ?>
-                                        <p>{{$roomdatainfo->name}}</p>
-                                          @foreach ($attributes as $attribute)
-                                          @if($attribute->room_Property ==1)
-                                          @foreach($attribute->terms as $term)
-                                          <?php
-                                                $roominfoarr = json_decode($roomdatainfo->room_info);
-                                              
-                                                    foreach($roominfoarr as $roomdata =>$val){
-                                                        $strdatareplace = str_replace("-", "_", $attribute->slug);
-                                                        if(isset($roominfoarr[$i]->$strdatareplace) && ($roominfoarr[$i]->$strdatareplace == $term->id )){
-                                                            $selected[] =$attribute->name.'-'.$term->name ;
+                            foreach($rooms as $roomdatainfo) {
+                                $i =0;
+                                $j=0;
+                                $show=array();
+                                $selected=array();
+                            ?>
+
+                            <div class="row @if($roomsCount > 0) mt-3 @endif">
+                                <div class="col-12">
+                                    <div class="card border-0 shadow-sm cursor-pointer">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <h4 class="font-weight-bold">{{$roomdatainfo->name}}</h4>
+                                                </div>
+                                            </div>
+
+                                            <?php
+
+                                            foreach ($attributes as $attribute) {
+                                                if($attribute->room_Property ==1) {
+                                                    foreach($attribute->terms as $term) {
+                                                        $roominfoarr = json_decode($roomdatainfo->room_info);
+
+                                                        foreach($roominfoarr as $roomdata =>$val) {
+                                                            $strdatareplace = str_replace("-", "_", $attribute->slug);
+                                                            if(isset($roominfoarr[$i]->$strdatareplace) && ($roominfoarr[$i]->$strdatareplace == $term->id )){
+                                                                $selected[] =$attribute->name.'-'.$term->name ;
+                                                            }
                                                         }
                                                     }
-                                                
-                                                ?>
-                                                @endforeach
-                                          @php
-                                            $i++;
-                                            @endphp
-                                          @endif
 
-                                          @if($attribute->features_enable == 1)
-                                         
-                                          @foreach($attribute->terms as $term)
-                                          <?php
-                                       $roominfoarr = json_decode($roomdatainfo->amenities_details);
-                                              foreach($roominfoarr as $roomdata =>$val){
-                                                    $strdatareplace = str_replace("-", "_", $attribute->slug);
-                                                   
-                                                    if(isset($roominfoarr[$j]->$strdatareplace) && ($roominfoarr[$j]->$strdatareplace != '' )){
-                                                        $checked = 'checked';
-                                                        $show[] =$attribute->name.'-'.$roominfoarr[$j]->$strdatareplace;
-                                                        $style = 'display: block;';
-                                                    
-                                                    }else{
-                                                       
-                                                        $show[] =$attribute->name.'-'.$j;
-                                                    }
-                                                
+                                                    $i++;
                                                 }
-                                            
+
+                                                if($attribute->features_enable == 1) {
+                                                    foreach($attribute->terms as $term) {
+                                                        $roominfoarr = json_decode($roomdatainfo->amenities_details);
+                                                        foreach($roominfoarr as $roomdata =>$val){
+                                                            $strdatareplace = str_replace("-", "_", $attribute->slug);
+                                                           
+                                                            if(isset($roominfoarr[$j]->$strdatareplace) && ($roominfoarr[$j]->$strdatareplace != '' )){
+                                                                $checked = 'checked';
+                                                                $show[] =$attribute->name.'-'.$roominfoarr[$j]->$strdatareplace;
+                                                                $style = 'display: block;';
+                                                            
+                                                            }else{
+                                                               
+                                                                $show[] =$attribute->name.'-'.$j;
+                                                            }
+                                                        
+                                                        }
+                                                    }
+
+                                                    $j++;
+                                                }
+                                            }
+
+                                            $facilities = array_unique($show);
+                                            $roomoption = array_unique($selected);
+
                                             ?>
 
-
-
-
-                                        @endforeach
-                                        @php
-                                            $j++;
-                                            @endphp
-
-                                          @endif
-
-                                          @endforeach
-
-                                          <?php
-                                   $facilities = array_unique($show);
-                                   $roomoption = array_unique($selected);
-                                   ?>
-                                   <div class="container">
-                                        <div class="row">
-                                            <div class="col-sm-3">
-                                                @foreach($roomoption as $roomdata)
-                                                <p>{{$roomdata}}</p>
-                                                @endforeach
+                                            <div class="row">
+                                                <div class="col-sm-3">
+                                                    @foreach($roomoption as $roomdata)
+                                                    <p>{{$roomdata}}</p>
+                                                    @endforeach
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    @foreach($facilities as $fact)
+                                                    <p>{{$fact}}</p>
+                                                    @endforeach
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <ul class="list-inline-item">
+                                                        <li><p>{{ __('Rent') }} :</p></li>
+                                                        <li><p>{{ __('Deposit') }} :</p></li>
+                                                    </ul>
+                                                    <ul class="list-inline-item">
+                                                        <li><p><span>{{ $roomdatainfo->price_per_month ? $roomdatainfo->price_per_month : __('None') }}</span></p></li>
+                                                        <li><p><span>{{ $roomdatainfo->deposite ? $roomdatainfo->deposite : 0 }}</span></p></li>
+                                                    </ul>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <div class="float-right" style="transform: translateY(100%);">
+                                                        @if($roomdatainfo->no_of_room != 0)
+                                                            <a class="btn btn-primary bravo-button-book-mobile text-white">{{__("Book Now")}}</a>
+                                                        @else
+                                                            <a class="btn btn-block btn-thm" data-toggle="modal" data-target="#enquiry_form_modal">{{__("Sold Out")}}</a>
+                                                        @endif
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div class="col-sm-3">
-                                                @foreach($facilities as $fact)
-                                                <p>{{$fact}}</p>
-                                                @endforeach
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <ul class="list-inline-item">
-                                                    <li><p>{{ __('Rent') }} :</p></li>
-                                                    <li><p>{{ __('Deposit') }} :</p></li>
-                                                </ul>
-                                                <ul class="list-inline-item">
-                                                    <li><p><span>{{ $roomdatainfo->price_per_month ? $roomdatainfo->price_per_month : __('None') }}</span></p></li>
-                                                    <li><p><span>{{ $roomdatainfo->deposite ? $roomdatainfo->deposite : 0 }}</span></p></li>
-                                                </ul>
-                                            </div>
+
                                         </div>
-                                        <div class="float-right">
-            @if($roomdatainfo->no_of_room != 0)
-                <a class="btn btn-primary bravo-button-book-mobile">{{__("Book Now")}}</a>
-            @else
-                <a class="btn btn-block btn-thm" data-toggle="modal" data-target="#enquiry_form_modal">{{__("Sold Out")}}</a>
-            @endif
-        </div>
                                     </div>
+                                </div>
+                            </div>
                                     
-                                   <?php } ?>
-                                    
-                                    
-                            
-                            
-                            
-                        
-                        </div>
+                            <?php
+
+                                $roomsCount++;
+                            }
+
+                            ?>
                                
                         @endif
                     </div>
@@ -189,10 +203,11 @@
                 </div>
             </div>
            
+        </div>
+    </section>
 
-
-
-
+    <section class="our-agent-single bgc-f7 pb30-991">
+        <div class="container">
 
             <div class="row">
                 <div class="col-md-12 col-lg-8 mt50">
