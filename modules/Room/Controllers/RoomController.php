@@ -9,9 +9,11 @@ use Illuminate\Support\Facades\Auth;
 
 class RoomController extends Controller
 {
+    protected $roomClass;
 
     public function __construct()
     {
+        $this->roomClass      = Room :: class;
     }
 
     public function addReview(Request $request)
@@ -95,7 +97,7 @@ class RoomController extends Controller
 
     
     public function create(Request $request){
-        dd('dfhgdfh');
+       
          $this->checkPermission('rooms_create');
  
          $row = new $this->propertyClass();
@@ -119,6 +121,82 @@ class RoomController extends Controller
          ];
          return view('Room::create', $data);
      }
+
+
+     public function index(Request $request)
+     {
+     
+         //$this->checkPermission("rooms_manage_others");
+         //$this->checkPermission('property_view');
+         $user_id = Auth::id();
+         $rows = $this->roomClass::query()->select("bravo_rooms.*","bravo_properties.*","bravo_rooms.id as roomid")
+                                                         ->leftJoin('bravo_properties', function ($join)  {
+                                                       $join->on('bravo_properties.id', '=', 'bravo_rooms.property_id');
+                                                      });
+ 
+       
+ 
+             $rows->orderBy('bravo_properties.id','desc');
+       
+        
+ 
+         $data = [
+             'rows' => $rows->paginate(5),
+             'breadcrumbs'        => [
+                 [
+                     'name' => __('Manage Properties'),
+                     'url'  => route('property.vendor.index')
+                 ],
+                 [
+                     'name'  => __('All'),
+                     'class' => 'active'
+                 ],
+             ],
+             'page_title'         => __("Manage Properties"),
+         ];
+ 
+       
+        
+         return view('Room::front.index', $data);
+     
+         /*$model = Room::query();
+         $model->orderBy('id', 'desc');
+         if (!empty($author = $request->input('customer_id'))) {
+             $model->where('create_user', $author);
+         }
+        
+         $allServices = get_reviewable_services();
+         $allServicesKeys = array_keys($allServices);
+ 
+         if (!empty($search_name = $request->input('s'))) {
+             $search_name = "%".$search_name."%";
+             $model->whereRaw(" ( title LIKE ? OR author_ip LIKE ? OR content LIKE ? ) ",[$search_name,$search_name,$search_name]);
+             $model->orderBy('title', 'asc');
+         }
+         if (!empty($status = $request->input('status'))) {
+             $model->where('status', $status);
+         }
+         if (!empty($service_type = $request->input('service'))) {
+             $model->where('object_model', $service_type);
+         }
+         if (!empty($service_id = $request->input('service_id'))) {
+             $model->where('object_id', $service_id);
+         }
+         if (!empty($object_model = $request->input('object_model')) and in_array($object_model,$allServicesKeys)) {
+             $model->where('object_model', $object_model );
+         }
+         $model->whereIn('object_model', $allServicesKeys );
+         $data = [
+             'rows'        => $model->paginate(10),
+             'breadcrumbs' => [
+                 ['name'  => __('Room'),
+                  'class' => 'active'
+                 ],
+             ]
+         ];
+         return view('Room::admin.index', $data);*/
+     }
+ 
 
 
 

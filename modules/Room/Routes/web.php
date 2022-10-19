@@ -8,4 +8,8 @@ Route::group(['middleware' => ['auth']],function(){
    
 
 });
+Route::group(['prefix'=>'room','middleware' => ['auth','verified']],function(){
+
+    Route::get('room','RoomController@index')->name("user.room.index");
+});
 

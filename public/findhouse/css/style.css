@@ -17466,3 +17466,15 @@ dd p{
   margin-left: 150px;
   margin-right: 150px;
 }
+
+.room_header{
+  font-weight: bold;
+  font-size: 30px;
+color: #000;
+}
+.room_price{
+  font-weight: bold;
+  font-size: 30px;
+color: #000;
+margin-left : 220px;
+}

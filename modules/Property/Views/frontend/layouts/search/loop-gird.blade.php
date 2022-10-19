@@ -72,10 +72,10 @@
                 <ul class="prop_details mb0">
                     <li class="list-inline-item">{{__('Beds:')}} {{$row->bed}}</li>
                     <li class="list-inline-item">{{__('Baths:')}} {{$row->bathroom}}</li>
-                    <li class="list-inline-item">{{__('Sq:')}} {!! size_unit_format($row->square) !!}</li>
+                    {{-- <li class="list-inline-item">{{__('Sq:')}} {!! size_unit_format($row->square) !!}</li>--}}
                 </ul>
             </div>
-            <div class="fp_footer">
+            {{--<div class="fp_footer">
                 <ul class="fp_meta float-left mb0">
                     <li class="list-inline-item"><a href="{{route('agent.detail', ['id' => $row->user->id])}}">
                     @if($avatar_url = $row->user->getAvatarUrl())
@@ -87,7 +87,7 @@
                     <li class="list-inline-item"><a href="{{route('agent.detail', ['id' => $row->user->id])}}">{{$row->user->getDisplayName()}}</a></li>
                 </ul>
                 <div class="fp_pdate float-right">{{ display_date($row->updated_at)}}</div>
-            </div>
+            </div>--}}
         </div>
     </div>
 </div>

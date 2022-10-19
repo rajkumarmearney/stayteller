@@ -14,6 +14,13 @@ $menus = [
         'icon'  => 'fa fa-heart-o',
         'position' => 21
     ],*/
+    'Rooms'=>[
+        "position"=>21,
+        'url'   => route("user.room.index"),
+        'title' => __("Rooms"),
+        'icon'  => 'icon ion-ios-home',
+       
+    ],
     'profile'         => [
         'url'      => route("user.profile.index"),
         'title'    => __("My Profile"),
@@ -36,11 +43,15 @@ $menus = [
 
 ];
 
+
+
 // Modules
 $custom_modules = \Modules\ServiceProvider::getModules();
 if(!empty($custom_modules)){
+   
     foreach($custom_modules as $module){
         $moduleClass = "\\Modules\\".ucfirst($module)."\\ModuleProvider";
+      
         if(class_exists($moduleClass))
         {
             $menuConfig = call_user_func([$moduleClass,'getUserMenu']);

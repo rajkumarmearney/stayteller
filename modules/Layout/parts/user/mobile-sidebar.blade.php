@@ -40,6 +40,13 @@ $menus = [
         'permission' => 'dashboard_access',
         'position'   => 70
     ],
+    'Rooms'=>[
+        "position"=>45,
+        'url'   => 'admin/module/rooms',
+        'title' => __("Rooms"),
+        'icon'  => 'icon ion-ios-home',
+        'permission' => 'rooms_create',
+    ],
 ];
 
 // Modules
