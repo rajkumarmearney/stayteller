@@ -195,7 +195,7 @@ class RoomController extends AdminController
            
             }
             if($attribute->features_enable == 1){
-                 $choice = $attribute->slug.'_choice';
+                 $choice = str_replace("-", "_", $attribute->slug.'_choice');
                 $feature[] = array($strdatareplace => implode(',',$request->$choice));
             }
         }

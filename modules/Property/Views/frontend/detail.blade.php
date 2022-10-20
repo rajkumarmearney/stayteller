@@ -49,15 +49,9 @@
                     </div>
                 </div>
                 <div class="col-sm-4">
-                    <h3 class="font-bold text-2xl mb-4">Amenities</h3>
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <div class="row">
+                   
                                 @include('Property::frontend.layouts.details.amenities')   
-                                </div>
-                            </div>
-                        </div>
-                </div>
+                               
             </div>
 
         </div>

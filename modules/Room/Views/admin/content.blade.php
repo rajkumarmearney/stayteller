@@ -125,7 +125,7 @@
                                 $strdatareplace = str_replace("-", "_", $attribute->slug);
                                
                                
-                                if(isset($roominfoarr[$j]) && ($roominfoarr[$j]->$strdatareplace != '' )){
+                                if(isset($roominfoarr[$j]->$strdatareplace) && ($roominfoarr[$j]->$strdatareplace != '' )){
                                     $checked = 'checked';
                                     $show =explode(',',$roominfoarr[$j]->$strdatareplace);
                                     $style = 'display: block;';
@@ -133,6 +133,7 @@
                                 }else{
                                    $checked = '';
                                    $show =array();
+                                   $style = 'display: none;';
                                 }
                                
                             }
