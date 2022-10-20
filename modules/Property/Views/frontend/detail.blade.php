@@ -10,6 +10,50 @@
         .bg-info.bg-lighten {
             background-color: #e5f4f7 !important;
         }
+
+        .card-footer {
+            background-color: #fff;
+        }
+
+        .btn-outline-secondary {
+            color: #6c757d !important;
+        }
+
+        .btn-outline-secondary:hover {
+            color: #fff !important;
+        }
+
+        .roomAvailabilityCalendar {
+            position: relative !important;
+        }
+
+        .roomAvailabilityCalendar-actionContainer-left,
+        .roomAvailabilityCalendar-actionContainer-right {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .roomAvailabilityCalendar-actionContainer-left {
+            left: -5px;
+        }
+
+        .roomAvailabilityCalendar-actionContainer-right {
+            right: -5px;
+        }
+
+        .roomAvailabilityCalendar-date:hover {
+            background-color: #80808026;
+        }
+
+        .col-1-7 {
+            flex: 14%;
+            max-width: 14%;
+            position: relative;
+            width: 100%;
+            padding-right: 15px;
+            padding-left: 15px;
+        }
     </style>
 
     <section class="listing-title-area p-0">
@@ -80,7 +124,7 @@
 
                             <div class="row @if($roomsCount > 0) mt-3 @endif">
                                 <div class="col-12">
-                                    <div class="card border-0 shadow-sm cursor-pointer">
+                                    <div class="card border-0 shadow-sm cursor-pointer roomContainer">
                                         <div class="card-body">
                                             <div class="row">
                                                 <div class="col-12">
@@ -146,11 +190,11 @@
                                                     @endforeach
                                                 </div>
                                                 <div class="col-sm-3">
-                                                    <ul class="list-inline-item">
+                                                    <ul class="list-inline-item mb-0">
                                                         <li><p>{{ __('Rent') }} :</p></li>
                                                         <li><p>{{ __('Deposit') }} :</p></li>
                                                     </ul>
-                                                    <ul class="list-inline-item">
+                                                    <ul class="list-inline-item mb-0">
                                                         <li><p><span>{{ $roomdatainfo->price_per_month ? $roomdatainfo->price_per_month : __('None') }}</span></p></li>
                                                         <li><p><span>{{ $roomdatainfo->deposite ? $roomdatainfo->deposite : 0 }}</span></p></li>
                                                     </ul>
@@ -158,7 +202,7 @@
                                                 <div class="col-sm-3">
                                                     <div class="float-right" style="transform: translateY(100%);">
                                                         @if($roomdatainfo->no_of_room != 0)
-                                                            <a class="btn btn-primary bravo-button-book-mobile text-white">{{__("Book Now")}}</a>
+                                                            <a class="btn btn-primary bravo-button-book-mobile text-white btnBookRoom">{{__("Book Now")}}</a>
                                                         @else
                                                             <a class="btn btn-block btn-thm" data-toggle="modal" data-target="#enquiry_form_modal">{{__("Sold Out")}}</a>
                                                         @endif
@@ -166,6 +210,17 @@
                                                 </div>
                                             </div>
 
+                                        </div><!-- card-body -->
+                                        <div class="card-footer d-none">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <b class="text-danger">Availability</b>
+                                                    <a href="javascript:void(0);" class="btn btn-link py-0 text-secondary float-right btnCancelRoomBooking">{{__("Cancel")}}</a>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-12 roomAvailabilityCalendar"></div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -246,6 +301,143 @@
     <script src="{{ asset('libs/fotorama/fotorama.js') }}"></script>
     {!! App\Helpers\MapEngine::scripts() !!}
     <script>
+        function addDaysToDateObj(dateObj, days) {
+            return new Date(new Date(dateObj.getFullYear(), dateObj.getMonth(), dateObj.getDate()).setDate(new Date(dateObj.getFullYear(), dateObj.getMonth(), dateObj.getDate()).getDate() + days));
+        }
+
+        function dateStrToObj(dateStr) {
+            let dateArray = dateStr.split('-');
+            return new Date(dateArray[0], dateArray[1] - 1, dateArray[2]);
+        }
+
+        function dateObjToStr(dateObj, humanReadable = false) {
+            if (humanReadable) {
+                return `${dateObj.getDate()}-${dateObj.getMonth() + 1}-${dateObj.getFullYear()}`;
+            }
+
+            return `${dateObj.getFullYear()}-${dateObj.getMonth() + 1}-${dateObj.getDate()}`;
+        }
+
+        // Temporary function - remove when implementing actual data
+        function generateRandomRoomAvailabilityData(n) {
+            let data = [];
+            let randStartDate = new Date();
+            let randEndDate = addDaysToDateObj(randStartDate, 30);
+            let maxRandAmount = 10000;
+
+            while(n > 0) {
+                data.push({
+                    'date': dateObjToStr( new Date(randStartDate.getTime() + Math.random() * (randEndDate.getTime() - randStartDate.getTime())) ),
+                    'fare': Math.round(Math.random() * maxRandAmount)
+                });
+
+                n--;
+            }
+
+            return data;
+        }
+
+        /**
+         * @param availableDates - should be Array of Objects( date: 'YYYY-MM-DD', fare: AMOUNT )
+         * */
+        function renderRoomAvailabilityCalendar(calendarContainer, availableDates, startDate = false) {
+            const daysInWeek = [
+                'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'
+            ];
+            const months = [
+                'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+            ];
+            let roomContainer = calendarContainer.closest('.roomContainer');
+
+            if (availableDates && Array.isArray(availableDates) && availableDates.length > 0) {
+                let availableDatesHTML = '';
+                let prevWeekAvailable = false;
+                let minDate = new Date();
+
+                availableDates.forEach(function(availableDate, index) {
+                    let dateObj = dateStrToObj(availableDate['date']);
+
+                    if (dateObj < minDate) {
+                        minDate = dateObj;
+                    }
+
+                    availableDate['dateObj'] = dateObj;
+
+                    availableDates[index] = availableDate;
+                });
+
+                if (startDate) {
+                    prevWeekAvailable = startDate > minDate;
+                } else {
+                    // Set start date - first time
+                    startDate = minDate;
+
+                    calendarContainer.prop('availableDates', availableDates);
+                }
+
+                let daysRendered = 0;
+                let endDateStr = '';
+
+                while(daysRendered < daysInWeek.length) {
+                    let dateObj = addDaysToDateObj(startDate, daysRendered);
+                    let dateStr = dateObjToStr(dateObj);
+                    let availableDate = null;
+
+                    availableDates.forEach(function(tempAvailableDate) {
+                        if (tempAvailableDate['dateObj'].getTime() == dateObj.getTime()) {
+                            availableDate = tempAvailableDate;
+                            return;
+                        }
+                    });
+
+                    let calendarHTML =  `<div class="col-1-7 roomAvailabilityCalendar-date text-center" data-date="${dateStr}">`+
+                                            `<div class="row">`+
+                                                `<div class="col-12">`+
+                                                    daysInWeek[dateObj.getDay()]+
+                                                `</div>`+
+                                            `</div>`+
+                                            `<div class="row">`+
+                                                `<div class="col-12">`+
+                                                    `<b>` + months[dateObj.getMonth()] + ` ` + dateObj.getDate() + `</b>`+
+                                                `</div>`+
+                                            `</div>`+
+                                            `<div class="row">`+
+                                                `<div class="col-12">`+
+                                                    (availableDate ? `<span class="text-danger">` + availableDate['fare'] + `</span>` : `-`)+
+                                                `</div>`+
+                                            `</div>`+
+                                        `</div>`;
+
+                    if ((daysInWeek.length - 1) == daysRendered) {
+                        let nextWeekStartDate = addDaysToDateObj(dateObj, 1);
+                        endDateStr = dateObjToStr(nextWeekStartDate);
+                    }
+
+                    availableDatesHTML += calendarHTML;
+
+                    daysRendered++;
+                }
+
+                if (prevWeekAvailable) {
+                    let prevWeekStartDate = addDaysToDateObj(startDate, daysInWeek.length * -1);
+                    let prevWeekStartDateStr = dateObjToStr(prevWeekStartDate);
+
+                    availableDatesHTML +=   `<div class="roomAvailabilityCalendar-actionContainer-left">`+
+                                                `<a href="javascript:void(0);" class="btn btn-danger btnShowPreviousWeek" data-date="${prevWeekStartDateStr}"><i class="fa fa-arrow-left"></i></a>`+
+                                            `</div>`;
+                }
+
+                availableDatesHTML +=   `<div class="roomAvailabilityCalendar-actionContainer-right">`+
+                                            `<a href="javascript:void(0);" class="btn btn-danger btnShowNextWeek" data-date="${endDateStr}"><i class="fa fa-arrow-right"></i></a>`+
+                                        `</div>`;
+
+                calendarContainer.html(`<div class="row justify-content-center mt-2">${availableDatesHTML}</div>`);
+            } else {
+                calendarContainer.html('<span class="text-danger"><em>Cannot find available dates</em></span>');
+                roomContainer.find('.btnCancelRoomBooking').addClass('d-none');
+            }
+        }
+
         jQuery(function ($) {
             new BravoMapEngine('map-canvas', {
                 fitBounds: true,
@@ -278,12 +470,69 @@
                     });
                 }
             });
-        })
+
+            $(document).on('click', '.btnBookRoom', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+
+                let roomContainer = $(this).closest('.roomContainer');
+
+                roomContainer.find('.card-footer').removeClass('d-none');
+                roomContainer.find('.btnCancelRoomBooking').removeClass('d-none');
+                $(this).addClass('d-none');
+
+                renderRoomAvailabilityCalendar(roomContainer.find('.roomAvailabilityCalendar'), generateRandomRoomAvailabilityData(20));
+            });
+
+            $(document).on('click', '.btnCancelRoomBooking', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+
+                let roomContainer = $(this).closest('.roomContainer');
+                roomContainer.find('.card-footer').addClass('d-none');
+                roomContainer.find('.btnBookRoom').removeClass('d-none');
+                $(this).addClass('d-none');
+            });
+
+            $(document).on('click', '.roomContainer .roomAvailabilityCalendar .btnShowPreviousWeek, .roomContainer .roomAvailabilityCalendar .btnShowNextWeek', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+
+                let calendarContainer = $(this).closest('.roomAvailabilityCalendar');
+                let dateObj = dateStrToObj($(this).attr('data-date'));
+
+                renderRoomAvailabilityCalendar(calendarContainer, calendarContainer.prop('availableDates'), dateObj);
+            });
+
+            $(document).on('click', '.roomContainer .roomAvailabilityCalendar .roomAvailabilityCalendar-date', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+
+                let calendarContainer = $(this).closest('.roomAvailabilityCalendar');
+                let dateObj = dateStrToObj($(this).attr('data-date'));
+                let dateAvailability = null;
+
+                (calendarContainer.prop('availableDates') || []).forEach(function(tempDateAvailability) {
+                    if (tempDateAvailability['dateObj'].getTime() == dateObj.getTime()) {
+                        dateAvailability = tempDateAvailability;
+                        return;
+                    }
+                });
+
+                if (dateAvailability) {
+                    console.log(dateAvailability);
+                } else {
+                    alert(`Sorry, It is not available on ${dateObjToStr(dateObj, true)}`);
+                }
+            });
+        });
+
         $('.scrollTo').click(function(){
-    $('html, body').animate({
-        scrollTop: $( $(this).attr('href') ).offset().top
-    }, 500);
-    return false;
-});
+            $('html, body').animate({
+                scrollTop: $( $(this).attr('href') ).offset().top
+            }, 500);
+
+            return false;
+        });
     </script>
 @endsection
