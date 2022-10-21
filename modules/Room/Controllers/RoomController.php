@@ -6,14 +6,31 @@ use Illuminate\Http\Request;
 use Modules\Room\Models\Room;
 use Validator;
 use Illuminate\Support\Facades\Auth;
+use Modules\Property\Models\Property;
+use Modules\Review\Models\Review;
+use Modules\Property\Models\PropertyTranslation;
+use Modules\Property\Models\PropertyCategory;
+use Modules\Location\Models\Location;
+use Modules\Core\Models\Attributes;
+
 
 class RoomController extends Controller
 {
     protected $roomClass;
+    protected $propertyClass;
+    protected $propertyTranslationClass;
+    protected $propertyCategoryClass;
+    protected $locationClass;
+    protected $attributesClass;
 
     public function __construct()
     {
         $this->roomClass      = Room :: class;
+        $this->propertyClass = Property::class;
+        $this->propertyTranslationClass = PropertyTranslation::class;
+        $this->propertyCategoryClass = PropertyCategory::class;
+        $this->locationClass = Location::class;
+        $this->attributesClass = Attributes::class;
     }
 
     public function addReview(Request $request)
@@ -196,6 +213,38 @@ class RoomController extends Controller
          ];
          return view('Room::admin.index', $data);*/
      }
+
+
+     
+    public function createroom(Request $request){
+       
+        //$this->checkPermission('rooms_create');
+
+        $row =new $this->propertyClass();
+      
+        $data = [
+            'row'           =>$row,
+            'translation' => new $this->propertyTranslationClass(),
+            'property_category'    => $this->propertyCategoryClass::where('status', 'publish')->get()->toTree(),
+            'property_location' => $this->locationClass::where("status","publish")->get()->toTree(),
+            'attributes'    => $this->attributesClass::where('service', 'property')->get(),
+            'roomtype'      => $this->attributesClass::where('service', 'property')->where('name' ,'=','Room Type')->get(),
+            
+            'breadcrumbs'        => [
+                [
+                    'name' => __('Manage Room'),
+                    'url'  => route('room.admin.index')
+                ],
+                [
+                    'name'  => __('Create'),
+                    'class' => 'active'
+                ],
+            ],
+            'page_title'         => __("Create Room"),
+        ];
+       
+        return view('Room::front.create', $data);
+    }
  
 
 
