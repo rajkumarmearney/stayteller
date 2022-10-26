@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use DB;
 use Modules\Property\Models\PropertyCategory;
 use Modules\Booking\Models\Booking;
+use Modules\Roombooking\Models\RoomBooking;
 use Modules\Room\Models\Availability;
 use Carbon\Carbon;
 
@@ -24,6 +25,7 @@ class PropertyController extends Controller
     protected $attributeClass;
     protected $reviewClass;
     protected $booking;
+    protected $roomBooking;
 
     public function __construct()
     {
@@ -33,6 +35,7 @@ class PropertyController extends Controller
         $this->attributeClass        = Attributes::class;
         $this->reviewClass           = Review::class;
         $this->booking               = Booking::class;
+        $this->roomBooking           = RoomBooking::class;
     }
 
     public function callAction($method, $parameters)
@@ -179,6 +182,13 @@ class PropertyController extends Controller
 
     }  
     public function propertyBooked($roomid,$propertyid,$availability)  {
+        $old_date = explode(' ', $availability); 
+        $availability = $old_date[3].'-'.$old_date[2].'-'.$old_date[1];
+        
+
+        
+
+
         $data = [
             'page_title' => __('Checkout'),
             'booking'    => '',

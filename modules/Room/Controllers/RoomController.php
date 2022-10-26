@@ -7,6 +7,7 @@ use Modules\Room\Models\Room;
 use Validator;
 use Illuminate\Support\Facades\Auth;
 use Modules\Property\Models\Property;
+use Modules\Room\Models\Availability;
 use Modules\Review\Models\Review;
 use Modules\Property\Models\PropertyTranslation;
 use Modules\Property\Models\PropertyCategory;
@@ -244,6 +245,115 @@ class RoomController extends Controller
         ];
        
         return view('Room::front.create', $data);
+    }
+
+
+    public function store(Request $request , $id){
+
+        
+       
+        $attributecollection  = $this->attributesClass::where('service', 'property')->get();
+        $attributedata = array();
+       // dd($request->input());
+        foreach($attributecollection as $attribute){
+            $strdatareplace = str_replace("-", "_", $attribute->slug);
+           
+            if($attribute->room_Property == 1){
+                $attributedata[] =array($strdatareplace => $request->$strdatareplace,
+            );
+           
+            }
+            if($attribute->features_enable == 1){
+                 $choice = str_replace("-", "_", $attribute->slug.'_choice');
+                $feature[] = array($strdatareplace => isset($request->$choice) ? implode(',',$request->$choice) : array());
+            }
+        }
+        $id = $request->input('id');
+       
+        if ($id) {
+            $room = Room::find($id);
+            if (empty($room)) {
+                return redirect()->back()->with('error', __('Room not found!'));
+            }
+        }else{
+            $room                       = new Room();
+
+        }
+       
+       
+        $room->property_id          = $request->property_id;
+        $room->name                 = $request->name;
+        $room->room_info            = json_encode($attributedata);
+        $room->amenities_details    = json_encode($feature);
+        $room->no_of_room           = $request->no_of_room;
+        $room->price_per_month      = $request->price_per_month;
+        $room->deposite             = $request->deposite;
+        $room->create_user          = Auth::id();
+        $room->update_user          =  Auth::id();
+        $room->save();
+
+    if($id == 0){
+        
+        $n= 90;
+        $i = 1;
+        $date = date(date('d-m-Y'));
+        $room_availability                      = new Availability();
+        while($i <= $n) {
+            $add_days =  $i++;
+            $ppdate = date('Y-m-d',strtotime($date.' +'.$add_days.'days'));
+            $room_availability->room_id             = $room->id;
+            $room_availability->available_room      = $room->no_of_room;
+            $room_availability->start_date          = $ppdate;
+            $room_availability->save();
+        }
+    }
+
+        
+
+        return back()->with('success', ($id and $id>0) ? __('Room updated'):__("Room created"));
+
+
+    }
+
+    public function edit(Request $request, $id){
+      
+        $findrow = $this->roomClass::find($id);
+        if (empty($findrow)) {
+            return redirect()->back()->with('error', __('Room not found!'));
+        }
+        //$translation = $findrow->translateOrOrigin($request->query('lang'));
+       // $this->checkPermission('property_manage_attributes');
+
+       $row =new $this->propertyClass();
+      
+       $data = [
+           'row'           =>$row,
+           'translation' => new $this->propertyTranslationClass(),
+           'property_category'    => $this->propertyCategoryClass::where('status', 'publish')->get()->toTree(),
+           'property_location' => $this->locationClass::where("status","publish")->get()->toTree(),
+           'attributes'    => $this->attributesClass::where('service', 'property')->get(),
+           'roomtype'      => $this->attributesClass::where('service', 'property')->where('name' ,'=','Room Type')->get(),
+           'editrow'       => $findrow,
+           
+           'breadcrumbs'        => [
+               [
+                   'name' => __('Manage Room'),
+                   'url'  => route('room.admin.index')
+               ],
+               [
+                   'name'  => __('Create'),
+                   'url'  => 'admin/module/room/create'
+               ],
+               [
+                'name'  => __('Room: :name', ['name' => $findrow->name]),
+                'class' => 'active'
+            ]
+           ],
+           'page_title'         => __("Edit Room"),
+       ];
+
+       return view('Room::front.create', $data);
+       
     }
  
 

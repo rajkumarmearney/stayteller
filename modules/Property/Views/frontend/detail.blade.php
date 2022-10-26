@@ -581,9 +581,12 @@
                 let calendarContainer = $(this).closest('.roomAvailabilityCalendar');
                 let dateObj = dateStrToObj($(this).attr('data-date'));
                 let dateAvailability = null;
-                let roomid = 1;
-                 let propertyid = 1;
-
+                
+                let roomid = $(this).closest('.roomContainer').find('.btnBookRoom').attr('data-roomid');
+                let propertyid =$(this).closest('.roomContainer').find('.btnBookRoom').attr('data-propertyid');
+                var date = new Date(dateObj);
+                var formatsate = date.toLocaleDateString();
+                var date = new Date(formatsate).toDateString("yyyy-MM-dd");
                 (calendarContainer.prop('availableDates') || []).forEach(function(tempDateAvailability) {
                     if (tempDateAvailability['dateObj'].getTime() == dateObj.getTime()) {
                         dateAvailability = tempDateAvailability;
@@ -592,8 +595,14 @@
                 });
 
                 if (dateAvailability) {
-                    console.log(dateAvailability);
-                    window.location.href = 'booked/1/1/1';
+                    var loginid =  '<?php echo Auth::id() ?>' ;
+                    if(!(loginid) ){
+                        jQuery('.btn ').click();
+                        }
+                    else{
+                        window.location.href = 'booked/'+roomid+'/'+propertyid+'/'+date;
+                    }
+                    
                   
                     
                 } else {

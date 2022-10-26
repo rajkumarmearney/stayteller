@@ -11,7 +11,7 @@
             @include('Language::admin.navigation')
         @endif
     </div>
-    <form class="" action="{{route('room.admin.store',['id'=>($row->id) ? $row->id : '-1','lang'=>request()->query('lang')])}}" method="post">
+    <form class="" action="{{route('room.store',['id'=>($row->id) ? $row->id : '-1','lang'=>request()->query('lang')])}}" method="post">
         @csrf
             <div class="row">
                 <div class="col-sm-9">

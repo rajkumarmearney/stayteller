@@ -7,7 +7,7 @@
     <div class="panel-title"><strong>{{__("Room Content")}}</strong></div>
     <div class="panel-body">
         <div class="form-group">
-            <input type = "hidden" name = 'id' value = "{{isset($editrow->id) ?  $editrow->id : ''}}"
+            <input type = "hidden" name = 'id' value = "{{isset($editrow->id) ?  $editrow->id : ''}}">
             <label>{{__("Select Property")}}</label>
             <div class="">
                                         <select name="property_id" class="form-control">
@@ -57,7 +57,7 @@
             <div class="col-md-4">
                 <div class="form-group">
                     <label>{{$attribute->name}}</label>
-                    <select name="{{str_replace("-", "_", $attribute->slug)}}" class="form-control">
+                    <select name='{{str_replace("-", "_", $attribute->slug)}}' class="form-control">
                         <option value="">{{__("-- Please Select --")}}</option>
                         @foreach($attribute->terms as $term)
                         <?php
