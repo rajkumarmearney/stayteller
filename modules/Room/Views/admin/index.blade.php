@@ -102,7 +102,7 @@
                                                 
                                     </td>
                                     <td>
-                                        
+                                    <a href="{{route('room.admin.vacancyupdate',['id'=>$row->roomid])}}" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i> {{__('vacancy update')}}</a>
                                     </td>
                                     <td>{{ display_datetime($row->updated_at)}}</td>
                                 </tr>

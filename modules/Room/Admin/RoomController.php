@@ -286,4 +286,8 @@ class RoomController extends AdminController
        return view('Room::admin.create', $data);
        
     }
+
+    public function RoomController(Request $request, $id){
+        dd('hello');
+    }
 }

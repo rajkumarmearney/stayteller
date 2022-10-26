@@ -5,6 +5,7 @@ Route::match(['get', 'post'],'/','RoomController@index')->name('room.admin.index
 
 Route::match(['get'],'/create','RoomController@createroom')->name('room.admin.create');
 Route::match(['get'],'/edit/{id}','RoomController@edit')->name('room.admin.edit');
+Route::match(['get'],'/vacancyupdate/{id}','RoomController@vacancyupdate')->name('room.admin.vacancyupdate');
 
 Route::post('/store/{id}','RoomController@store')->name('room.admin.store');
 
