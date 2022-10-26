@@ -4,6 +4,9 @@ use \Illuminate\Support\Facades\Route;
 Route::group(['prefix'=>config('property.property_route_prefix')],function(){
     Route::get('/','PropertyController@index')->name('property.search'); // Search
     Route::get('/{slug}','PropertyController@detail')->name('property.detail');// Detail
+    Route::match(['post'],'/checkavailabilty','PropertyController@generateRandomRoomAvailabilityData')->name('property.availabilty');
+    Route::get('booked/{roomid}/{propertyid}/{availability}','PropertyController@propertyBooked')->name('property.booked');
+
 });
 
 

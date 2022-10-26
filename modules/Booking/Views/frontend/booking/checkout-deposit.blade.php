@@ -1,4 +1,5 @@
-@if($booking->deposit)
+
+
     <hr>
     <div class="form-section">
         <h4 class="form-section-title">{{__("How do you want to pay?")}}</h4>
@@ -9,7 +10,7 @@
                         <h4 class="mb-0"><label ><input type="radio" checked name="how_to_pay" value="full">
                                 {{__("Pay in full")}}
                             </label></h4>
-                        <span class="price"><strong>{{format_money($booking->total)}}</strong></span>
+                        <span class="price"><strong>{{format_money(100)}}</strong></span>
                     </div>
                 </div>
             </div>
@@ -19,10 +20,10 @@
                         <h4 class="mb-0"><label ><input type="radio" name="how_to_pay" value="deposit">
                                 {{__("Pay deposit")}}
                             </label></h4>
-                        <span class="price"><strong>{{format_money($booking->deposit)}}</strong></span>
+                        <span class="price"><strong>{{format_money(100)}}</strong></span>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-@endif
+

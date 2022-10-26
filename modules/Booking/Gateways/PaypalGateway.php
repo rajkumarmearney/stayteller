@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Log;
 class PaypalGateway extends BaseGateway
 {
     public $name = 'Paypal Express Checkout';
+     public $is_offline =  true;
     /**
      * @var $gateway ExpressGateway
      */

@@ -219,7 +219,7 @@ class Booking extends BaseModel
             Mail::to(setting_item('admin_email'))->send(new NewBookingEmail($this, 'admin'));
 
             // to Vendor
-            Mail::to(User::find($this->vendor_id))->send(new NewBookingEmail($this, 'agent'));
+            Mail::to(User::find($this->vendor_id))->send(new NewBookingEmail($this, 'owner'));
 
             // To Customer
             Mail::to($this->email)->send(new NewBookingEmail($this, 'customer'));

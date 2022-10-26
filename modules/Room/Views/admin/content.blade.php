@@ -42,7 +42,7 @@
             <div class="col-md-4">
                 <div class="form-group">
                     <label>{{__("Room Name")}}</label>
-                    <input type="text" value="{{(isset($editrow)) ? $editrow->name : ''}}" placeholder="{{__("Example: Room Name")}}" name="name" class="form-control" min="0">
+                    <input type="text" value="{{(isset($editrow)) ? $editrow->name : ''}}" placeholder="{{__('Example: Room Name')}}" name="name" class="form-control" min="0">
                 </div>
             </div>
             @php
@@ -119,7 +119,7 @@
                      if(isset($editrow)){
                         if(isset($editrow)){
                             $roominfoarr = json_decode($editrow->amenities_details);
-                            
+                           
                            
                              foreach($roominfoarr as $roomdata =>$val){
                                 $strdatareplace = str_replace("-", "_", $attribute->slug);
@@ -127,7 +127,13 @@
                                
                                 if(isset($roominfoarr[$j]->$strdatareplace) && ($roominfoarr[$j]->$strdatareplace != '' )){
                                     $checked = 'checked';
-                                    $show =explode(',',$roominfoarr[$j]->$strdatareplace);
+                                   
+                                   if($roominfoarr[$j]->$strdatareplace != []){
+                                    $show = explode(',',$roominfoarr[$j]->$strdatareplace);
+                                   }else{
+                                    $show = array();
+                                   }
+                                  
                                     $style = 'display: block;';
                                    
                                 }else{
@@ -148,7 +154,7 @@
                     <label><input type="checkbox" value = "{{$attribute->name}}"  name='{{str_replace("-", "_", $attribute->slug)}}' data-value = '{{str_replace("-", "_", $attribute->slug)}}' data-id = "{{$attribute->id}}" data-attributes = "{{$attribute->name}}"data-show = "{{$attribute->features_choice}}" class="form-control amenities_details"{{$checked}}>{{$attribute->name}}
                                         </label>
                 </div>
-                    <div class = 'form-group show_choice {{str_replace("-", "_", $attribute->slug)}}_{{$attribute->id}}' style="{{$style}}">
+                    <div class = 'form-group show_choice {{str_replace("-", "_", $attribute->slug)}}_{{$attribute->id}}' style ="{{$style}}">
                     @foreach($attribute->terms as $term)
 
                    <?php

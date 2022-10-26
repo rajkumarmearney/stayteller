@@ -54,6 +54,34 @@
             padding-right: 15px;
             padding-left: 15px;
         }
+
+    
+
+.topnav {
+  overflow: hidden;
+  background-color: #f1f1f1;
+  border: 13px solid #ff5a5f;
+}
+
+.topnav a {
+  float: left;
+  display: block;
+  color: black;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+  border-bottom: 3px solid transparent;
+}
+
+.topnav a:hover {
+  border-bottom: 3px solid red;
+}
+
+.topnav a.active {
+  border-bottom: 3px solid red;
+}
+
     </style>
 
     <section class="listing-title-area p-0">
@@ -85,8 +113,8 @@
                                     </div>
                                 </div>
                                 <p class="overlay_close">
-                                    <a class="text-thm fz14" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-                                        {{__('Show More')}} <span class="flaticon-download-1 fz12"></span>
+                                    <a class="text-thm fz14 " data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" onclick="showLess(this)">
+                                    SHOW MORE
                                     </a>
                                 </p>
                         @endif
@@ -103,9 +131,15 @@
 
     <section class="our-agent-single bgc-f7 pb30-991 bg-info bg-lighten">
         <div class="container">
-            <div class="">
-            <div class= "room_header">Book your stay</div>
-                                <span class="">Select from a range of beautiful rooms</span>
+            <div >
+           
+            <nav class="topnav">
+                                <button><a href="" class="scrollTo active">Room Details</a></button>
+                                <button><a href="#location" class="scrollTo">Location</a></button>
+                                <button><a href="#video" class="scrollTo">Property Video</a></button>
+                                <button><a href="#policy" class="scrollTo">Property Policy</a></button>
+                                <button><a href="#review" class="scrollTo">Reviews</a></button>
+                            </nav>
             </div>
 
             <div class="row">
@@ -158,7 +192,12 @@
                                                            
                                                             if(isset($roominfoarr[$j]->$strdatareplace) && ($roominfoarr[$j]->$strdatareplace != '' )){
                                                                 $checked = 'checked';
-                                                                $show[] =$attribute->name.'-'.$roominfoarr[$j]->$strdatareplace;
+                                                                if($roominfoarr[$j]->$strdatareplace != []){
+                                                                    $show[] =$attribute->name.'-'.$roominfoarr[$j]->$strdatareplace;
+                                                                }else{
+                                                                    $show[] =$attribute->name;
+                                                                }
+                                                               
                                                                 $style = 'display: block;';
                                                             
                                                             }else{
@@ -202,12 +241,13 @@
                                                 <div class="col-sm-3">
                                                     <div class="float-right" style="transform: translateY(100%);">
                                                         @if($roomdatainfo->no_of_room != 0)
-                                                            <a class="btn btn-primary bravo-button-book-mobile text-white btnBookRoom">{{__("Book Now")}}</a>
+                                                            <a class="btn btn-primary bravo-button-book-mobile text-white btnBookRoom" data-roomid = "{{$roomdatainfo->id}}" data-propertyid = "{{$roomdatainfo->property_id}}">{{__("Book Now")}}</a>
                                                         @else
                                                             <a class="btn btn-block btn-thm" data-toggle="modal" data-target="#enquiry_form_modal">{{__("Sold Out")}}</a>
                                                         @endif
                                                     </div>
                                                 </div>
+                                                <span class="text-xs flex items-center font-semibold text-orange cursor-pointer btnBookRoom" data-roomid = "{{$roomdatainfo->id}}" data-propertyid = "{{$roomdatainfo->property_id}}">Availability calendar<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 ml-1"><path d="M18 15l-6-6-6 6"></path></svg></span>
                                             </div>
 
                                         </div><!-- card-body -->
@@ -237,7 +277,7 @@
                     </div>
                 </div>
                 <div class="col-sm-4 mt50">
-                    <h3 class="font-bold text-2xl">Summary</h3>
+                   <!-- <h3 class="font-bold text-2xl">Summary</h3>
                     <div class="text-sm font-bold">1 night <span class="text-text">starting from</span> Wed 19 Oct, 2022</div>
                         <div class="row">
                             <div class="col-sm-12">
@@ -249,7 +289,7 @@
                                 </div>
                             </div>
                         </div>
-                </div>
+                </div>-->
             </div>
            
         </div>
@@ -265,7 +305,7 @@
                         @if(!empty($row->location->name))
                             @php $location =  $row->location->translateOrOrigin(app()->getLocale()) @endphp
                         @endif
-                        <div class="col-lg-12" id = "location">
+                        <div class="col-lg-12 hiperlink" id = "location"  style="display: none;">
                             <div class="application_statics mt30">
                                 <h4 class="mb30">{{ __("Location") }} <small class="application_statics_location float-right">{{ !empty($location->name) ? $location->name : '' }}</small></h4>
                                 <div class="property_video p0">
@@ -279,19 +319,18 @@
                             </div>
                         </div>
                         @include('Property::frontend.layouts.details.property_video')
-                        <div class="col-lg-12" id = "review">
+                        <div class="col-lg-12 hiperlink" id = "review" style="display: none;">
                             @include('Agencies::frontend.detail.review', ['review_service_id' => $row['id'], 'review_service_type' => 'property'])
+                        </div>
+
+                        <div class="col-lg-12 hiperlink" id = "policy" style="display: none;">
+                        <section class="" id="policy1"><section class="max-w-screen-xl w-full mx-auto p-4"><h2 class="font-bold text-2xl mb-4">Property Policy</h2><div class="whitespace-pre-line html-renderer-div"><p>- Guests are required to pay a 21% advance at the time of booking itself.</p><p>- Our standard check-in time is 1 PM and the standard check-out time is 11 AM.</p><p>- We only accept a government ID as valid identification proof. No local IDs shall be accepted at the time of check-in.</p><p>- Guests are not permitted to bring outsiders inside the home premises.</p><p>- We believe in self-help and do not provide luggage assistance or room services.</p><p>- Usage of alcohol and drugs is strictly banned inside and around the property.</p><p>- Quiet Hours are from 10 PM to 6 AM. Do not play loud music or cause nuisance, as the place is located in a village area. Please respect neighbours and culture around.</p><p>- Right to admission reserved.</p></div></section></section>
                         </div>
                         @include('Property::frontend.layouts.details.property-related')
                     </div>
                 </div>
-                <div class="col-lg-4 col-xl-4 mt50">
-                    
-                    @include('Property::frontend.layouts.search.form-search')
-                    @include('Property::frontend.sidebar.FeatureProperty')
-                    @include('Property::frontend.sidebar.categoryProperty')
-                    @include('Property::frontend.sidebar.recentViewdProperty')
-                </div>
+
+              
             </div>
         </div>
     </section>
@@ -301,6 +340,18 @@
     <script src="{{ asset('libs/fotorama/fotorama.js') }}"></script>
     {!! App\Helpers\MapEngine::scripts() !!}
     <script>
+        function showLess(event) {  
+           
+            console.log(event.innerText );
+   if (event.innerText == 'SHOW MORE') {
+    
+        event.innerText = "SHOW LESS";
+    } else if (event.innerText == "SHOW LESS") {
+        event.innerText = "SHOW MORE";
+    }
+}
+
+         var ajaxReady = 1;
         function addDaysToDateObj(dateObj, days) {
             return new Date(new Date(dateObj.getFullYear(), dateObj.getMonth(), dateObj.getDate()).setDate(new Date(dateObj.getFullYear(), dateObj.getMonth(), dateObj.getDate()).getDate() + days));
         }
@@ -319,28 +370,43 @@
         }
 
         // Temporary function - remove when implementing actual data
-        function generateRandomRoomAvailabilityData(n) {
-            let data = [];
-            let randStartDate = new Date();
-            let randEndDate = addDaysToDateObj(randStartDate, 30);
-            let maxRandAmount = 10000;
+        function generateRandomRoomAvailabilityData(btnb) {
+            let n=90;
+           let roomid = btnb.data('roomid');
+            let propertyid = btnb.data('propertyid');
+            
+            $.ajax({
+                    url: "{{route('property.availabilty')}}",
+                    data: {
+                        roomid: roomid,
+                        propertyid: propertyid,
+                        _token: "{{csrf_token()}}",
+                    },
+                    dataType: 'json',
+                    type: 'post',
+                    beforeSend: function (xhr) {
+                        ajaxReady = 0;
+                    },
+                    success: function (res) {
 
-            while(n > 0) {
-                data.push({
-                    'date': dateObjToStr( new Date(randStartDate.getTime() + Math.random() * (randEndDate.getTime() - randStartDate.getTime())) ),
-                    'fare': Math.round(Math.random() * maxRandAmount)
-                });
+                        renderRoomAvailabilityCalendar(btnb.closest('.roomContainer').find('.roomAvailabilityCalendar'),res);
+                       
+                        
+    
+                    },
+                    error:function () {
+                        ajaxReady = 1;
+                    }
+                })
 
-                n--;
-            }
-
-            return data;
+           
         }
 
         /**
          * @param availableDates - should be Array of Objects( date: 'YYYY-MM-DD', fare: AMOUNT )
          * */
         function renderRoomAvailabilityCalendar(calendarContainer, availableDates, startDate = false) {
+
             const daysInWeek = [
                 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'
             ];
@@ -476,12 +542,16 @@
                 e.stopPropagation();
 
                 let roomContainer = $(this).closest('.roomContainer');
+               
 
                 roomContainer.find('.card-footer').removeClass('d-none');
                 roomContainer.find('.btnCancelRoomBooking').removeClass('d-none');
                 $(this).addClass('d-none');
 
-                renderRoomAvailabilityCalendar(roomContainer.find('.roomAvailabilityCalendar'), generateRandomRoomAvailabilityData(20));
+
+                generateRandomRoomAvailabilityData($(this));
+
+                
             });
 
             $(document).on('click', '.btnCancelRoomBooking', function(e) {
@@ -511,6 +581,8 @@
                 let calendarContainer = $(this).closest('.roomAvailabilityCalendar');
                 let dateObj = dateStrToObj($(this).attr('data-date'));
                 let dateAvailability = null;
+                let roomid = 1;
+                 let propertyid = 1;
 
                 (calendarContainer.prop('availableDates') || []).forEach(function(tempDateAvailability) {
                     if (tempDateAvailability['dateObj'].getTime() == dateObj.getTime()) {
@@ -521,6 +593,9 @@
 
                 if (dateAvailability) {
                     console.log(dateAvailability);
+                    window.location.href = 'booked/1/1/1';
+                  
+                    
                 } else {
                     alert(`Sorry, It is not available on ${dateObjToStr(dateObj, true)}`);
                 }
@@ -528,11 +603,20 @@
         });
 
         $('.scrollTo').click(function(){
+            var hrefid = $(this).attr( 'href' );
+            $('.hiperlink').css("display", "none");
+            $(hrefid).css("display", "block");
+            console.log(href);
             $('html, body').animate({
-                scrollTop: $( $(this).attr('href') ).offset().top
+              
+
+                scrollTop: $($(this).attr('href') ).offset().top
             }, 500);
 
             return false;
         });
+       
     </script>
+
+    
 @endsection

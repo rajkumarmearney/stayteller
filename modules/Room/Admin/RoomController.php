@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Modules\AdminController;
 use Modules\Room\Models\Room;
+use Modules\Room\Models\Availability;
 use Modules\Review\Models\Review;
 use Modules\Property\Models\PropertyTranslation;
 use Modules\Property\Models\PropertyCategory;
@@ -196,7 +197,7 @@ class RoomController extends AdminController
             }
             if($attribute->features_enable == 1){
                  $choice = str_replace("-", "_", $attribute->slug.'_choice');
-                $feature[] = array($strdatareplace => implode(',',$request->$choice));
+                $feature[] = array($strdatareplace => isset($request->$choice) ? implode(',',$request->$choice) : array());
             }
         }
         $id = $request->input('id');
@@ -208,6 +209,7 @@ class RoomController extends AdminController
             }
         }else{
             $room                       = new Room();
+
         }
        
        
@@ -221,6 +223,24 @@ class RoomController extends AdminController
         $room->create_user          = Auth::id();
         $room->update_user          =  Auth::id();
         $room->save();
+
+    if($id == 0){
+        
+        $n= 90;
+        $i = 1;
+        $date = date(date('d-m-Y'));
+        $room_availability                      = new Availability();
+        while($i <= $n) {
+            $add_days =  $i++;
+            $ppdate = date('Y-m-d',strtotime($date.' +'.$add_days.'days'));
+            $room_availability->room_id             = $room->id;
+            $room_availability->available_room      = $room->no_of_room;
+            $room_availability->start_date          = $ppdate;
+            $room_availability->save();
+        }
+    }
+
+        
 
         return back()->with('success', ($id and $id>0) ? __('Room updated'):__("Room created"));
 

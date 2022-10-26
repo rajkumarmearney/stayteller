@@ -7,7 +7,7 @@
         <div class="container">
             <div id="bravo-checkout-page" >
                 <div class="row">
-                    <div class="col-md-8">
+                    <div class="col-md-12">
                         <h3 class="form-title">{{__('Booking Submission')}}</h3>
                          <div class="booking-form">
                              @include ($service->checkout_form_file ?? 'Booking::frontend/booking/checkout-form')
@@ -16,7 +16,7 @@
                     </div>
                     <div class="col-md-4">
                         <div class="booking-detail">
-                            @include ($service->checkout_booking_detail_file ?? '')
+                           
                         </div>
                     </div>
                 </div>
@@ -29,7 +29,7 @@
     <script type="text/javascript">
         jQuery(function () {
             $.ajax({
-                'url': bookingCore.url + '/booking/{{$booking->code}}/check-status',
+                'url': bookingCore.url + '/booking/1/check-status',
                 'cache': false,
                 'type': 'GET',
                 success: function (data) {

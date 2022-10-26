@@ -1,5 +1,5 @@
 @if (!empty($row['video']))
-<div class="col-lg-12">
+<div class="col-lg-12 hiperlink" id = "video"  style="display: none;">
     <div class="shop_single_tab_content style2 mt30">
         <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item">
