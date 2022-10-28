@@ -998,7 +998,7 @@ header.header-nav a.navbar_brand .logo2{
 header.header-nav.menu_style_home_one ul.ace-responsive-menu li.add_listing{
   background-color: #ffffff;
   border-radius: 25px;
-  height: 50px;
+  height: 40px;
   position: relative;
   text-align: center;
   vertical-align: middle;
@@ -1435,7 +1435,7 @@ header.header-nav.menu_style_home_one.style2 ul.ace-responsive-menu li.add_listi
   font-size: 16px;
   font-family: "Nunito";
   color: #ffffff;
-  line-height: 1;
+  line-height: 0;
 }
 header.header-nav.menu_style_home_one.style2.home10 ul.ace-responsive-menu li.add_listing.home2{
   border-radius: 8px;

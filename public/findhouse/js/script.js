@@ -875,11 +875,15 @@
             dots: true,
             nav: true,
             rtl:bookingCore.rtl,
-            animateOut: "slideOutDown",
-            animateIn: "fadeIn",
+            autoplay: true,
+  //animateIn: 'slideInLeft',
+  //animateOut: 'slideInLeft',
+  animateOut: 'fadeOut',
+
+
             active: true,
-            smartSpeed: 1000,
-            autoplay: false
+            smartSpeed: 450,
+            autoplay: true
         });
         $(".banner-carousel-btn .left-btn").on("click", function() {
             $(".banner-style-one").trigger("next.owl.carousel");

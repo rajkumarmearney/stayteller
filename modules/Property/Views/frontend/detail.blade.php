@@ -54,7 +54,11 @@
             padding-right: 15px;
             padding-left: 15px;
         }
-
+        .hideclass.text-thm.fz14 {
+    text-decoration: none;
+    -webkit-font-smoothing: antialiased;
+    font-weight: 400;
+}
     
 
 .topnav {
@@ -148,6 +152,7 @@
                         @if(!empty($row['content']))
                             <?php
                             $roomsCount = 0;
+                            if(count($rooms) > 0){
 
                             foreach($rooms as $roomdatainfo) {
                                 $i =0;
@@ -271,6 +276,26 @@
                                 $roomsCount++;
                             }
 
+                        }else{ ?>
+                        <div class="col-sm-4 mt50">
+                  
+                    
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="row">
+                                <div class="flex flex-col items-center justify-center w-72">
+                                    <img src="https://book.zostel.com/static/media/gray-zobu.018014d9.svg" alt="zobu" class="h-40">
+                                    <span class="mt-4 font-medium text-lg text-subtitle">All rooms booked</span>
+                                </div> 
+                                </div>
+                            </div>
+                        </div>
+                </div>
+            </div>
+
+
+                       <?php  }
+
                             ?>
                                
                         @endif
@@ -322,10 +347,21 @@
                         <div class="col-lg-12 hiperlink" id = "review" >
                             @include('Agencies::frontend.detail.review', ['review_service_id' => $row['id'], 'review_service_type' => 'property'])
                         </div>
-
-                        <div class="col-lg-12 hiperlink" id = "policy" >
-                        <section class="" id="policy1"><section class="max-w-screen-xl w-full mx-auto p-4"><h2 class="font-bold text-2xl mb-4">Property Policy</h2><div class="whitespace-pre-line html-renderer-div"><p>- Guests are required to pay a 21% advance at the time of booking itself.</p><p>- Our standard check-in time is 1 PM and the standard check-out time is 11 AM.</p><p>- We only accept a government ID as valid identification proof. No local IDs shall be accepted at the time of check-in.</p><p>- Guests are not permitted to bring outsiders inside the home premises.</p><p>- We believe in self-help and do not provide luggage assistance or room services.</p><p>- Usage of alcohol and drugs is strictly banned inside and around the property.</p><p>- Quiet Hours are from 10 PM to 6 AM. Do not play loud music or cause nuisance, as the place is located in a village area. Please respect neighbours and culture around.</p><p>- Right to admission reserved.</p></div></section></section>
+                        <div class="col-lg-12 hiperlink" id = "policy">
+                            <div class="shop_single_tab_content style2 mt30">
+                                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" id="description-tab" data-toggle="tab" href="#description" role="tab" aria-controls="description" aria-selected="true">Property Policy</a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content" id="myTabContent2">
+                                    <div class="tab-pane fade show active" id="description" role="tabpanel" aria-labelledby="description-tab">
+                                    <section class="" id="policy1"><section class="max-w-screen-xl w-full mx-auto p-4"><div class="whitespace-pre-line html-renderer-div"><p>- Guests are required to pay a 21% advance at the time of booking itself.</p><p>- Our standard check-in time is 1 PM and the standard check-out time is 11 AM.</p><p>- We only accept a government ID as valid identification proof. No local IDs shall be accepted at the time of check-in.</p><p>- Guests are not permitted to bring outsiders inside the home premises.</p><p>- We believe in self-help and do not provide luggage assistance or room services.</p><p>- Usage of alcohol and drugs is strictly banned inside and around the property.</p><p>- Quiet Hours are from 10 PM to 6 AM. Do not play loud music or cause nuisance, as the place is located in a village area. Please respect neighbours and culture around.</p><p>- Right to admission reserved.</p></div></section></section>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
+
                         @include('Property::frontend.layouts.details.property-related')
                     </div>
                 </div>

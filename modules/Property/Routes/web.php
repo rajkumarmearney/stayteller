@@ -1,11 +1,14 @@
 <?php
 use \Illuminate\Support\Facades\Route;
+use Modules\Property\Controllers\PropertyController;
 
 Route::group(['prefix'=>config('property.property_route_prefix')],function(){
     Route::get('/','PropertyController@index')->name('property.search'); // Search
     Route::get('/{slug}','PropertyController@detail')->name('property.detail');// Detail
     Route::match(['post'],'/checkavailabilty','PropertyController@generateRandomRoomAvailabilityData')->name('property.availabilty');
     Route::get('booked/{roomid}/{propertyid}/{availability}','PropertyController@propertyBooked')->name('property.booked');
+    Route::get('booked/paysuccess', [PropertyController::class, 'razorPaySuccess']);
+    Route::get('booked/razor-thank-you', [PropertyController::class, 'RazorThankYou']);
 
 });
 
@@ -21,6 +24,7 @@ Route::group(['prefix'=>'user/'.config('property.property_route_prefix'),'middle
     Route::get('/booking-report','ManagePropertyController@bookingReport')->name("property.vendor.booking_report");
     Route::get('/booking-report/bulkEdit/{id}','ManagePropertyController@bookingReportBulkEdit')->name("property.vendor.booking_report.bulk_edit");
 	Route::get('clone/{id}','ManagePropertyController@cloneProperty')->name("property.vendor.clone");
+    
 });
 
 Route::group(['prefix'=>'user/'.config('property.property_route_prefix')],function(){

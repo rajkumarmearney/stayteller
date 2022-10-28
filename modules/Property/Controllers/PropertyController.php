@@ -12,10 +12,15 @@ use Modules\Core\Models\Attributes;
 use Illuminate\Support\Facades\Auth;
 use DB;
 use Modules\Property\Models\PropertyCategory;
+use Modules\Booking\Models\Payment;
 use Modules\Booking\Models\Booking;
+use Modules\Booking\Models\Roombook;
 use Modules\Roombooking\Models\RoomBooking;
 use Modules\Room\Models\Availability;
 use Carbon\Carbon;
+use Razorpay\Api\Api;
+use Session;
+use Exception;
 
 class PropertyController extends Controller
 {
@@ -168,12 +173,13 @@ class PropertyController extends Controller
         $roomid     = $request->roomid;
         $propertyid = $request->propertyid;
         $userid     =  Auth::id();
-        $roomvacancy = Availability::where('room_id',$roomid)->get();
+         $startdate = date('Y-m-d');
+        $roomvacancy = Availability::where('room_id',$roomid)->whereDate('start_date', '>=', $startdate)->get();
         $data = array();
         
         foreach($roomvacancy as $roomdata){
            
-           
+          
             $data[] = array('date' =>$roomdata->start_date,
                             'fare' => $roomdata->available_room );
         }
@@ -184,11 +190,6 @@ class PropertyController extends Controller
     public function propertyBooked($roomid,$propertyid,$availability)  {
         $old_date = explode(' ', $availability); 
         $availability = $old_date[3].'-'.$old_date[2].'-'.$old_date[1];
-
-       
-        
-
-
         $data = [
             'page_title' => __('Checkout'),
             'booking'    => '',
@@ -198,6 +199,112 @@ class PropertyController extends Controller
         ];
         return view('Booking::frontend/checkout', $data);
        
+    }
+
+
+    public function razorPaySuccess(Request $request){
+
+        $input = $request->all();
+        $roomid = $input['product_id'];
+        $startdate = date('Y-m-d');
+       
+        $enddate =  date('Y-m-d', strtotime($startdate. ' + 30 days'));
+        $betweenday = $this->date_difference($startdate, $enddate);
+
+        foreach($betweenday as $btwdate){
+           
+           $availability =  Availability::where('room_id',$roomid)->where('start_date',$btwdate['date'])->first();
+           $availabiltyid = $availability->id;
+           $availabiltyroom = $availability->available_room - 1;
+           $query = Availability::where("id", $availabiltyid);
+           $query->update(['available_room' => $availabiltyroom]);
+
+          
+        }
+    
+  
+        $api = new Api(env('RAZORPAY_KEY'), env('RAZORPAY_SECRET'));
+  
+        $payment = $api->payment->fetch($input['payment_id']);
+
+        if(count($input)  && !empty($input['payment_id'])) {
+            try {
+                $response = $api->payment->fetch($input['payment_id'])->capture(array('amount'=>$payment['amount']));
+                
+                
+                $roombook = new Roombook ();
+
+                $roombook->user_id = Auth::id();
+                $roombook->room_id = $input['product_id'];
+                $roombook->booking_date = date('Y-m-d') ;
+                $roombook->booking_amount = $input['amount'];
+                $roombook->payment_type    = $payment['method'];
+                $roombook->payment_status   = $payment['status'];
+                $roombook->code             = $payment['id'];
+                $roombook->create_user          = Auth::id();
+                $roombook->update_user          =  Auth::id();
+                $roombook->save();
+
+                if($response->status == 'captured'){
+                   
+                    Availability::where('room_id',$roomid)->get();
+                }
+
+               
+                $payment  = new Payment ();
+
+                $payment->booking_id = $roombook->id;
+                $payment->payment_gateway = 'Rezorpay';
+                $payment->amount    =$input['amount'];
+                $payment->status    = $payment['status'];
+                $payment->create_user=  Auth::id();
+                $payment->save();
+
+
+            } catch (Exception $e) {
+                return  $e->getMessage();
+                Session::put('error',$e->getMessage());
+                return redirect()->back();
+            }
+        }
+        $booking = array('first_name' => 'Raj',
+                        'email'        => 'rajm.earney@gmail.com',
+                        'id'            => $input['payment_id'],
+                        'created_at'    => date('Y-m-d'),
+                        'name'          => $payment['method'],
+                        'status_name'   => $payment['status'],
+    );
+        return view('Booking::frontend/detail',$booking);
+        $arr = array('msg' => 'Payment successfully credited', 'status' => true);
+
+        return Response()->json($arr);    
+    }
+
+    function date_difference($start, $end)
+    {
+        $first_date = strtotime($start);
+        $second_date = strtotime($end);
+        $offset = $second_date-$first_date; 
+        $result = array();
+        for($i = 0; $i <= floor($offset/24/60/60); $i++) {
+            $result[1+$i]['date'] = date('Y-m-d', strtotime($start. ' + '.$i.'  days'));
+           
+        }
+        return $result;
+       
+    }
+
+    public function RazorThankYou()
+    {
+
+        $booking = array('first_name' => 'Raj',
+        'email'        => 'rajm.earney@gmail.com',
+        'id'            => $input['payment_id'],
+        'created_at'    => date('Y-m-d'),
+        'name'          => $payment['method'],
+        'status_name'   => $payment['status'],
+);
+return view('Booking::frontend/detail', $booking);
     }
 
     
