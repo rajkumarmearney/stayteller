@@ -2,7 +2,7 @@
 $reviewData = Modules\Review\Models\Review::getTotalViewAndRateAvg($row['id'], $review_service_type);
 ?>
 
-<div class="product_single_content">
+<div class="product_single_content mt30">
     <div class="mbp_pagination_comments">
         <ul class="total_reivew_view">
             <li class="list-inline-item sub_titles">

@@ -150,7 +150,8 @@ class RoomController extends Controller
          $rows = $this->roomClass::query()->select("bravo_rooms.*","bravo_properties.*","bravo_rooms.id as roomid")
                                                          ->leftJoin('bravo_properties', function ($join)  {
                                                        $join->on('bravo_properties.id', '=', 'bravo_rooms.property_id');
-                                                      });
+                                                      
+                                                      })->where('bravo_properties.create_user', '=',Auth::id());
  
        
  
@@ -307,7 +308,6 @@ class RoomController extends Controller
             $room_availability->save();
         }
     }
-
         
 
         return back()->with('success', ($id and $id>0) ? __('Room updated'):__("Room created"));

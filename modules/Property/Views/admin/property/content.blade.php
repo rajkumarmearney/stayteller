@@ -55,25 +55,25 @@
                     <input type="number" value="{{$row->bathroom}}" placeholder="{{__("Example: 5")}}" name="bathroom" class="form-control" min="0">
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4" style="display: none;">
                 <div class="form-group">
                     <label>{{__("Square")}}</label>
                     <input type="number" value="{{$row->square}}" placeholder="{{__("Example: 100")}}" name="square" class="form-control" min="0">
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4" style="display: none;">
                 <div class="form-group">
                     <label>{{__("Garages")}}</label>
                     <input type="number" value="{{$row->garages}}" placeholder="{{__("Example: 100")}}" name="garages" class="form-control" min="0">
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4" style="display: none;">
                 <div class="form-group">
                     <label>{{__("Year built")}}</label>
                     <input type="number" value="{{$row->year_built}}" placeholder="{{__("Example: 2020")}}" name="year_built" class="form-control" min="0">
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4" style="display: none;">
                 <div class="form-group">
                     <label>{{__("Area")}}</label>
                     <input type="number" value="{{$row->area}}" placeholder="{{__("Example: 100")}}" name="area" class="form-control" min="0">
@@ -94,19 +94,19 @@
                     <input type="text" value="{{$row->deposit}}" name="deposit" class="form-control">
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4" style="display: none;">
                 <div class="form-group">
                     <label>{{__("Pool size")}}</label>
                     <input type="text" value="{{$row->pool_size}}" name="pool_size" class="form-control">
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4" style="display: none;">
                 <div class="form-group">
                     <label>{{__("Additional zoom")}}</label>
                     <input type="text" value="{{$row->additional_zoom}}"  name="additional_zoom" class="form-control">
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4" style="display: none;">
                 <div class="form-group">
                     <label>{{__("Remodal year")}}</label>
                     <input type="number" value="{{$row->remodal_year}}" name="remodal_year" class="form-control" min="0">
@@ -118,7 +118,7 @@
                     <input type="text" value="{{$row->amenities}}" name="amenities" class="form-control">
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4" style="display: none;">
                 <div class="form-group">
                     <label>{{__("equipment")}}</label>
                     <input type="text" value="{{$row->equipment}}" name="equipment" class="form-control">

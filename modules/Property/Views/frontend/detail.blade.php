@@ -60,7 +60,7 @@
 .topnav {
   overflow: hidden;
   background-color: #f1f1f1;
-  border: 13px solid #ff5a5f;
+  border: 3px solid #ff5a5f;
 }
 
 .topnav a {
@@ -176,7 +176,7 @@
                                                         foreach($roominfoarr as $roomdata =>$val) {
                                                             $strdatareplace = str_replace("-", "_", $attribute->slug);
                                                             if(isset($roominfoarr[$i]->$strdatareplace) && ($roominfoarr[$i]->$strdatareplace == $term->id )){
-                                                                $selected[] =$attribute->name.'-'.$term->name ;
+                                                                $selected[] ='<strong>'.$attribute->name.'</strong> -'.$term->name ;
                                                             }
                                                         }
                                                     }
@@ -193,7 +193,7 @@
                                                             if(isset($roominfoarr[$j]->$strdatareplace) && ($roominfoarr[$j]->$strdatareplace != '' )){
                                                                 $checked = 'checked';
                                                                 if($roominfoarr[$j]->$strdatareplace != []){
-                                                                    $show[] =$attribute->name.'-'.$roominfoarr[$j]->$strdatareplace;
+                                                                    $show[] ='<strong>'.$attribute->name.' </strong> -'.$roominfoarr[$j]->$strdatareplace;
                                                                 }else{
                                                                     $show[] =$attribute->name;
                                                                 }
@@ -220,12 +220,12 @@
                                             <div class="row">
                                                 <div class="col-sm-3">
                                                     @foreach($roomoption as $roomdata)
-                                                    <p>{{$roomdata}}</p>
+                                                    <p>{!! $roomdata !!}</p>
                                                     @endforeach
                                                 </div>
                                                 <div class="col-sm-3">
                                                     @foreach($facilities as $fact)
-                                                    <p>{{$fact}}</p>
+                                                    <p>{!! $fact !!}</p>
                                                     @endforeach
                                                 </div>
                                                 <div class="col-sm-3">
@@ -299,13 +299,13 @@
         <div class="container">
 
             <div class="row">
-                <div class="col-md-12 col-lg-8 mt50">
+                <div class="col-md-12 col-lg-10">
                     <div class="row">
                         
                         @if(!empty($row->location->name))
                             @php $location =  $row->location->translateOrOrigin(app()->getLocale()) @endphp
                         @endif
-                        <div class="col-lg-12 hiperlink" id = "location"  style="display: none;">
+                        <div class="col-lg-12 hiperlink" id = "location"  >
                             <div class="application_statics mt30">
                                 <h4 class="mb30">{{ __("Location") }} <small class="application_statics_location float-right">{{ !empty($location->name) ? $location->name : '' }}</small></h4>
                                 <div class="property_video p0">
@@ -319,11 +319,11 @@
                             </div>
                         </div>
                         @include('Property::frontend.layouts.details.property_video')
-                        <div class="col-lg-12 hiperlink" id = "review" style="display: none;">
+                        <div class="col-lg-12 hiperlink" id = "review" >
                             @include('Agencies::frontend.detail.review', ['review_service_id' => $row['id'], 'review_service_type' => 'property'])
                         </div>
 
-                        <div class="col-lg-12 hiperlink" id = "policy" style="display: none;">
+                        <div class="col-lg-12 hiperlink" id = "policy" >
                         <section class="" id="policy1"><section class="max-w-screen-xl w-full mx-auto p-4"><h2 class="font-bold text-2xl mb-4">Property Policy</h2><div class="whitespace-pre-line html-renderer-div"><p>- Guests are required to pay a 21% advance at the time of booking itself.</p><p>- Our standard check-in time is 1 PM and the standard check-out time is 11 AM.</p><p>- We only accept a government ID as valid identification proof. No local IDs shall be accepted at the time of check-in.</p><p>- Guests are not permitted to bring outsiders inside the home premises.</p><p>- We believe in self-help and do not provide luggage assistance or room services.</p><p>- Usage of alcohol and drugs is strictly banned inside and around the property.</p><p>- Quiet Hours are from 10 PM to 6 AM. Do not play loud music or cause nuisance, as the place is located in a village area. Please respect neighbours and culture around.</p><p>- Right to admission reserved.</p></div></section></section>
                         </div>
                         @include('Property::frontend.layouts.details.property-related')
@@ -342,13 +342,27 @@
     <script>
         function showLess(event) {  
            
-            console.log(event.innerText );
+           
    if (event.innerText == 'SHOW MORE') {
-    
+
         event.innerText = "SHOW LESS";
     } else if (event.innerText == "SHOW LESS") {
         event.innerText = "SHOW MORE";
     }
+}
+
+function showamenities(event) { 
+    var dataclass= event.getAttribute('data-class');
+    
+  if (event.innerText == 'SHOW MORE') {
+   
+   $('.'+dataclass).css("display", "block");
+       event.innerText = "SHOW LESS";
+   } else if (event.innerText == "SHOW LESS") {
+
+    $('.'+dataclass).css("display", "none");
+       event.innerText = "SHOW MORE";
+   }
 }
 
          var ajaxReady = 1;
@@ -613,9 +627,7 @@
 
         $('.scrollTo').click(function(){
             var hrefid = $(this).attr( 'href' );
-            $('.hiperlink').css("display", "none");
-            $(hrefid).css("display", "block");
-            console.log(href);
+           
             $('html, body').animate({
               
 
@@ -625,6 +637,8 @@
             return false;
         });
        
+
+        
     </script>
 
     

@@ -15,7 +15,7 @@
         @csrf
             <div class="row">
                 <div class="col-sm-9">
-                @include('Room::admin.content',['hide_gallery'=>true,'property_type'=>1])
+                @include('Room::front.content',['hide_gallery'=>true,'property_type'=>1])
                
                 
                 </div>
