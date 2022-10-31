@@ -59,6 +59,17 @@
     -webkit-font-smoothing: antialiased;
     font-weight: 400;
 }
+.fz14 {
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.hideclass.text-thm.fz14 {
+    text-decoration: none;
+    -webkit-font-smoothing: antialiased;
+    font-weight: bold;
+    font-size: 10px;
+}
     
 
 .topnav {
@@ -181,7 +192,7 @@
                                                         foreach($roominfoarr as $roomdata =>$val) {
                                                             $strdatareplace = str_replace("-", "_", $attribute->slug);
                                                             if(isset($roominfoarr[$i]->$strdatareplace) && ($roominfoarr[$i]->$strdatareplace == $term->id )){
-                                                                $selected[] ='<strong>'.$attribute->name.'</strong> -'.$term->name ;
+                                                                $selected[] ='<div class="col-sm-6"><strong>'.$attribute->name.'</strong></div><div class="col-sm-6"> '.$term->name.'</div>' ;
                                                             }
                                                         }
                                                     }
@@ -198,7 +209,7 @@
                                                             if(isset($roominfoarr[$j]->$strdatareplace) && ($roominfoarr[$j]->$strdatareplace != '' )){
                                                                 $checked = 'checked';
                                                                 if($roominfoarr[$j]->$strdatareplace != []){
-                                                                    $show[] ='<strong>'.$attribute->name.' </strong> -'.$roominfoarr[$j]->$strdatareplace;
+                                                                    $show[] ='<div class="col-sm-6"><strong>'.$attribute->name.' </strong> </div><div class="col-sm-6">'.$roominfoarr[$j]->$strdatareplace.'</div>';
                                                                 }else{
                                                                     $show[] =$attribute->name;
                                                                 }
@@ -223,17 +234,24 @@
                                             ?>
 
                                             <div class="row">
-                                                <div class="col-sm-3">
+                                                <div class="col-sm-5">
+                                                    <div class="row">
+                                                        
+                                                        
+                                                   
                                                     @foreach($roomoption as $roomdata)
-                                                    <p>{!! $roomdata !!}</p>
+                                                    {!! $roomdata !!}
                                                     @endforeach
+                                                    </div>
                                                 </div>
-                                                <div class="col-sm-3">
+                                                <div class="col-sm-5">
+                                                        <div class="row">
                                                     @foreach($facilities as $fact)
-                                                    <p>{!! $fact !!}</p>
+                                                    {!! $fact !!}
                                                     @endforeach
+                                                    </div>
                                                 </div>
-                                                <div class="col-sm-3">
+                                                <div class="col-sm-2">
                                                     <ul class="list-inline-item mb-0">
                                                         <li><p>{{ __('Rent') }} :</p></li>
                                                         <li><p>{{ __('Deposit') }} :</p></li>
@@ -241,17 +259,16 @@
                                                     <ul class="list-inline-item mb-0">
                                                         <li><p><span>{{ $roomdatainfo->price_per_month ? $roomdatainfo->price_per_month : __('None') }}</span></p></li>
                                                         <li><p><span>{{ $roomdatainfo->deposite ? $roomdatainfo->deposite : 0 }}</span></p></li>
+                                                        <li>
                                                     </ul>
-                                                </div>
-                                                <div class="col-sm-3">
-                                                    <div class="float-right" style="transform: translateY(100%);">
-                                                        @if($roomdatainfo->no_of_room != 0)
-                                                            <a class="btn btn-primary bravo-button-book-mobile text-white btnBookRoom" data-roomid = "{{$roomdatainfo->id}}" data-propertyid = "{{$roomdatainfo->property_id}}">{{__("Book Now")}}</a>
+
+                                                    @if($roomdatainfo->no_of_room != 0)
+                                                            <a class="btn btn-primary bravo-button-book-mobile text-white " data-roomid = "{{$roomdatainfo->id}}" data-propertyid = "{{$roomdatainfo->property_id}}">{{__("Book Now")}}</a>
                                                         @else
                                                             <a class="btn btn-block btn-thm" data-toggle="modal" data-target="#enquiry_form_modal">{{__("Sold Out")}}</a>
                                                         @endif
-                                                    </div>
                                                 </div>
+                                               
                                                 <span class="text-xs flex items-center font-semibold text-orange cursor-pointer btnBookRoom" data-roomid = "{{$roomdatainfo->id}}" data-propertyid = "{{$roomdatainfo->property_id}}">Availability calendar<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 ml-1"><path d="M18 15l-6-6-6 6"></path></svg></span>
                                             </div>
 
@@ -325,24 +342,29 @@
 
             <div class="row">
                 <div class="col-md-12 col-lg-10">
-                    <div class="row">
+                    <div class="row" id = "location">
                         
                         @if(!empty($row->location->name))
-                            @php $location =  $row->location->translateOrOrigin(app()->getLocale()) @endphp
+                            @php $location =  $row->location->translateOrOrigin(app()->getLocale());
+                           
+                            @endphp
                         @endif
-                        <div class="col-lg-12 hiperlink" id = "location"  >
-                            <div class="application_statics mt30">
-                                <h4 class="mb30">{{ __("Location") }} <small class="application_statics_location float-right">{{ !empty($location->name) ? $location->name : '' }}</small></h4>
+                        
+                        <div class ="col-md-4 col-sm-4 col-lg-4">
+                             <div class="application_statics mt30">
+                                <h4 class="mb30">{{ __("Locate Us") }} <small class="application_statics_location float-right">{{ !empty($location->name) ? $location->name : '' }}</small></h4>
                                 <div class="property_video p0">
-                                    <div class="thumb">
-                                        <div class="h400" id="map-canvas"></div>
-                                        <div class="overlay_icon">
-                                            <a href="#"><img class="map_img_icon" src="{{asset('findhouse/images/header-logo.png')}}" alt="header-logo.png"></a>
-                                        </div>
-                                    </div>
+                                <span class="font-medium text-text text-sm whitespace-pre-line"><strong>Address:</strong><br><div class="whitespace-pre-line html-renderer-div"><p>{{$row->address}}</p></div></span>
                                 </div>
                             </div>
                         </div>
+
+                        <div class="col-lg-8 hiperlink">
+                           <div class="h400" id="map-canvas"></div>
+                                       
+                        </div>
+
+                    </div>
                         @include('Property::frontend.layouts.details.property_video')
                         <div class="col-lg-12 hiperlink" id = "review" >
                             @include('Agencies::frontend.detail.review', ['review_service_id' => $row['id'], 'review_service_type' => 'property'])

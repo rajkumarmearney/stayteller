@@ -3,11 +3,12 @@ $terms_ids = $row->terms->pluck('term_id');
 $attributes = \Modules\Core\Models\Terms::getTermsById($terms_ids);
 @endphp
 @if(!empty($terms_ids) and !empty($attributes))
+<h3 class="font-bold text-2xl ">Amenities</h3>
     @foreach($attributes as $attribute )
         @php $translate_attribute = $attribute['parent']->translateOrOrigin(app()->getLocale()) @endphp
         @if(empty($attribute['parent']['hide_in_single']))
-        @if($translate_attribute->name == 'Amenities')
-        <h3 class="font-bold text-2xl ">{{ $translate_attribute->name }}</h3>
+      
+       
         <div class="row">
             <div class="col-sm-12">
                 <div class="row">
@@ -19,12 +20,12 @@ $attributes = \Modules\Core\Models\Terms::getTermsById($terms_ids);
                     @foreach($terms as $term )
                   
                     @php $translate_term = $term->translateOrOrigin(app()->getLocale()) @endphp
-                    <div class= <?php if($i <= 2){ echo " col-sm-6"; } if($i >= 2){ ?> " col-sm-6 amenities" <?php  } if($i >= 2){ ?> style="display: none;"<?php } ?>>
+                    <div class= " col-sm-4 amenities" >
                         @if($translate_term->icon)
                         <span class="{{ $translate_term->icon }}"></span>
                         @else
                         <span class="flaticon-tick"></span>
-                        <b>{{$translate_term->name}}</b>
+                        <b style="font-size: 13px;font-weight: bolder;">{{$translate_term->name}}</b>
                         @endif
                     </div>
                    
@@ -34,12 +35,11 @@ $attributes = \Modules\Core\Models\Terms::getTermsById($terms_ids);
                   
 
                     @endforeach
-                    <div class= "hideclass text-thm fz14 " data-class = "amenities"  onclick="showamenities(this)"
-                    >SHOW MORE</div>
+                  
                 </div>
             </div>
         </div>
-        @endif
+       
         @endif
     @endforeach
 @endif

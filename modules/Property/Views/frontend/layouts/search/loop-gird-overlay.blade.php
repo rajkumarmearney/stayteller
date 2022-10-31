@@ -40,7 +40,7 @@
                     <a class="thumb-image" @if(!empty($blank)) target="_blank" @endif href="{{$row->getDetailUrl()}}">
                     <div class=" thumb_img bg_img_placeholder feature_property_bg_image_overlay"
                          style="background-image:
-                        url({{$row->image_url}})">
+                        url({{$row->image_url}})" onclick="showlink(this)">
 
                     </div>
 
@@ -90,3 +90,5 @@
 
     </div>
 </div>
+
+
