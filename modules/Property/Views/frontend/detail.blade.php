@@ -98,7 +98,7 @@
        
             @include('Agencies::frontend.detail.search_mobile')
             <div class="row">
-                <div class="col-sm-8">
+                <div class="col-sm-6">
                     <div class="d-flex flex-column">
                         @if(!empty($row['content']))
                                 <div class="text-danger mb30 room_header mb-1">
