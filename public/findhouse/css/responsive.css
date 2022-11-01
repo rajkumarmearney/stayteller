@@ -20,7 +20,7 @@
 	.dib-1440{display: inline-block;}
 	.home1-mainslider{overflow-x: hidden;}
 	.feature_property_home6_slider.owl-carousel.owl-theme.owl-loaded .owl-next,
-	.our_agents_home6_slider.owl-carousel.owl-theme.owl-loaded .owl-next{right: -5%;}
+	.our_agents_home6_slider.owl-carousel.owl-theme.owl-loaded .owl-next{right: 5%;}
 	.h1ads_1st_list.half_style li.custome_fields_half:nth-child(2){width: 60%;}
 	.feature_property_half_clist.style2 li.extrawide{width: 95%;}
 

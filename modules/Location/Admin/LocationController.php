@@ -133,7 +133,7 @@ class LocationController extends AdminController
         ]);
     }
 
-    public function editBulk(Request $request)
+    public function bulkEdit(Request $request)
     {
         $ids = $request->input('ids');
         $action = $request->input('action');

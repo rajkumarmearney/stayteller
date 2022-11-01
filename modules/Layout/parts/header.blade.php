@@ -101,7 +101,9 @@
 							<li class="list-inline-item add_listing"><a href="{{route("vendor.dashboard")}}"><span class=""></span><span class="dn-lg"> {{ __('For Owners') }}</span></a></li>
 							
 						@else
-						<li class="list-inline-item add_listing"><a href="javascript:void(0)" class="btn f"> <span class="dn-lg" data-toggle="modal" data-target="#owner-login"><span class=""></span><span class="dn-lg"> {{ __('For Owners') }}</span></a></li>
+						@if(Auth::id() == '')
+						<li class="list-inline-item add_listing"><a href="javascript:void(0)" class="btn "> <span class="dn-lg" data-toggle="modal" data-target="#owner-login"><span class=""></span><span class="dn-lg"> {{ __('For Owners') }}</span></a></li>
+						@endif
 						@endif
 					@endif
                 </ul>

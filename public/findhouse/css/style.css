@@ -1435,7 +1435,7 @@ header.header-nav.menu_style_home_one.style2 ul.ace-responsive-menu li.add_listi
   font-size: 16px;
   font-family: "Nunito";
   color: #ffffff;
-  line-height: 1;
+  line-height: 0;
 }
 header.header-nav.menu_style_home_one.style2.home10 ul.ace-responsive-menu li.add_listing.home2{
   border-radius: 8px;
