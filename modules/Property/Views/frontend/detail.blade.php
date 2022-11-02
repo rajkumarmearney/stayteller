@@ -149,15 +149,16 @@
             <div >
            
             <nav class="topnav">
-                                <button><a href="" class="scrollTo active">Room Details</a></button>
+                                <button><a href="#roomdetails" class="scrollTo active">Room Details</a></button>
                                 <button><a href="#location" class="scrollTo">Location</a></button>
-                                <button><a href="#video" class="scrollTo">Property Video</a></button>
+                                @if (!empty($row['video']))<button><a href="#video" class="scrollTo">Property Video</a></button>@endif
                                 <button><a href="#policy" class="scrollTo">Property Policy</a></button>
                                 <button><a href="#review" class="scrollTo">Reviews</a></button>
                             </nav>
             </div>
+           
 
-            <div class="row">
+            <div class="row" id = "roomdetails">
                 <div class="col-sm-8 mt50">
                     <div class="listing_single_description style2 bg-transparent p-0 border-0">
                         @if(!empty($row['content']))
@@ -170,16 +171,28 @@
                                 $j=0;
                                 $show=array();
                                 $selected=array();
+
                             ?>
+                             @php
+            $totalbed = Modules\Room\Models\Availability:: where('start_date',date('Y-m-d'))->where('room_id',$roomdatainfo->id)->first();
+          
+            @endphp
 
                             <div class="row @if($roomsCount > 0) mt-3 @endif">
                                 <div class="col-12">
                                     <div class="card border-0 shadow-sm cursor-pointer roomContainer">
                                         <div class="card-body">
                                             <div class="row">
-                                                <div class="col-12">
-                                                    <h4 class="font-weight-bold">{{$roomdatainfo->name}}</h4>
-                                                </div>
+                                               
+                                                    <div class="col-md-6 col-sm-6 com-lg-6">
+                                                    <h4 class="font-weight-bold">{{$roomdatainfo->name}} </h4>
+                                                    </div>
+                                                    <div class="col-md-6 col-sm-6 com-lg-6 ">
+                                                    <h4 class="font-weight-bold float-right">Total Bed :{{$totalbed->available_room ?? 'Sold Out'}}</h4>
+                                                    </div>
+
+                                                    
+                                                
                                             </div>
 
                                             <?php
@@ -253,17 +266,20 @@
                                                 </div>
                                                 <div class="col-sm-2">
                                                     <ul class="list-inline-item mb-0">
-                                                        <li><p>{{ __('Rent') }} :</p></li>
+                                                        <li><b>{{ __('Rent') }} :</b></li>
                                                         <li><p>{{ __('Deposit') }} :</p></li>
                                                     </ul>
                                                     <ul class="list-inline-item mb-0">
-                                                        <li><p><span>{{ $roomdatainfo->price_per_month ? $roomdatainfo->price_per_month : __('None') }}</span></p></li>
+                                                        <li><b><span>{{ $roomdatainfo->price_per_month ? $roomdatainfo->price_per_month : __('None') }}</span></b></li>
                                                         <li><p><span>{{ $roomdatainfo->deposite ? $roomdatainfo->deposite : 0 }}</span></p></li>
                                                         <li>
+                                                       
+                                                        <li>
                                                     </ul>
+                                                    <b>Refundable</b>
 
-                                                    @if($roomdatainfo->no_of_room != 0)
-                                                            <a class="btn btn-primary bravo-button-book-mobile text-white " data-roomid = "{{$roomdatainfo->id}}" data-propertyid = "{{$roomdatainfo->property_id}}">{{__("Book Now")}}</a>
+                                                    @if($totalbed != '')
+                                                            <a class="btn btn-danger bravo-button-book-mobile text-white " data-roomid = "{{$roomdatainfo->id}}" data-propertyid = "{{$roomdatainfo->property_id}}">{{__("Book Now")}}</a>
                                                         @else
                                                             <a class="btn btn-block btn-thm" data-toggle="modal" data-target="#enquiry_form_modal">{{__("Sold Out")}}</a>
                                                         @endif
@@ -341,17 +357,24 @@
         <div class="container">
 
             <div class="row">
-                <div class="col-md-12 col-lg-10">
-                    <div class="row" id = "location">
-                        
-                        @if(!empty($row->location->name))
+
+            <div class="col-lg-12 hiperlink" id = "location"  >
+    <div class="shop_single_tab_content style2 mt30">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="description-tab" data-toggle="tab" href="#description" role="tab" aria-controls="description" aria-selected="true">Location</a>
+            </li>
+        </ul>
+        <div class="tab-content" id="myTabContent2">
+            <div class="tab-pane fade show active" id="description" role="tabpanel" aria-labelledby="description-tab">
+            @if(!empty($row->location->name))
                             @php $location =  $row->location->translateOrOrigin(app()->getLocale());
                            
                             @endphp
                         @endif
-                        
+                        <div class="row">
                         <div class ="col-md-4 col-sm-4 col-lg-4">
-                             <div class="application_statics mt30">
+                             <div class="application_statics ">
                                 <h4 class="mb30">{{ __("Locate Us") }} <small class="application_statics_location float-right">{{ !empty($location->name) ? $location->name : '' }}</small></h4>
                                 <div class="property_video p0">
                                 <span class="font-medium text-text text-sm whitespace-pre-line"><strong>Address:</strong><br><div class="whitespace-pre-line html-renderer-div"><p>{{$row->address}}</p></div></span>
@@ -363,8 +386,15 @@
                            <div class="h400" id="map-canvas"></div>
                                        
                         </div>
+                        </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-                    </div>
+
+
+                
                         @include('Property::frontend.layouts.details.property_video')
                         <div class="col-lg-12 hiperlink" id = "review" >
                             @include('Agencies::frontend.detail.review', ['review_service_id' => $row['id'], 'review_service_type' => 'property'])
@@ -685,10 +715,10 @@ function showamenities(event) {
 
         $('.scrollTo').click(function(){
             var hrefid = $(this).attr( 'href' );
+
+            
            
             $('html, body').animate({
-              
-
                 scrollTop: $($(this).attr('href') ).offset().top
             }, 500);
 

@@ -42,6 +42,8 @@
                                                         @endforeach
                                                     </ul>
                                                 </div>
+
+
                                             </div>
                                         @endforeach
                                     @endif
@@ -49,6 +51,7 @@
                                         <div class="col-lg-11 col-xl-10">
                                             <ul class="apeartment_area_list mb0">
                                                 @php $property_search_fields = setting_item_array('property_search_fields');
+                                              
                                                                         $property_search_fields = array_values(\Illuminate\Support\Arr::sort($property_search_fields, function ($value) {
                                                                             return $value['position'] ?? 0;
                                                                         }));
@@ -72,11 +75,35 @@
                                                                         for($year = $current_year;$year >= ($current_year - 8);$year--) {
                                                                             $list_year[] = (object)['id' => $year,'name' => $year];
                                                                         }
+                                                                        $amienities = [];
+                                                                    
+                                                                        $attributescollection = \Modules\Core\Models\Terms::where('attr_id',(2))->get();
+                                                                       
+                                                                        foreach($attributescollection as $attribute ){
+                                                                           
+                                                                            $amienities[] = (object)['id' =>$attribute->id,'name' => $attribute->name];
+                                                                        }
+
+                                                                        $features = [];
+                                                                    
+                                                                    $attributescollection = \Modules\Core\Models\Terms::where('attr_id',(1))->get();
+                                                                   
+                                                                    foreach($attributescollection as $attribute ){
+                                                                       
+                                                                        $features[] = (object)['id' =>$attribute->id,'name' => $attribute->name];
+                                                                    }
+                                                                      
+                                                                    
+                                                                      
+
+
                                                 @endphp
                                                 @include('Property::frontend.layouts.search.fields.option',['list' => $list_number,'holder' => __('Bathrooms'), 'name' => 'bathroom'])
                                                 @include('Property::frontend.layouts.search.fields.option',['list' => $list_number,'holder' => __('Bedrooms'), 'name' => 'bedroom'])
                                                 @include('Property::frontend.layouts.search.fields.option',['list' => $list_number,'holder' => __('Garages'), 'name' => 'garage'])
                                                 @include('Property::frontend.layouts.search.fields.option',['list' => $list_year,'holder' => __('Year built'), 'name' => 'year_built'])
+                                                @include('Property::frontend.layouts.search.fields.option',['list' => $amienities,'holder' => __('Amenities'), 'name' => 'Amenities'])
+                                                @include('Property::frontend.layouts.search.fields.option',['list' => $features,'holder' => __('Amenities'), 'name' => 'Features'])
                                         
                                             </ul>
                                         </div>
