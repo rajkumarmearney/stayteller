@@ -188,8 +188,9 @@ class PropertyController extends Controller
 
     }  
     public function propertyBooked($roomid,$propertyid,$availability)  {
-        $old_date = explode(' ', $availability); 
-        $availability = $old_date[3].'-'.$old_date[2].'-'.$old_date[1];
+       
+        $old_date = explode('-', $availability); 
+        $availability = $old_date[2].'-'.$old_date[1].'-'.$old_date[0];
         $data = [
             'page_title' => __('Checkout'),
             'booking'    => '',

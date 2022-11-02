@@ -54,6 +54,11 @@
             padding-right: 15px;
             padding-left: 15px;
         }
+        .col-1-7.roomAvailabilityCalendar-date.text-center.activeRoomdata {
+    background: #fafafa;
+    border: 1px solid #e1e1e1;
+    border-radius: 8px;
+}
         .hideclass.text-thm.fz14 {
     text-decoration: none;
     -webkit-font-smoothing: antialiased;
@@ -96,6 +101,8 @@
 .topnav a.active {
   border-bottom: 3px solid red;
 }
+
+
 
     </style>
 
@@ -277,6 +284,8 @@
                                                         <li>
                                                     </ul>
                                                     <b>Refundable</b>
+                                                 
+                                                    <input type="number" id="tentacles" name="tentacles" value = "1" min="1" max="12">
 
                                                     @if($totalbed != '')
                                                             <a class="btn btn-danger bravo-button-book-mobile text-white " data-roomid = "{{$roomdatainfo->id}}" data-propertyid = "{{$roomdatainfo->property_id}}">{{__("Book Now")}}</a>
@@ -570,8 +579,8 @@ function showamenities(event) {
                                                 `</div>`+
                                             `</div>`+
                                             `<div class="row">`+
-                                                `<div class="col-12">`+
-                                                    (availableDate ? `<span class="text-danger">` + availableDate['fare'] + `</span>` : `-`)+
+                                                `<div class="col-12 roomAvailablecount">`+
+                                                    (availableDate ? `<span class="text-danger ">` + availableDate['fare'] + `</span>` : `-`)+
                                                 `</div>`+
                                             `</div>`+
                                         `</div>`;
@@ -679,7 +688,8 @@ function showamenities(event) {
             $(document).on('click', '.roomContainer .roomAvailabilityCalendar .roomAvailabilityCalendar-date', function(e) {
                 e.preventDefault();
                 e.stopPropagation();
-
+                $('.roomAvailabilityCalendar-date').removeClass('activeRoomdata');
+                
                 let calendarContainer = $(this).closest('.roomAvailabilityCalendar');
                 let dateObj = dateStrToObj($(this).attr('data-date'));
                 let dateAvailability = null;
@@ -697,13 +707,12 @@ function showamenities(event) {
                 });
 
                 if (dateAvailability) {
-                    var loginid =  '<?php echo Auth::id() ?>' ;
-                    if(!(loginid) ){
-                        jQuery('.btn ').click();
-                        }
-                    else{
-                        window.location.href = 'booked/'+roomid+'/'+propertyid+'/'+date;
-                    }
+                
+                    $(this).addClass('activeRoomdata');
+                    $(this).attr("data-availablecount", dateAvailability.fare);
+                    $(this).attr("data-roomid", roomid);
+                    $(this).attr("data-property", propertyid);
+                   
                     
                   
                     
@@ -712,6 +721,39 @@ function showamenities(event) {
                 }
             });
         });
+        $(document).on('click', '.bravo-button-book-mobile', function(e) {
+            var bookingdate = $('.activeRoomdata').attr('data-date');
+            var availablecount = $('.activeRoomdata').attr('data-availablecount');
+            var roomid = $('.activeRoomdata').attr('data-roomid');
+            var property = $('.activeRoomdata').attr('data-property');
+            if (availablecount == null){
+                alert('Please Select dete');
+                }
+                                            
+            else if(availablecount == '-'){
+                alert('Please Select dete');
+            }else{
+                $(this).addClass('bookNow');
+
+                var loginid =  '<?php echo Auth::id() ?>' ;
+                    if(!(loginid) ){
+                        jQuery('.btn ').click();
+                        }
+                    else{
+                        window.location.href = 'booked/'+roomid+'/'+property+'/'+bookingdate;
+                    }
+                
+               
+
+                
+            }
+           
+
+            
+           
+        })
+
+       
 
         $('.scrollTo').click(function(){
             var hrefid = $(this).attr( 'href' );
@@ -724,7 +766,7 @@ function showamenities(event) {
 
             return false;
         });
-       
+
 
         
     </script>
