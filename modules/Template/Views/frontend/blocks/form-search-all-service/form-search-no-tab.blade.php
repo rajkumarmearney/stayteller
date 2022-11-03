@@ -100,10 +100,9 @@
                                                 @endphp
                                                 @include('Property::frontend.layouts.search.fields.option',['list' => $list_number,'holder' => __('Bathrooms'), 'name' => 'bathroom'])
                                                 @include('Property::frontend.layouts.search.fields.option',['list' => $list_number,'holder' => __('Bedrooms'), 'name' => 'bedroom'])
-                                                @include('Property::frontend.layouts.search.fields.option',['list' => $list_number,'holder' => __('Garages'), 'name' => 'garage'])
-                                                @include('Property::frontend.layouts.search.fields.option',['list' => $list_year,'holder' => __('Year built'), 'name' => 'year_built'])
+                                               
                                                 @include('Property::frontend.layouts.search.fields.option',['list' => $amienities,'holder' => __('Amenities'), 'name' => 'Amenities'])
-                                                @include('Property::frontend.layouts.search.fields.option',['list' => $features,'holder' => __('Amenities'), 'name' => 'Features'])
+                                                @include('Property::frontend.layouts.search.fields.option',['list' => $features,'holder' => __('Features'), 'name' => 'Features'])
                                         
                                             </ul>
                                         </div>
