@@ -5,6 +5,7 @@
      padding: 0px 0px 0; 
     position: relative;
     width: 100%;
+}
 	</style>
 @php $listviewtype =  request()->input('type','grid') @endphp
 <section class="our-listing bgc-f7 pb30-991">

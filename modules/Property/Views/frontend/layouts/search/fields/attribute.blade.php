@@ -40,8 +40,10 @@
 									@endforeach
 								</ul>
 							</div>
+							@if($j > 6)
 							<div class= "text-thm fz14 hideclass showadvancesearch"  data-class = "advance_{{{$attr_id}}}" 
                     >SHOW MORE</div>
+					@endif
 						@endif
 					</div>
 				</div>

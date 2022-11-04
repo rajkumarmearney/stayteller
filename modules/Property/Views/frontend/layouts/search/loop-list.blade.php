@@ -66,6 +66,27 @@
                 <a @if(!empty($blank)) target="_blank" @endif href="{{$row->getDetailUrl()}}">
                     <h4>{{$translation->title}}</h4>
                 </a>
+                @php
+                $rating = rand(0,5);
+                @endphp
+                <ul class="total_reivew_view">
+           
+            <li class="list-inline-item">
+                <ul class="star_list">
+                    <ul>
+                        @for( $i = 0 ; $i < 5 ; $i++ )
+                            @if($i < (int)$rating)
+                                <li class="list-inline-item"><a href="#"><i class="fa fa-star"></i></a></li>
+                            @else
+                                <li class="list-inline-item"><a href="#"><i class="fa fa-star-o"></i></a></li>
+                            @endif
+                        @endfor
+                    </ul>
+                </ul>
+            </li>
+            <span>12 views</span>
+            
+        </ul>
 
             @if(!empty($row->location->name))
             @php $location =  $row->location->translateOrOrigin(app()->getLocale()) @endphp
