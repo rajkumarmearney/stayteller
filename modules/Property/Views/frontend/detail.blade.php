@@ -367,39 +367,39 @@
 
             <div class="row">
 
-            <div class="col-lg-12 hiperlink" id = "location"  >
-    <div class="shop_single_tab_content style2 mt30">
-        <ul class="nav nav-tabs" id="myTab" role="tablist">
-            <li class="nav-item">
-                <a class="nav-link active" id="description-tab" data-toggle="tab" href="#description" role="tab" aria-controls="description" aria-selected="true">Location</a>
-            </li>
-        </ul>
-        <div class="tab-content" id="myTabContent2">
-            <div class="tab-pane fade show active" id="description" role="tabpanel" aria-labelledby="description-tab">
-            @if(!empty($row->location->name))
-                            @php $location =  $row->location->translateOrOrigin(app()->getLocale());
-                           
-                            @endphp
-                        @endif
-                        <div class="row">
-                        <div class ="col-md-4 col-sm-4 col-lg-4">
-                             <div class="application_statics ">
-                                <h4 class="mb30">{{ __("Locate Us") }} <small class="application_statics_location float-right">{{ !empty($location->name) ? $location->name : '' }}</small></h4>
-                                <div class="property_video p0">
-                                <span class="font-medium text-text text-sm whitespace-pre-line"><strong>Address:</strong><br><div class="whitespace-pre-line html-renderer-div"><p>{{$row->address}}</p></div></span>
-                                </div>
-                            </div>
-                        </div>
+            <div class="col-lg-12 hiperlink" id = "location">
+                <div class="shop_single_tab_content style2 mt30">
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="description-tab" data-toggle="tab" href="#description" role="tab" aria-controls="description" aria-selected="true">Location</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content" id="myTabContent2">
+                        <div class="tab-pane fade show active" id="description" role="tabpanel" aria-labelledby="description-tab">
+                        @if(!empty($row->location->name))
+                                        @php $location =  $row->location->translateOrOrigin(app()->getLocale());
+                                    
+                                        @endphp
+                                    @endif
+                                    <div class="row">
+                                    <div class ="col-md-4 col-sm-4 col-lg-4">
+                                        <div class="application_statics ">
+                                            <h4 class="mb30">{{ __("Locate Us") }} <small class="application_statics_location float-right">{{ !empty($location->name) ? $location->name : '' }}</small></h4>
+                                            <div class="property_video p0">
+                                            <span class="font-medium text-text text-sm whitespace-pre-line"><strong>Address:</strong><br><div class="whitespace-pre-line html-renderer-div"><p>{{$row->address}}</p></div></span>
+                                            </div>
+                                        </div>
+                                    </div>
 
-                        <div class="col-lg-8 hiperlink">
-                           <div class="h400" id="map-canvas"></div>
-                                       
+                                    <div class="col-lg-8 hiperlink">
+                                    <div class="h400" id="map-canvas"></div>
+                                                
+                                    </div>
+                                    </div>
                         </div>
-                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
-</div>
 
 
 

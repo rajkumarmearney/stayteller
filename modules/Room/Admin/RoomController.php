@@ -12,7 +12,8 @@ use Modules\Property\Models\PropertyCategory;
 use Modules\Location\Models\Location;
 use Modules\Core\Models\Attributes;
 use Modules\Property\Models\Property;
-
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 
 class RoomController extends AdminController
 {
@@ -25,6 +26,7 @@ class RoomController extends AdminController
     
     public function __construct()
     {
+       
         $this->setActiveMenu('admin/module/rooms');
         parent::__construct();
         $this->propertyTranslationClass = PropertyTranslation::class;
@@ -34,6 +36,21 @@ class RoomController extends AdminController
         $this->propertyClass = Property::class;
         $this->roomClass      = Room :: class;
     }
+
+     /********************* PROPERTY ********************/  
+     private $dayLabels = array("Mon","Tue","Wed","Thu","Fri","Sat","Sun");
+     
+     private $currentYear=0;
+      
+     private $currentMonth=0;
+      
+     private $currentDay=0;
+      
+     private $currentDate=null;
+      
+     private $daysInMonth=0;
+      
+     private $naviHref= null;
 
     public function index(Request $request)
     {
@@ -287,7 +304,236 @@ class RoomController extends AdminController
        
     }
 
-    public function RoomController(Request $request, $id){
-        dd('hello');
+    public function vacancyupdate (Request $request, $id){
+
+      
+        
+
+        $_GET['year'] =   (isset($_GET['year'])) ? $_GET['year'] : date('Y');
+        $_GET['month']  = isset($_GET['month']) ? $_GET['month'] :date('m');
+
+        $year  = null;
+         
+        $month = null;
+         
+        if(null==$year&&isset($_GET['year'])){
+ 
+            $year = $_GET['year'];
+         
+        }else if(null==$year){
+ 
+            $year = date("Y",time());  
+         
+        }          
+         
+        if(null==$month&&isset($_GET['month'])){
+ 
+            $month = $_GET['month'];
+         
+        }else if(null==$month){
+ 
+            $month = date("m",time());
+         
+        }                  
+         
+        $this->currentYear=$year;
+         
+        $this->currentMonth=$month;
+         
+        $this->daysInMonth=$this->_daysInMonth($month,$year);  
+         
+        $content='<div id="calendar">'.
+                        '<div class="box">'.
+                        $this->_createNavi().
+                        '</div>'.
+                        '<div class="box-content">'.
+                                '<ul class="label">'.$this->_createLabels().'</ul>';   
+                                $content.='<div class="clear"></div>';     
+                                $content.='<ul class="dates">';    
+                                 
+                                $weeksInMonth = $this->_weeksInMonth($month,$year);
+                                // Create weeks in a month
+                                for( $i=0; $i<$weeksInMonth; $i++ ){
+                                     
+                                    //Create days in a week
+                                    for($j=1;$j<=7;$j++){
+                                        $content.=$this->_showDay($i*7+$j,$id);
+                                    }
+                                }
+                                 
+                                $content.='</ul>';
+                                 
+                                $content.='<div class="clear"></div>';     
+             
+                        $content.='</div>';
+                 
+        $content.='</div>';
+       
+
+    $data = array('html'=> $content);
+
+    return view('Room::admin.vacancy', $data);
+
+       
+    }
+
+    private function _showDay($cellNumber,$id){
+         
+        if($this->currentDay==0){
+             
+            $firstDayOfTheWeek = date('N',strtotime($this->currentYear.'-'.$this->currentMonth.'-01'));
+                     
+            if(intval($cellNumber) == intval($firstDayOfTheWeek)){
+                 
+                $this->currentDay=1;
+                 
+            }
+        }
+         
+        if( ($this->currentDay!=0)&&($this->currentDay<=$this->daysInMonth) ){
+             
+            $this->currentDate = date('Y-m-d',strtotime($this->currentYear.'-'.$this->currentMonth.'-'.($this->currentDay)));
+             
+            $cellContent = $this->currentDay;
+
+             
+            $this->currentDay++;   
+             
+        }else{
+             
+            $this->currentDate =null;
+ 
+            $cellContent=null;
+        }
+        
+        if($cellContent != ''  && date('Y-m-d') <= $this->currentDate){
+            $availablitydatacount = 0;
+            if($id != ''){
+                $availabledate = date('Y-m-d',strtotime($this->currentYear.'-'.$this->currentMonth.'-'.($this->currentDay)));
+             
+                $availablitydatacount =  isset($availabilitycountcollection) ? $availabilitycountcollection->available_room : 0;
+            }
+            $input_tag = '<button type="button" class="btn btn-primary availabiltyupdate" data-availability = "'.$availablitydatacount.'" data-room_id = "'.$id.'" data-date = "'.$this->currentDate.'" data-toggle="modal" data-target="#exampleModal" style="width: 50px;height: 25px;">
+           update
+          </button>' ;
+        }else if($cellContent != ''){
+            $availabledate = date('Y-m-d',strtotime($this->currentYear.'-'.$this->currentMonth.'-'.($this->currentDay)));
+             
+            $availablitydatacount =  isset($availabilitycountcollection) ? $availabilitycountcollection->available_room : 0;
+            $input_tag   = '-<span>'.$availablitydatacount.'</span>';
+        }else{
+            $input_tag   = '';
+        }
+           
+         
+        return '<li id="li-'.$this->currentDate.'" class="'.($cellNumber%7==1?' start ':($cellNumber%7==0?' end ':' ')).
+                ($cellContent==null?'mask':'').'">'.$cellContent.$input_tag.'</li>';
+    }
+     
+    /**
+    * create navigation
+    */
+    private function _createNavi(){
+         
+        $nextMonth = $this->currentMonth==12?1:intval($this->currentMonth)+1;
+         
+        $nextYear = $this->currentMonth==12?intval($this->currentYear)+1:$this->currentYear;
+         
+        $preMonth = $this->currentMonth==1?12:intval($this->currentMonth)-1;
+         
+        $preYear = $this->currentMonth==1?intval($this->currentYear)-1:$this->currentYear;
+         
+        return
+            '<div class="header">'.
+                '<a class="prev" href="'.$this->naviHref.'?month='.sprintf('%02d',$preMonth).'&year='.$preYear.'">Prev</a>'.
+                    '<span class="title">'.date('Y M',strtotime($this->currentYear.'-'.$this->currentMonth.'-1')).'</span>'.
+                '<a class="next" href="'.$this->naviHref.'?month='.sprintf("%02d", $nextMonth).'&year='.$nextYear.'">Next</a>'.
+            '</div>';
+    }
+         
+    /**
+    * create calendar week labels
+    */
+    private function _createLabels(){  
+                 
+        $content='';
+         
+        foreach($this->dayLabels as $index=>$label){
+             
+            $content.='<li class="'.($label==6?'end title':'start title').' title">'.$label.'</li>';
+ 
+        }
+         
+        return $content;
+    }
+     
+     
+     
+    /**
+    * calculate number of weeks in a particular month
+    */
+    private function _weeksInMonth($month=null,$year=null){
+         
+        if( null==($year) ) {
+            $year =  date("Y",time()); 
+        }
+         
+        if(null==($month)) {
+            $month = date("m",time());
+        }
+         
+        // find number of days in this month
+        $daysInMonths = $this->_daysInMonth($month,$year);
+         
+        $numOfweeks = ($daysInMonths%7==0?0:1) + intval($daysInMonths/7);
+         
+        $monthEndingDay= date('N',strtotime($year.'-'.$month.'-'.$daysInMonths));
+         
+        $monthStartDay = date('N',strtotime($year.'-'.$month.'-01'));
+         
+        if($monthEndingDay<$monthStartDay){
+             
+            $numOfweeks++;
+         
+        }
+         
+        return $numOfweeks;
+    }
+ 
+    /**
+    * calculate number of days in a particular month
+    */
+    private function _daysInMonth($month=null,$year=null){
+         
+        if(null==($year))
+            $year =  date("Y",time()); 
+ 
+        if(null==($month))
+            $month = date("m",time());
+             
+        return date('t',strtotime($year.'-'.$month.'-01'));
+    }
+
+    public function availabilityUpdate(Request $request){
+        $roomid = $request->input('roomid');
+        $date  = $request->input('date');
+        $count = $request->input('room_count');
+
+       
+
+        $availabilitycount =  Availability :: where('room_id',$roomid)->where('start_date',$date)->first();
+        try{
+        Availability::where('id',$availabilitycount->id)->update(['available_room'=>$count]);
+        $result =  array('status' =>1,
+        'message' => 'Room Count Update Successfully');
+        }
+        catch(\Exception $e){
+            $result =  array('status' =>0,
+            'message' => $e->getMessage());
+            Log::warning('roomavailabilty: '.$e->getMessage());
+        }
+       
+
+       return $result;
     }
 }
