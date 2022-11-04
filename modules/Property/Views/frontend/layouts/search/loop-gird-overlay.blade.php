@@ -3,8 +3,8 @@
     //dd($translation);
 @endphp
 <div class="item">
-    <div class="properti_city home6">
-        <div class="thumb">
+    <div class="properti_city home6" onclick="showlink(this)" data-url = "{{$row->getDetailUrl()}}">
+        <div class="thumb" >
             @if($row->image_url)
          
                 @if(setting_item('property_thumb_open_gallery') and request()->routeIs('property.search'))
@@ -40,7 +40,7 @@
                     <a class="thumb-image" @if(!empty($blank)) target="_blank" @endif href="{{$row->getDetailUrl()}}">
                     <div class=" thumb_img bg_img_placeholder feature_property_bg_image_overlay"
                          style="background-image:
-                        url({{$row->image_url}})" onclick="showlink(this)">
+                        url({{$row->image_url}})">
 
                     </div>
 
@@ -51,7 +51,7 @@
                 <span class="avatar-text-large">{{$row->vendor->getDisplayNameAttribute()[0]}}</span>
             @endif
            
-                <div class="thmb_cntnt">
+                <div class="thmb_cntnt" >
                     <ul class="tag mb0">
                         <!-- <li class="list-inline-item"><a href="#">{{$row->property_type == 1 ? __('For Buy') : __('For Rent')}}</a></li>-->
                         @if($row->is_featured)

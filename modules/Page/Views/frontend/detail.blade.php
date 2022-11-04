@@ -17,3 +17,18 @@
         </div>
     @endif
 @endsection
+
+@section('footer')
+<script type="text/javascript">
+        function showlink(event) {  
+            var dataclass= event.getAttribute('data-url');
+            window.location.href =event.getAttribute('data-url');
+           
+       
+        }
+</script>
+@endsection
+
+
+
+
