@@ -1,3 +1,11 @@
+<style>
+	ul.total_reivew_view {
+    cursor: pointer;
+    margin-bottom: 0;
+     padding: 0px 0px 0; 
+    position: relative;
+    width: 100%;
+	</style>
 @php $listviewtype =  request()->input('type','grid') @endphp
 <section class="our-listing bgc-f7 pb30-991">
 	<div class="container">
@@ -33,13 +41,13 @@
             </div>
 		</div>
 		<div class="row">
-			<div class="col-lg-4 col-xl-4">
+			<div class="col-lg-3 col-xl-3">
 				@include('Property::frontend.layouts.search.form-search')
 				@include('Property::frontend.sidebar.FeatureProperty')
                 @include('Property::frontend.sidebar.categoryProperty')
                 @include('Property::frontend.sidebar.recentViewdProperty')
 			</div>
-			<div class="col-md-12 col-lg-8">
+			<div class="col-md-12 col-lg-9">
 				<div class="bravo-list-item">
 					<div class="row">
 						<div class="grid_list_search_result">
@@ -107,3 +115,24 @@
 		</div>
 	</div>
 </section>
+
+@section('footer')
+<script>
+$(document).on('click','.showadvancesearch',function(){
+
+
+    var dataclass= $(this).data('class');
+	
+    
+  if ($(this).text() == 'SHOW MORE') {
+   
+   $('.'+dataclass).css("display", "block");
+       $(this).text('SHOW LESS');
+   } else if ($(this).text() == "SHOW LESS") {
+
+    $('.'+dataclass).css("display", "none");
+       $(this).text("SHOW MORE");
+   }
+});
+</script>
+@endsection

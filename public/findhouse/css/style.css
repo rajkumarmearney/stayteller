@@ -9082,7 +9082,7 @@ a.btn.btn_error{
 .login_form .form-control,
 .sign_up_form .form-control{
   background-color: #ffffff;
-  border: 1px solid #ebebeb;
+  border: 3px solid #ebebeb;
   border-radius: 8px;
   color: #484848;
   font-size: 14px;
@@ -12928,7 +12928,7 @@ a.btn.btn_error{
   width : 100%;
 }
 .form_grid .contact_form input{
-  border: 1px solid #ebebeb;
+  border: 3px solid #ebebeb;
   border-radius: 8px;
   background-color: #ffffff;
   color: #484848;
@@ -12940,7 +12940,7 @@ a.btn.btn_error{
 }
 .form_grid .contact_form textarea.form-control{
   background-color: #ffffff;
-  border: 1px solid #ebebeb;
+  border: 3px solid #ebebeb;
   border-radius: 8px;
   font-size: 14px;
   font-family: "Nunito";
