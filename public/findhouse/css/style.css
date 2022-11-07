@@ -2349,7 +2349,7 @@ header.header-nav.menu_style_home_seven .ace-responsive-menu > li.last{
 }
 .home1-advnc-search ul li:first-child .form-control{
   background-color: #ffffff;
-  border: 1px solid #ebebeb;
+  border: 3px solid #ebebeb;
   border-radius: 8px;
   font-size: 14px;
   color: #484848;
@@ -2607,7 +2607,7 @@ input.amount4:focus{
 .home1-advnc-search .search_option_two .dropdown.bootstrap-select>.dropdown-toggle{
   background-color: #ffffff;
   border-radius: 8px;
-  border: 1px solid #ebebeb;
+  border: 3px solid #ebebeb;
   height: 50px;
   line-height: 35px;
   width: 180px;
@@ -2760,7 +2760,7 @@ form.home5_advanced_search_form .form-group input.form-control::-ms-input-placeh
 }
 .small_dropdown .dd_btn{
   background-color: #ffffff;
-  border: 1px solid #ebebeb;
+  border: 3px solid #ebebeb;
   border-radius: 8px;
   color: #484848;
   font-size: 14px;
@@ -2772,7 +2772,7 @@ form.home5_advanced_search_form .form-group input.form-control::-ms-input-placeh
 }
 .small_dropdown2 .dd_btn {
   background-color: #ffffff;
-  border: 1px solid #ebebeb;
+  border: 3px solid #ebebeb;
   border-radius: 8px;
   cursor: pointer;
   font-size: 14px;
@@ -11670,7 +11670,7 @@ a.btn.btn_error{
 }
 .sasw_list .search_area input{
   background-color: #ffffff;
-  border: 1px solid rgb(235, 235, 235);
+  border: 3px solid rgb(235, 235, 235);
   border-radius: 8px;
   font-size: 14px;
   font-family: "Nunito";
@@ -16133,7 +16133,7 @@ canvas {
   border-bottom: none;
 }
 .cs_rwo_tabs.csv2 .nav-tabs .nav-link{
-  border: 1px solid transparent;
+  border: 3px solid transparent;
   font-size: 18px;
   font-family: "Nunito";
   color: #484848;
@@ -16263,7 +16263,7 @@ ul.total_reivew_view .star_list li:last-child a{
   padding: 10px 30px 30px;
 }
 .bsp_reveiw_wrt{
-  border: 1px solid rgb(235, 235, 235);
+  border: 3px solid rgb(235, 235, 235);
   background-color: #ffffff;
   border-radius: 8px;
   margin-bottom: 30px;
@@ -16313,7 +16313,7 @@ ul.total_reivew_view .star_list li:last-child a{
 .mbp_comment_form.style2 .comments_form .form-group input,
 .bsp_reveiw_wrt .comments_form .form-group input{
   background-color: #ffffff;
-  border: 1px solid #ebebeb;
+  border: 3px solid #ebebeb;
   border-radius: 8px;
   font-size: 14px;
   font-family: "Nunito";
@@ -16326,7 +16326,7 @@ ul.total_reivew_view .star_list li:last-child a{
 .mbp_comment_form.style2 .comments_form .form-group textarea,
 .bsp_reveiw_wrt .comments_form .form-group textarea{
   background-color: #ffffff;
-  border: 1px solid #ebebeb;
+  border: 3px solid #ebebeb;
   border-radius: 8px;
   color: #484848;
   font-size: 14px;
@@ -17007,7 +17007,7 @@ button.gm-ui-hover-effect:focus {
 .review-items {
   background: #fff;
   padding: 20px 30px;
-  border: 1px solid #eee;
+  border: 3px solid #eee;
   border-radius: 5px;
   /* min-height: 350px; */
 }

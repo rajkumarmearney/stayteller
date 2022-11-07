@@ -34,7 +34,7 @@
                         </div>
                     @endif
                 @else
-                    <a class="thumb-image" @if(!empty($blank)) target="_blank" @endif href="{{$row->getDetailUrl()}}">
+                    <a class="thumb-image" @if(!empty($blank))  @endif href="{{$row->getDetailUrl()}}">
                         <img class="img-whp" src="{{$row->image_url}}" alt="property image">
                     </a>
                 @endif
@@ -83,7 +83,7 @@
             <span>12 views</span>
             
         </ul>
-                <a @if(!empty($blank)) target="_blank" @endif href="{{$row->getDetailUrl()}}">
+                <a @if(!empty($blank))  @endif href="{{$row->getDetailUrl()}}">
                     <h4>{{$translation->title}}</h4>
                 </a>
                 @if(!empty($row->location->name))

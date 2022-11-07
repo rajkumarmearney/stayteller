@@ -19,7 +19,7 @@
                     $currency = App\Currency::getCurrency( App\Currency::getCurrent());
                     ?>
                     @include('Property::frontend.layouts.search.fields.price',['list' => [],'holder' => __('Choose Price'), 'name' => 'price','class_form'=>$class_form??""])
-                    <li class="custome_fields_520 list-inline-item">
+                    <!-- <li class="custome_fields_520 list-inline-item">
                         <div class="navbered">
                             <div class="mega-dropdown">
                                 <span id="show_advbtn" class="dropbtn">{{__('Advanced')}} <i class="flaticon-more pl10 flr-520"></i></span>
@@ -115,7 +115,7 @@
                                 </div>
                             </div>
                         </div>
-                    </li>
+                    </li>  -->
                     <li class="list-inline-item">
                         <div class="search_option_button {{ $class_form ?? "" }}">
                             <button type="submit" class="btn btn-thm">{{__('Search')}}</button>
