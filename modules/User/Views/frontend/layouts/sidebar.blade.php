@@ -1,47 +1,97 @@
 <?php
 $dataUser = Auth::user();
-$menus = [
-    'dashboard'       => [
-        'url'        => route("vendor.dashboard"),
-        'title'      => __("Dashboard"),
-        'icon'       => 'fa fa-home',
-        'permission' => 'dashboard_agent_access',
-        'position'   => 10
-],
-    /*"wishlist"=>[
-        'url'   => route("user.wishList.index"),
-        'title' => __("Wishlist"),
-        'icon'  => 'fa fa-heart-o',
-        'position' => 21
-    ],*/
-    'Rooms'=>[
-        "position"=>21,
-        'url'   => route("user.room.index"),
-        'title' => __("Rooms"),
-        'icon'  => 'icon ion-ios-home',
-       
-    ],
-    'profile'         => [
-        'url'      => route("user.profile.index"),
-        'title'    => __("My Profile"),
-        'icon'     => 'fa fa-cogs',
-        'position' => 40
-    ],
-    'password'        => [
-        'url'      => route("user.change_password"),
-        'title'    => __("Change password"),
-        'icon'     => 'fa fa-lock',
-        'position' => 50
-    ],
-    'admin'           => [
-        'url'        => 'admin',
-        'title'      => __("Admin Dashboard"),
-        'icon'       => 'icon ion-ios-ribbon',
-        'permission' => 'dashboard_access',
-        'position'   => 60
-    ],
+$roles = isset($dataUser) ? $dataUser->getRoleNames() : '' ;
 
-];
+if( $roles['0'] == 'Owner'){
+
+    $menus = [
+        'dashboard'       => [
+            'url'        => route("vendor.dashboard"),
+            'title'      => __("Dashboard"),
+            'icon'       => 'fa fa-home',
+            'permission' => 'dashboard_agent_access',
+            'position'   => 10
+    ],
+        /*"wishlist"=>[
+            'url'   => route("user.wishList.index"),
+            'title' => __("Wishlist"),
+            'icon'  => 'fa fa-heart-o',
+            'position' => 21
+        ],*/
+       'Rooms'=>[
+            "position"=>21,
+            'url'   => route("user.room.index"),
+            'title' => __("Rooms"),
+            'icon'  => 'icon ion-ios-home',
+           
+        ],
+        'profile'         => [
+            'url'      => route("user.profile.index"),
+            'title'    => __("My Profile"),
+            'icon'     => 'fa fa-cogs',
+            'position' => 40
+        ],
+        'password'        => [
+            'url'      => route("user.change_password"),
+            'title'    => __("Change password"),
+            'icon'     => 'fa fa-lock',
+            'position' => 50
+        ],
+        'admin'           => [
+            'url'        => 'admin',
+            'title'      => __("Admin Dashboard"),
+            'icon'       => 'icon ion-ios-ribbon',
+            'permission' => 'dashboard_access',
+            'position'   => 60
+        ],
+    
+    ];
+}else{
+    $menus = [
+        'dashboard'       => [
+            'url'        => route("vendor.dashboard"),
+            'title'      => __("Dashboard"),
+            'icon'       => 'fa fa-home',
+            'permission' => 'dashboard_agent_access',
+            'position'   => 10
+    ],
+        /*"wishlist"=>[
+            'url'   => route("user.wishList.index"),
+            'title' => __("Wishlist"),
+            'icon'  => 'fa fa-heart-o',
+            'position' => 21
+        ],
+        'Rooms'=>[
+            "position"=>21,
+            'url'   => route("user.room.index"),
+            'title' => __("Rooms"),
+            'icon'  => 'icon ion-ios-home',
+           
+        ],*/
+        'profile'         => [
+            'url'      => route("user.profile.index"),
+            'title'    => __("My Profile"),
+            'icon'     => 'fa fa-cogs',
+            'position' => 40
+        ],
+        'password'        => [
+            'url'      => route("user.change_password"),
+            'title'    => __("Change password"),
+            'icon'     => 'fa fa-lock',
+            'position' => 50
+        ],
+        'admin'           => [
+            'url'        => 'admin',
+            'title'      => __("Admin Dashboard"),
+            'icon'       => 'icon ion-ios-ribbon',
+            'permission' => 'dashboard_access',
+            'position'   => 60
+        ],
+    
+    ];
+}
+
+
 
 
 
