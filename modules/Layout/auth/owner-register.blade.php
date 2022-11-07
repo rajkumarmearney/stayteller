@@ -91,7 +91,7 @@
 </form> --}}
 
 
-<form action="#" class="form bravo-form-register" method="post">
+<form action="#" class="form bravo-form-register-owner" method="post">
     @csrf
     @if(setting_item('facebook_enable') or setting_item('google_enable') or setting_item('twitter_enable'))
         <div class="row">
@@ -156,9 +156,8 @@
         <span class="invalid-feedback error error-password"></span>
     </div> 
     <div class="form-group custom-control custom-checkbox" style = "display:none">
-        <input type="radio" id="role" name="type_role" value="customer">
-        <label for="role">Customer</label>
-        <input type="radio" id="ower" name="type_role" value="owner" checked>
+       
+        <input type="radio" id="ower" name="type_role" value="Owner" checked>
         <label for="owner">Owner</label>
         <span class="invalid-feedback error error-type_role"></span>
         

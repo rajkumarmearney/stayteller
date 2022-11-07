@@ -283,6 +283,8 @@ class UserController extends FrontendController
             'term.required'       => __('The terms and conditions field is required'),
             'type_role.required'   => __('The type  field is required'),
         ];
+
+       
         if (ReCaptchaEngine::isEnable() and setting_item("user_enable_register_recaptcha")) {
             $codeCapcha = $request->input('g-recaptcha-response');
             if (!$codeCapcha or !ReCaptchaEngine::verify($codeCapcha)) {
@@ -320,7 +322,17 @@ class UserController extends FrontendController
                 Log::warning("SendMailUserRegistered: " . $exception->getMessage());
             }
             $user->assignRole($request->input('type_role'));
-            $url =  $request->input('redirect') ? $request->input('redirect'): url('/');
+
+           
+            $roles = isset($user) ? $user->getRoleNames() : '' ;
+            if( $roles['0'] == 'Owner'){
+                $url = url('user/dashboard');
+               
+            }else{
+                $url =  $request->input('redirect') ? $request->input('redirect'): url('/');
+            }
+
+          
 
             return response()->json([
                 'error'    => false,
