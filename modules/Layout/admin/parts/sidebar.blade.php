@@ -13,6 +13,13 @@ $menus = [
         'icon'  => 'icon ion-ios-text',
         'permission' => 'review_manage_others',
     ],
+    'review'=>[
+        "position"=>65,
+        'url'   => 'admin/module/voucher',
+        'title' => __("voucher"),
+        'icon'  => 'icon ion-ios-text',
+        'permission' => 'voucher_manage',
+    ],
     'Rooms'=>[
         "position"=>45,
         'url'   => 'admin/module/rooms',
