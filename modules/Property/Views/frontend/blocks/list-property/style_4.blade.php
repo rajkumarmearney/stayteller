@@ -16,8 +16,10 @@
                         @if($desc)
                             {{clean($desc)}}.
                     @endif
-                            <a class="float-right" href="{{route('property.search')}}">{{__('View All')}} <span
-                                    class="flaticon-next"></span></a></p>
+
+                    <a class="float-right" href="{{ url("/property?filter=&layout=&type=&service_name=&location_id=0&category_id=$category->id") }}">{{__('View All')}} <span
+                                    class="flaticon-next"></span></a>
+                            </p>
                 </div>
             </div>
             <div class="col-lg-12">
