@@ -185,7 +185,8 @@ div.clear{
                     },
                     success: function (res) {
                         if(res.status==1){
-                            alert(res.message)
+                            alert(res.message);
+                            $('.close').trigger( "click" )
                         }
                       console.log(res);
                        
@@ -205,7 +206,7 @@ div.clear{
        
 
         $('.availabilty_date').text($(this).data('date'));
-        $('.availabiltycount').text($(this).data('roomavailability_id'));
+        $('.availabiltycount').text($(this).data('availability'));
         $('.room_id').val($(this).data('room_id'));
 
         

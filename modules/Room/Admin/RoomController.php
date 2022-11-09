@@ -409,6 +409,9 @@ class RoomController extends AdminController
         if($cellContent != ''  && date('Y-m-d') <= $this->currentDate){
             $availablitydatacount = 0;
             if($id != ''){
+
+                $availabilitycountcollection =  Availability :: where('room_id',$id)->where('start_date',$this->currentDate)->first();
+               
                 $availabledate = date('Y-m-d',strtotime($this->currentYear.'-'.$this->currentMonth.'-'.($this->currentDay)));
              
                 $availablitydatacount =  isset($availabilitycountcollection) ? $availabilitycountcollection->available_room : 0;
@@ -417,6 +420,7 @@ class RoomController extends AdminController
            update
           </button>' ;
         }else if($cellContent != ''){
+            $availabilitycountcollection =  Availability :: where('room_id',$id)->where('start_date',$this->currentDay)->first();
             $availabledate = date('Y-m-d',strtotime($this->currentYear.'-'.$this->currentMonth.'-'.($this->currentDay)));
              
             $availablitydatacount =  isset($availabilitycountcollection) ? $availabilitycountcollection->available_room : 0;
@@ -522,8 +526,20 @@ class RoomController extends AdminController
        
 
         $availabilitycount =  Availability :: where('room_id',$roomid)->where('start_date',$date)->first();
+        
+
         try{
-        Availability::where('id',$availabilitycount->id)->update(['available_room'=>$count]);
+            if($availabilitycount == ''){
+                $room_availability                      = new Availability();
+                    $room_availability->room_id             = $roomid;
+                    $room_availability->available_room      = $count;
+                    $room_availability->start_date          = $date;
+                    $room_availability->save();
+                
+            }else{
+                Availability::where('id',$availabilitycount->id)->update(['available_room'=>$count]);
+            }
+       
         $result =  array('status' =>1,
         'message' => 'Room Count Update Successfully');
         }
