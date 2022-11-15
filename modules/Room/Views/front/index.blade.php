@@ -90,6 +90,11 @@
                         @if($rows->total() > 0)
                        
                             @foreach($rows as $row)
+                            @php
+                            $date  = date('Y-m-d');
+                            $availabiltyroom = \Modules\Room\Models\Availability::where('room_id',$row->roomid)->where('start_date',$date)->first();
+                            @endphp
+
                               
                                 <tr class="{{$row->status}}">
                                     <td><input type="checkbox" name="ids[]" class="check-item" value="{{$row->roomid}}">
@@ -99,14 +104,14 @@
                                     </td>
                                     <td>{{$row->name}}</td>
                                     <td>
-                                    <p>{{$row->no_of_room}}</p>
+                                    <p>{{$availabiltyroom->available_room}}</p>
                                     </td>
                                     <td>
                                     <a href="{{route('room.edit',['id'=>$row->roomid])}}" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i> {{__('Edit')}}</a>
                                                 
                                     </td>
                                     <td>
-                                        
+                                    <a href="{{route('room.vacancyupdate',['id'=>$row->roomid])}}" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i> {{__('vacancy update')}}</a> 
                                     </td>
                                     <td>{{ display_datetime($row->updated_at)}}</td>
                                 </tr>

@@ -86,6 +86,14 @@
                         @if($rows->total() > 0)
                        
                             @foreach($rows as $row)
+                            @php
+                            $date  = date('Y-m-d');
+                           
+                            $availabiltyroom = \Modules\Room\Models\Availability::where('room_id',$row->roomid)->where('start_date',$date)->first();
+                           
+                            @endphp
+                          
+                            
                               
                                 <tr class="{{$row->status}}">
                                     <td><input type="checkbox" name="ids[]" class="check-item" value="{{$row->roomid}}">

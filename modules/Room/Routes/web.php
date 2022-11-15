@@ -14,6 +14,8 @@ Route::group(['prefix'=>'room','middleware' => ['auth','verified']],function(){
     Route::match(['get'],'/create','RoomController@createroom')->name('room.user.create');
     Route::post('/store/{id}','RoomController@store')->name('room.store');
     Route::match(['get'],'/edit/{id}','RoomController@edit')->name('room.edit');
+    Route::match(['get'],'/vacancyupdate/{id}','RoomController@vacancyupdate')->name('room.vacancyupdate');
+    Route::post('/roomavailability','RoomController@availabilityUpdate')->name('rooms.availabiltyupdate');
 
 });
 
