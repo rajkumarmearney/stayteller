@@ -97,6 +97,73 @@
     @if(setting_item_with_lang('enable_rtl'))
         <link href="{{ asset('dist/frontend/css/rtl.css') }}" rel="stylesheet">
     @endif
+    <style type="text/css">
+        .header-nav nav {
+/*            display: flex;*/
+            align-items: center;
+        }
+
+        .ace-responsive-menu li:not(.add_listing):hover > a {
+            text-decoration: underline !important;
+            color: #6f0025 !important;
+        }
+
+        header.header-nav.menu_style_home_one.style2 a.navbar_brand {
+            margin-top: 6px !important;
+        }
+
+        header.header-nav.menu_style_home_one.style2 .ace-responsive-menu li a {
+            padding: 18px 10px 18px 10px !important;
+        }
+
+        .login-item img, .avatar {
+            height: auto !important;
+        }
+
+        header.header-nav.menu_style_home_one ul.ace-responsive-menu li.add_listing {
+            height: 32px !important;
+        }
+
+        header.header-nav.menu_style_home_one ul.ace-responsive-menu li.add_listing a {
+            top: unset !important;
+        }
+
+        .home1-advnc-search ul li:first-child .form-control,
+        .home1-advnc-search .search_option_two .dropdown.bootstrap-select>.dropdown-toggle,
+        .home1-advnc-search .small_dropdown2 .btn,
+        .home1-advnc-search ul li .search_option_button button {
+            height: 32px !important;
+        }
+
+        .home1-advnc-search .search_option_two .dropdown.bootstrap-select>.dropdown-toggle {
+            line-height: 15px !important;
+        }
+
+        .home1-advnc-search .small_dropdown2 .btn {
+            line-height: 1.3 !important;
+        }
+
+        .home1-advnc-search ul li .search_option_button button {
+            width: 100px !important;
+        }
+
+        .home1-advnc-search .search_option_two .dropdown-menu,
+        .home1-advnc-search .small_dropdown2 .dd_content2 {
+            top: 32px !important;
+        }
+
+        .home_adv_srch_opt {
+            margin-top: 10px !important;
+            margin-bottom: 10px !important;
+            padding: 5px !important;
+        }
+
+        .header_top.home6 {
+            position: sticky;
+            top: 67px;
+            z-index: 1000;
+        }
+    </style>
 
     {!! setting_item('head_scripts') !!}
     {!! setting_item_with_lang_raw('head_scripts') !!}
