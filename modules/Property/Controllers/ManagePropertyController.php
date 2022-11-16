@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\DB;
 class ManagePropertyController extends FrontendController
 {
     protected $propertyClass;
-    protected $propertyTranslationClass;
+    protected $propertyTranslationClass; 
     protected $propertyTermClass;
     protected $attributesClass;
     protected $locationClass;
@@ -127,6 +127,41 @@ class ManagePropertyController extends FrontendController
 
 
     public function store( Request $request, $id ){
+
+
+
+        $rules = [
+            'title'     => 'required',
+            'content'  => 'required',
+            'price'     => 'required',
+            'location_id'=>'required',
+            'address'     => 'required',
+            'map_lat'       =>'required',
+            'map_lng'       =>'required',
+            'category_id'       =>'required',
+            
+        ];
+        $messages = [
+            'title.required'         => __('Property title is required field'),
+            'content.required'       => __('property content is required field'),
+            'price.required'         => __('property price is required field'),
+            'location_id'             => __('property location is required field'),
+            'address'                  => __('property address is required field'),
+            'address'                  => __('property address is required field'),
+            'map_lat'                  => __('property lat is required field'),
+            'map_lng'                  => __('property lng is required field'),
+            'category_id'                  => __('property Category is required field'),
+
+
+           
+        ];
+        $validator = \Validator::make($request->all(), $rules, $messages);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+
+
 
         if($id>0){
             $this->checkPermission('property_update');
