@@ -98,11 +98,6 @@
         <link href="{{ asset('dist/frontend/css/rtl.css') }}" rel="stylesheet">
     @endif
     <style type="text/css">
-        .header-nav nav {
-/*            display: flex;*/
-            align-items: center;
-        }
-
         .ace-responsive-menu li:not(.add_listing):hover > a {
             text-decoration: underline !important;
             color: #6f0025 !important;
@@ -161,7 +156,11 @@
         .header_top.home6 {
             position: sticky;
             top: 67px;
-            z-index: 1000;
+            z-index: 999;
+        }
+
+        .home1-advnc-search .small_dropdown2 .dd_content2 {
+            transform: translate3d(0px, 32px, 0px) !important;
         }
     </style>
 
