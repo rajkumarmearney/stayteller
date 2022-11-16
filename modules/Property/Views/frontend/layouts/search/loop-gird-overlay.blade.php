@@ -83,7 +83,7 @@
                     
                     <li class="list-inline-item"><a href="#">{{__('Beds:')}} {{$row->bed}}</a></li>
                     <li class="list-inline-item"><a href="#">{{__('Baths:')}} {{$row->bathroom}}</a></li>
-                    <li class="list-inline-item"><a href="#">{{__('Sq:')}} {!! size_unit_format($row->square) !!}</a></li>
+                    <!-- <li class="list-inline-item"><a href="#">{{__('Sq:')}} {!! size_unit_format($row->square) !!}</a></li> -->
                 </ul>
             </div>
         </div>
