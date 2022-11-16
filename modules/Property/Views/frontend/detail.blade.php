@@ -67,6 +67,7 @@
 .fz14 {
     font-size: 11px;
     font-weight: bold;
+    cursor: pointer;
 }
 
 .hideclass.text-thm.fz14 {
