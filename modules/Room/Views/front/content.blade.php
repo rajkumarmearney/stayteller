@@ -182,7 +182,7 @@
 </div>
 
 <div class="panel">
-    <div class="panel-title"><strong>{{__("Priceing details")}}</strong></div>
+    <div class="panel-title"><strong>{{__("pricing  details")}}</strong></div>
     <div class="panel-body">
         <div class="row">
       
@@ -202,9 +202,15 @@
             <div class="col-md-4">
                 <div class="form-group">
                     <label>Deposit</label>
-                    <input type="text" value = "{{$editrow->deposite ?? ''}}"   name="deposite" class="form-control">
+                    <div class="form-group">
+                        <input id="switch-onColor" type="radio" checked value = "1"   name = "refundable" @if(isset($editrow)) {{($editrow->refundable == '1') ? 'checked':''}} @endif>
+                        <label>Refundable </label>
+                        <input id="switch-onColor" type="radio"  value = "0"  name = "refundable"   @if(isset($editrow)) {{($editrow->refundable == '0') ? 'checked':''}}  @endif>
+                        <label>Non Refundable</label>
+                    </div>
                 </div>
             </div>
+            
 
 
             

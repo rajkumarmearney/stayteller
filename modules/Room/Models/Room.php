@@ -17,6 +17,7 @@ class Room extends BaseModel
         'no_of_room',
         'price_per_month',
         'deposite',
+        'refundable',
         'create_user',
         ''
     ];

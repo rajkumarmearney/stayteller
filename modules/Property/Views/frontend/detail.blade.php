@@ -274,17 +274,19 @@
                                                 <div class="col-sm-2">
                                                     <ul class="list-inline-item mb-0">
                                                         <li><b>{{ __('Rent') }} :</b></li>
-                                                        <li><p>{{ __('Deposit') }} :</p></li>
+                                                        @if($roomdatainfo->refundable == '1')  <li><p>{{ __('Deposit') }} :</p></li> @endif
                                                     </ul>
                                                     <ul class="list-inline-item mb-0">
                                                         <li><b><span>{{ $roomdatainfo->price_per_month ? $roomdatainfo->price_per_month : __('None') }}</span></b></li>
-                                                        <li><p><span>{{ $roomdatainfo->deposite ? $roomdatainfo->deposite : 0 }}</span></p></li>
+                                                        @if($roomdatainfo->refundable == '1')  <li><p><span>{{$row['deposit'] ? $row['deposit'] : 0 }}</span></p></li> @endif
                                                         <li>
                                                        
                                                         <li>
                                                     </ul>
+                                                    
+                                                    @if($roomdatainfo->refundable == '1') 
                                                     <b>Refundable</b>
-                                                 
+                                                @endif
                                                     <input type="number" id="tentacles" name="tentacles" value = "1" min="1" max="12">
 
                                                     @if($totalbed != '')

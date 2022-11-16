@@ -22,6 +22,7 @@ class CreateBravoRoomsTable extends Migration
             $table->string('no_of_room',255)->nullable();
             $table->string('price_per_month',255)->nullable();
             $table->string('deposite',255)->nullable();
+            $table->tinyInteger('refundable')->nullable();
             $table->bigInteger('create_user')->nullable();
             $table->bigInteger('update_user')->nullable();
             $table->softDeletes();

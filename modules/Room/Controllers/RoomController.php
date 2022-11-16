@@ -301,7 +301,8 @@ class RoomController extends Controller
         $room->amenities_details    = json_encode($feature);
         $room->no_of_room           = $request->no_of_room;
         $room->price_per_month      = $request->price_per_month;
-        $room->deposite             = $request->deposite;
+        
+        $room->refundable             = $request->refundable;
         $room->create_user          = Auth::id();
         $room->update_user          =  Auth::id();
         $room->save();
