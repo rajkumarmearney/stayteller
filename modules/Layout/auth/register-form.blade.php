@@ -168,6 +168,7 @@
         <input type="checkbox" class="custom-control-input" name="term" id="exampleCheck2">
         <label class="custom-control-label" for="exampleCheck2">{{ __('I have read and accept the Terms and Privacy Policy?') }}</label>
     </div>
+    <div><span class="invalid-feedback error error-term"></span></div>
 
     @if(setting_item("user_enable_register_recaptcha"))
         <div class="form-group">
