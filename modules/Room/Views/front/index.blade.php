@@ -104,7 +104,7 @@
                                     </td>
                                     <td>{{$row->name}}</td>
                                     <td>
-                                    <p>{{$availabiltyroom->available_room}}</p>
+                                    <p>{{$availabiltyroom->available_room ?? 0}}</p>
                                     </td>
                                     <td>
                                     <a href="{{route('room.edit',['id'=>$row->roomid])}}" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i> {{__('Edit')}}</a>
