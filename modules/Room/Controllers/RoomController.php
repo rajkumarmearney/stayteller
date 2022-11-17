@@ -13,6 +13,10 @@ use Modules\Property\Models\PropertyTranslation;
 use Modules\Property\Models\PropertyCategory;
 use Modules\Location\Models\Location;
 use Modules\Core\Models\Attributes;
+use DateTime;
+use DatePeriod;
+use DateInterval;
+
 
 
 class RoomController extends Controller
@@ -160,15 +164,16 @@ class RoomController extends Controller
          //$this->checkPermission("rooms_manage_others");
          //$this->checkPermission('property_view');
          $user_id = Auth::id();
-         $rows = $this->roomClass::query()->select("bravo_rooms.*","bravo_properties.*","bravo_rooms.id as roomid")
-                                                         ->leftJoin('bravo_properties', function ($join)  {
-                                                       $join->on('bravo_properties.id', '=', 'bravo_rooms.property_id');
-                                                      })->where('bravo_properties.create_user', '=',Auth::id());
-                                                      
- 
-       
- 
-             $rows->orderBy('bravo_properties.id','desc');
+         $rows = $this->roomClass::query()->select("bravo_rooms.*","bravo_properties.*","bravo_rooms.id as roomid");
+         if (!empty($search = $request->input("s"))) {
+            $rows->where(function ($query) use ($search) {
+                $query->where('bravo_rooms.name', 'LIKE', '%'.$search.'%');
+            });
+        } 
+        $rows->leftJoin('bravo_properties', function ($join)  {
+            $join->on('bravo_properties.id', '=', 'bravo_rooms.property_id');
+        })->where('bravo_properties.create_user', '=',Auth::id());
+        $rows->orderBy('bravo_properties.id','desc');
        
         
  
@@ -372,7 +377,10 @@ class RoomController extends Controller
 
     public function vacancyupdate (Request $request, $id){
 
-      
+        $rows = $this->roomClass::query()->select("bravo_rooms.*","bravo_properties.*","bravo_rooms.id as roomid")
+        ->leftJoin('bravo_properties', function ($join)  {
+      $join->on('bravo_properties.id', '=', 'bravo_rooms.property_id');
+     })->where('bravo_rooms.id', '=',$id)->get();
         
 
         $_GET['year'] =   (isset($_GET['year'])) ? $_GET['year'] : date('Y');
@@ -436,7 +444,9 @@ class RoomController extends Controller
         $content.='</div>';
        
 
-    $data = array('html'=> $content);
+    $data = array('html'=> $content,
+                  'room_id' => $id,
+                  'rows'    => $rows);
 
     return view('Room::front.vacancy', $data);
 
@@ -459,6 +469,7 @@ class RoomController extends Controller
         if( ($this->currentDay!=0)&&($this->currentDay<=$this->daysInMonth) ){
              
             $this->currentDate = date('Y-m-d',strtotime($this->currentYear.'-'.$this->currentMonth.'-'.($this->currentDay)));
+            
              
             $cellContent = $this->currentDay;
 
@@ -473,6 +484,7 @@ class RoomController extends Controller
         }
         
         if($cellContent != ''  && date('Y-m-d') <= $this->currentDate){
+            
             $availablitydatacount = 0;
             if($id != ''){
 
@@ -482,11 +494,11 @@ class RoomController extends Controller
              
                 $availablitydatacount =  isset($availabilitycountcollection) ? $availabilitycountcollection->available_room : 0;
             }
-            $input_tag = '<button type="button" class="btn btn-primary availabiltyupdate" data-availability = "'.$availablitydatacount.'" data-room_id = "'.$id.'" data-date = "'.$this->currentDate.'" data-toggle="modal" data-target="#exampleModal" style="width: 50px;height: 25px;">
-           update
-          </button>' ;
+            $input_tag = '<span>-'.$availablitydatacount.'</span><br><span class=" btn btn-link fz14 availabiltyupdate fa fa-edit" data-availability = "'.$availablitydatacount.'" data-room_id = "'.$id.'" data-date = "'.$this->currentDate.'" data-toggle="modal" data-target="#exampleModal"  style="font-size: 11px; font-weight: bold; cursor: pointer; color: red;" >
+            update
+          </span>' ;
         }else if($cellContent != ''){
-            $availabilitycountcollection =  Availability :: where('room_id',$id)->where('start_date',$this->currentDay)->first();
+            $availabilitycountcollection =  Availability :: where('room_id',$id)->where('start_date',$this->currentDate)->first();
             $availabledate = date('Y-m-d',strtotime($this->currentYear.'-'.$this->currentMonth.'-'.($this->currentDay)));
              
             $availablitydatacount =  isset($availabilitycountcollection) ? $availabilitycountcollection->available_room : 0;
@@ -618,6 +630,53 @@ class RoomController extends Controller
 
        return $result;
     }
+
+    public function availabiltybulkupdate(Request $request){
+        //dd($request->input());
+        $earlier = new DateTime("2010-07-06");
+        $later = new DateTime("2010-07-09");
+        $room_id = $request->roomid;
+        $dates= $this->date_range($request->start_date, $request->end_date, "+1 day", "Y-m-d",$room_id,$request->availabilty);
+        $result =  array('status' =>1,
+        'message' => 'Room Count Update Successfully');
+        return $result;
+       
+
+      
+       
+
+
+    }
+    public function date_range($first, $last, $step = '+1 day', $output_format = 'Y-m-d',$room_id,$count ) {
+        $dates = array();
+        $current = strtotime($first);
+        $last = strtotime($last);
+    
+        while( $current <= $last ) {
+            $finddate =  date($output_format, $current);
+          
+            $availabilitycount =  Availability :: where('room_id',$room_id)->where('start_date',$finddate)->first();
+        
+
+            if($availabilitycount == ''){
+                $room_availability                      = new Availability();
+                    $room_availability->room_id             = $room_id;
+                    $room_availability->available_room      = $count;
+                    $room_availability->start_date          = $finddate;
+                    $room_availability->save();
+                
+            }else{
+                Availability::where('id',$availabilitycount->id)->update(['available_room'=>$count]);
+            }
+
+            $dates[] = date($output_format, $current);
+            $current = strtotime($step, $current);
+        }
+    
+        return $dates;
+
+    }
+   
  
 
 

@@ -132,7 +132,7 @@ class ManagePropertyController extends FrontendController
 
         $rules = [
             'title'     => 'required',
-            'content'  => 'required',
+            
             'price'     => 'required',
             'location_id'=>'required',
             'address'     => 'required',
@@ -143,7 +143,7 @@ class ManagePropertyController extends FrontendController
         ];
         $messages = [
             'title.required'         => __('Property title is required field'),
-            'content.required'       => __('property content is required field'),
+          
             'price.required'         => __('property price is required field'),
             'location_id'             => __('property location is required field'),
             'address'                  => __('property address is required field'),

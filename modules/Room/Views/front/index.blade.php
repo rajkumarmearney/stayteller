@@ -14,44 +14,14 @@
         @include('admin.message')
         <div class="filter-div d-flex justify-content-between ">
             <div class="col-left">
-                @if(!empty($rows))
-                    <form method="post" action="{{url('admin/module/review/bulkEdit')}}" class="filter-form filter-form-left d-flex justify-content-start">
-                        {{csrf_field()}}
-                        <select name="action" class="form-control">
-                            <option value="">{{__(" Bulk Actions ")}}</option>
-                            <option value="approved">{{__(" Approved ")}}</option>
-                            <option value="pending">{{__(" Pending ")}}</option>
-                            <option value="spam">{{__(" Spam ")}}</option>
-                            <option value="trash">{{__(" Move to Trash ")}}</option>
-                            <option value="delete">{{__(" Delete ")}}</option>
-                        </select>
-                        <button data-confirm="{{__("Do you want to delete?")}}" class="btn-info btn btn-icon dungdt-apply-form-btn" type="button">{{__('Apply')}}</button>
-                    </form>
-                @endif
+             
             </div>
             <div class="col-left">
-                <form method="post" action="{{url('/admin/module/review/')}} " class="filter-form filter-form-right d-flex justify-content-end flex-column flex-sm-row" role="search">
+                <form method="get" action="{{url('/room/room/')}} " class="filter-form filter-form-right d-flex justify-content-end flex-column flex-sm-row" role="search">
                     @csrf
-                    @if(!empty($rows))
-                        <?php
-                        $user = !empty(Request()->vendor_id) ? App\User::find(Request()->vendor_id) : false;
-                        \App\Helpers\AdminForm::select2('vendor_id', [
-                            'configs' => [
-                                'ajax'        => [
-                                    'url' => url('/admin/module/user/getForSelect2'),
-                                    'dataType' => 'json'
-                                ],
-                                'allowClear'  => true,
-                                'placeholder' => __('-- Vendor --')
-                            ]
-                        ], !empty($user->id) ? [
-                            $user->id,
-                            $user->name_or_email . ' (#' . $user->id . ')'
-                        ] : false)
-                        ?>
-                    @endif
-                    <input type="text" name="s" value="{{ Request()->s }}" placeholder="{{__('Search by title')}}" class="form-control">
-                    <button class="btn-info btn btn-icon btn_search" type="submit">{{__('Search')}}</button>
+                   
+                    <input type="text" name="s" value="{{ Request()->s }}" placeholder="{{__('Search by Room Name')}}" class="form-control">
+                    <button class="btn-info btn btn-icon btn_search" type="submit" style="margin-left: 5px;">{{__('Search')}}</button>
                 </form>
             </div>
         </div>
@@ -77,7 +47,7 @@
                     <table class="table table-hover">
                         <thead>
                         <tr>
-                            <th width="60px"><input type="checkbox" class="check-all"></th>
+                            <th width="60px">Sno</th>
                             <th width="150px"> {{ __('Property Name')}}</th>
                             <th> {{ __('Room Name')}}</th>
                             <th width="250px"> {{ __('No of Rooms')}}</th>
@@ -87,17 +57,21 @@
                         </tr>
                         </thead>
                         <tbody>
+                            @php 
+                            $i = 1;
+                            @endphp
                         @if($rows->total() > 0)
-                       
+                      
                             @foreach($rows as $row)
                             @php
+                           
                             $date  = date('Y-m-d');
                             $availabiltyroom = \Modules\Room\Models\Availability::where('room_id',$row->roomid)->where('start_date',$date)->first();
                             @endphp
 
                               
                                 <tr class="{{$row->status}}">
-                                    <td><input type="checkbox" name="ids[]" class="check-item" value="{{$row->roomid}}">
+                                    <td>{{$i++}}
                                     </td>
                                     <td>
                                     {{$row->title}}

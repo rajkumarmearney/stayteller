@@ -1,7 +1,11 @@
 <?php $container = 1 ?>
 @extends('layouts.user')
 @section('head')
-
+<style>
+form .error {
+  color: #ff0000;
+}
+</style>
 @endsection
 @section('content')
     <div class="col-lg-12 mb10">
@@ -11,14 +15,14 @@
             @include('Language::admin.navigation')
         @endif
     </div>
-    <form class="" action="{{route('property.vendor.store',['id'=>($row->id) ? $row->id : '-1','lang'=>request()->query('lang')])}}" method="post">
+    <form name="propertyaction" action="{{route('property.vendor.store',['id'=>($row->id) ? $row->id : '-1','lang'=>request()->query('lang')])}}" method="post">
         @csrf
             <div class="row">
                 <div class="col-sm-9">
                 @include('Property::admin.property.content',['hide_gallery'=>true,'property_type'=>1])
                 @include('Property::admin.property.location')
                 
-                </div>
+                </div> 
                 <div class="col-sm-3">
                     <div class="panel">
                         <div class="panel-title"><strong>{{__('Publish')}}</strong></div>
@@ -116,8 +120,55 @@
     <script type="text/javascript" src="{{ asset('libs/tinymce/js/tinymce/tinymce.min.js') }}" ></script>
     <script type="text/javascript" src="{{ asset('js/condition.js?_ver='.config('app.asset_version')) }}"></script>
     <script type="text/javascript" src="{{url('module/core/js/map-engine.js?_ver='.config('app.asset_version'))}}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/additional-methods.min.js"></script>
+    
     {!! App\Helpers\MapEngine::scripts() !!}
     <script>
+
+$(function() {
+  // Initialize form validation on the registration form.
+  // It has the name attribute "registration"
+  $("form[name='propertyaction']").validate({
+    // Specify validation rules
+    rules: {
+      // The key name on the left side is the name attribute
+      // of an input field. Validation rules are defined
+      // on the right side
+      title: "required",
+      content : "required",
+      price : "required",
+      category_id : "required",
+      location_id : "required",
+      address : "required",
+      map_lat : "required",
+      map_lng : "required",
+     
+     
+    },
+    // Specify validation error messages
+    messages: {
+        title: "Please enter your Title",
+        content: "Please enter your Content",
+        price: "Please enter your Price",
+        category_id: "Please enter your Category",
+        location_id: "Please enter your Location",
+        address: "Please enter your Address",
+        map_lat: "Please enter your lat",
+        map_lng: "Please enter your lng",
+     
+    },
+    // Make sure the form is submitted to the destination defined
+    // in the "action" attribute of the form when valid
+    submitHandler: function(form) {
+      form.submit();
+    }
+  });
+});
+
+
+
+
         jQuery(function ($) {
             new BravoMapEngine('map_content', {
                 fitBounds: true,
